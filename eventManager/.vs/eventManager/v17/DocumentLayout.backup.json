@@ -23,15 +23,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "WinFormsApp1",
+              "Title": "WinFormsApp1.csproj",
               "DocumentMoniker": "C:\\users\\wardt\\source\\repos\\eventManager\\eventManager\\WinFormsApp1\\WinFormsApp1.csproj",
               "RelativeDocumentMoniker": "WinFormsApp1\\WinFormsApp1.csproj",
               "ToolTip": "C:\\users\\wardt\\source\\repos\\eventManager\\eventManager\\WinFormsApp1\\WinFormsApp1.csproj",
               "RelativeToolTip": "WinFormsApp1\\WinFormsApp1.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-06-12T13:03:55.818Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T13:03:55.818Z"
             },
             {
               "$type": "Document",
