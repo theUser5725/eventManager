@@ -7,7 +7,7 @@ using System.Data.SQLite;
 
 namespace FormularioDinamico.Controladores
 {
-    class Conexion
+    internal class Conexion
     {
         public static string cadena = "Data Source=eventManager.db";
 
