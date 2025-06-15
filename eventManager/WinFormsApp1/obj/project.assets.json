@@ -1221,11 +1221,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\eventManager\\WinFormsApp1\\WinFormsApp1.csproj",
+      "projectUniqueName": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\WinFormsApp1.csproj",
       "projectName": "WinFormsApp1",
-      "projectPath": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\eventManager\\WinFormsApp1\\WinFormsApp1.csproj",
+      "projectPath": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\WinFormsApp1.csproj",
       "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\eventManager\\WinFormsApp1\\obj\\",
+      "outputPath": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

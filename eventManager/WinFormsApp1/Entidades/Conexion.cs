@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
-using FormularioDinamico.Modelos;
 
 namespace FormularioDinamico.Controladores
 {
     class Conexion
     {
-        public static string cadena = "Data Source=estacionamiento.sqlite";
+        public static string cadena = "Data Source=eventManager.db";
 
         private static SQLiteConnection connection = new SQLiteConnection(cadena);
 

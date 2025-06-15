@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YBIFlYM46uE=",
+  "dgSpecHash": "vTjOrIBQJkM=",
   "success": true,
-  "projectFilePath": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\eventManager\\WinFormsApp1\\WinFormsApp1.csproj",
+  "projectFilePath": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\WinFormsApp1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Usuario\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
