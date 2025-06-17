@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 
-namespace WinFormsApp1.Modelos;
+namespace WinFormsApp1.Controladores;
 
 internal class Conexion
 {

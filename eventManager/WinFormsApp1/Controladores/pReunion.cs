@@ -64,7 +64,7 @@ namespace WinFormsApp1.Controladores
             return reuniones;
         }
 
-        public static List<Reunion> GetByEventoId(int idEvento)
+        public static List<Reunion> GetAllByEventoId(int idEvento)
         {
             List<Reunion> reuniones = new List<Reunion>();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reunion WHERE IdEvento = @IdEvento", Conexion.Connection);
@@ -87,7 +87,7 @@ namespace WinFormsApp1.Controladores
             return reuniones;
         }
 
-        public static List<Reunion> GetByLugarId(int idLugar) 
+        public static List<Reunion> GetAllByLugarId(int idLugar) 
         {
             List<Reunion> reuniones = new List<Reunion>();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reunion WHERE IdLugar = @IdLugar", Conexion.Connection);
