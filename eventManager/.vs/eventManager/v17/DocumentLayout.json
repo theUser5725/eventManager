@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|solutionrelative:winformsapp1\\controladores\\preunion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|d:\\universidad_uapi\\programacion_i\\tp4\\eventmanager\\eventmanager\\winformsapp1\\entidades\\reunion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|solutionrelative:winformsapp1\\entidades\\reunion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|d:\\universidad_uapi\\programacion_i\\tp4\\eventmanager\\eventmanager\\winformsapp1\\modelos\\conexion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|solutionrelative:winformsapp1\\modelos\\conexion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|d:\\universidad_uapi\\programacion_i\\tp4\\eventmanager\\eventmanager\\winformsapp1\\entidades\\conexion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|solutionrelative:winformsapp1\\entidades\\conexion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|d:\\universidad_uapi\\programacion_i\\tp4\\eventmanager\\eventmanager\\winformsapp1\\modelos\\reunion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|solutionrelative:winformsapp1\\modelos\\reunion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B1BF341F-4FF4-4E89-AF2A-BB47A9AD0AE4}|WinFormsApp1\\WinFormsApp1.csproj|D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\winformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -34,13 +34,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Reunion.cs",
-              "DocumentMoniker": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\Entidades\\Reunion.cs",
-              "RelativeDocumentMoniker": "WinFormsApp1\\Entidades\\Reunion.cs",
-              "ToolTip": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\Entidades\\Reunion.cs",
-              "RelativeToolTip": "WinFormsApp1\\Entidades\\Reunion.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAzwBEAAAALAAAAAAAAAA==",
+              "DocumentMoniker": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\Modelos\\Reunion.cs",
+              "RelativeDocumentMoniker": "WinFormsApp1\\Modelos\\Reunion.cs",
+              "ToolTip": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\Modelos\\Reunion.cs",
+              "RelativeToolTip": "WinFormsApp1\\Modelos\\Reunion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-15T19:49:20.534Z",
               "EditorCaption": ""
@@ -53,20 +53,20 @@
               "RelativeDocumentMoniker": "WinFormsApp1\\Controladores\\pReunion.cs",
               "ToolTip": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\Controladores\\pReunion.cs",
               "RelativeToolTip": "WinFormsApp1\\Controladores\\pReunion.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAiwAsAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-15T19:28:20.612Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Conexion.cs",
-              "DocumentMoniker": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\Entidades\\Conexion.cs",
-              "RelativeDocumentMoniker": "WinFormsApp1\\Entidades\\Conexion.cs",
-              "ToolTip": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\Entidades\\Conexion.cs",
-              "RelativeToolTip": "WinFormsApp1\\Entidades\\Conexion.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAANAAAAAAAAAA==",
+              "DocumentMoniker": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\Modelos\\Conexion.cs",
+              "RelativeDocumentMoniker": "WinFormsApp1\\Modelos\\Conexion.cs",
+              "ToolTip": "D:\\Universidad_UAPI\\programacion_I\\TP4\\eventManager\\eventManager\\WinFormsApp1\\Modelos\\Conexion.cs",
+              "RelativeToolTip": "WinFormsApp1\\Modelos\\Conexion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-15T19:28:53.777Z",
               "EditorCaption": ""
