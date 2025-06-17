@@ -1,0 +1,18 @@
+/.vs/*
+
+# Archivos y carpetas de Visual Studio
+.vs/
+*.user
+*.suo
+
+# Archivos de compilación
+**/bin/
+**/obj/
+
+# Otros archivos temporales
+*.log
+
+/eventManager/.vs/*
+/eventManager/WinFormsApp1/obj/Debug/*
+/eventManager/WinFormsApp1/obj/Release/*
+/eventManager/WinFormsApp1/bin/*
