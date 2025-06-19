@@ -1,11 +1,11 @@
-﻿using proyectoFinal.Modelos;
+﻿using WinFormsApp1.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace proyectoFinal.Controladores
+namespace WinFormsApp1.Controladores
 {
     internal class CategoriaDirectivaControlador
     {

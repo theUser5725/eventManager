@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace proyectoFinal.Modelos
+namespace WinFormsApp1.Modelos
 {
     internal class CategoriaDirectivas
     {
