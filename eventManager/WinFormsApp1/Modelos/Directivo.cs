@@ -11,13 +11,13 @@ idCatDirectiva
  */
 namespace WinFormsApp1.Modelos
 {
-    internal class Directivos
+    internal class Directivo
     {
         public int IdReunion { get; set; }
         public int IdParticipante { get; set; }
         public int IdCatDirectiva { get; set; }
 
-        public Directivos(int idReunion, int idParticipante, int idCatDirectiva) 
+        public Directivo(int idReunion, int idParticipante, int idCatDirectiva) 
         {
             IdReunion = idReunion;
             IdParticipante = idParticipante;
