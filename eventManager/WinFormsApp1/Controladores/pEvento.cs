@@ -12,7 +12,7 @@ namespace WinFormsApp1.Controladores
         public List<Evento> GetAll()
         {
             var eventos = new List<Evento>();
-            Conexion.OpenConnection();
+            
             using (var cmd = new SQLiteCommand("SELECT idEvento, idCatEvento, nombre, totalHoras FROM Eventos", Conexion.Connection))
             using (var reader = cmd.ExecuteReader())
             {
@@ -27,7 +27,7 @@ namespace WinFormsApp1.Controladores
                     });
                 }
             }
-            Conexion.CloseConnection();
+
             return eventos;
         }
 
@@ -35,7 +35,7 @@ namespace WinFormsApp1.Controladores
         public Evento GetById(int idEvento)
         {
             Evento evento = null;
-            Conexion.OpenConnection();
+
 
             // Obtener datos del evento
             using (var cmd = new SQLiteCommand("SELECT idEvento, idCatEvento, nombre, totalHoras FROM Eventos WHERE idEvento = @id", Conexion.Connection))
@@ -58,18 +58,17 @@ namespace WinFormsApp1.Controladores
 
             if (evento == null)
             {
-                Conexion.CloseConnection();
+
                 return null;
             }
 
             // Cargar participantes
-            evento.Participantes = pParticipante.GetAllByEventoId(idEvento)
+            evento.Participantes = pParticipante.GetAllByEventoId(idEvento);
 
             // Cargar reuniones
             evento.Reuniones = pReunion.GetAllByEventoId(idEvento);
-        }
+        
 
-            Conexion.CloseConnection();
             return evento;
         }
     }
