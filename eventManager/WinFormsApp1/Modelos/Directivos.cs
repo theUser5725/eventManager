@@ -9,7 +9,7 @@ idReunion
 idParticipante
 idCatDirectiva
  */
-namespace tp4_Prueba.Modelos
+namespace WinFormsApp1.Modelos
 {
     internal class Directivos
     {

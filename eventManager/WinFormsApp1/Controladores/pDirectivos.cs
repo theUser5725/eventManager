@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using tp4_Prueba.Modelos;
+using WinFormsApp1.Modelos;
 
-namespace tp4_Prueba.Controladores
+namespace WinFormsApp1.Controladores
 {
     internal class nDirectivos
     {

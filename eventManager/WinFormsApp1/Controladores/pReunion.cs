@@ -11,7 +11,7 @@ using WinFormsApp1.Modelos; // Assuming Reunion is in this namespace
 
 namespace WinFormsApp1.Controladores
 {
-    internal class pReunion
+    internal class pReuniones
     {
         public static Reunion GetById(int idReunion)
         {
