@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using WinFormsApp1.Models;
 using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1.Controladores
 {
-    public class pEvento
+    public class pEventos
     {
         // Devuelve todos los eventos SIN cargar participantes ni reuniones
         public List<Evento> GetAll()
