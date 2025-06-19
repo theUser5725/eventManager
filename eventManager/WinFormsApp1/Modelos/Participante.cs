@@ -14,7 +14,7 @@ contraseña
 */
 namespace tp4_Prueba.Modelos
 {
-    internal class Participantes
+    internal class Participante
     {
         public int IdParticipante { get; set; }
         public string Nombre { get; set; }
@@ -22,8 +22,13 @@ namespace tp4_Prueba.Modelos
         public string Mail { get; set; }
         public int Dni { get; set; }
         public int Contraseña { get; set; }
+        
+        public Participante() 
+        { 
+        }
 
-        public Participantes(int idParticipante, string nombre, string apellido, string mail, int dni, int contraseña)
+
+        public Participante(int idParticipante, string nombre, string apellido, string mail, int dni, int contraseña)
         {
             IdParticipante = idParticipante;
             Nombre = nombre;

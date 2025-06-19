@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using WinFormsApp1.Modelos;
 
-namespace WinFormsApp1.Models
+namespace WinFormsApp1.Modelos
 {
     public class Evento
     {
