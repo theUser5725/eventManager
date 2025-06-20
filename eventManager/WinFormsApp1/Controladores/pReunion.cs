@@ -11,7 +11,7 @@ using WinFormsApp1.Modelos; // Assuming Reunion is in this namespace
 
 namespace WinFormsApp1.Controladores
 {
-    internal class pReuniones
+    internal class pReunion
     {
         public static void NuevaReunion(Reunion reunion)
         {

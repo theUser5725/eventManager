@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1.Modelos;
 
-internal class Reunion
+public class Reunion
 {
     public int IdReunion { get; set; } // Identificador único de la reunión
     public int IdEvento { get; set; }

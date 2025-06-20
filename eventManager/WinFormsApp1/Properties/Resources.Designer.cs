@@ -73,6 +73,16 @@ namespace WinFormsApp1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] iconoAtras {
+            get {
+                object obj = ResourceManager.GetObject("iconoAtras", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] iconoEditar {
             get {
                 object obj = ResourceManager.GetObject("iconoEditar", resourceCulture);
@@ -86,6 +96,16 @@ namespace WinFormsApp1.Properties {
         internal static byte[] iconoQuitar {
             get {
                 object obj = ResourceManager.GetObject("iconoQuitar", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] iconoUsuario {
+            get {
+                object obj = ResourceManager.GetObject("iconoUsuario", resourceCulture);
                 return ((byte[])(obj));
             }
         }
