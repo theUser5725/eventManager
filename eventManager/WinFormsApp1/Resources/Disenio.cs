@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Accessibility;
 
 
 namespace WinFormsApp1.Resources
@@ -21,11 +23,13 @@ namespace WinFormsApp1.Resources
             public static Color MarronOscuro => ColorTranslator.FromHtml("#191408");
         }
 
+        
         public static class Fuentes
         {
-            public static Font general => new Font("Segoe UI", 10 * modificadorFuente, FontStyle.Regular);
-            public static Font titulo => new Font("Segoe UI", 12 * modificadorFuente, FontStyle.Bold);
-            public static Font Label => new Font("Segoe UI", 9 * modificadorFuente, FontStyle.Italic);
+
+            public static Font General => new Font("Segoe UI", 10 * modificadorFuente, FontStyle.Regular);
+            public static Font Boton => new Font("Segoe UI Semibold", 12 * modificadorFuente, FontStyle.Regular);
+            public static Font Titulo => new Font("Segoe UI Semilight", 9 * modificadorFuente, FontStyle.Regular);
         }
 
         public static class Imagenes
@@ -33,15 +37,24 @@ namespace WinFormsApp1.Resources
             public static Image IconoEditar => ByteArrayToImage(Properties.Resources.iconoEditar);
             public static Image IconoAgregar => ByteArrayToImage(Properties.Resources.iconoAniadir);
             public static Image IconoQuitar => ByteArrayToImage(Properties.Resources.iconoQuitar);
+            public static Image IconoUsuario => ByteArrayToImage(Properties.Resources.iconoUsuario);
+            public static Image IconoAtras => ByteArrayToImage(Properties.Resources.iconoAtras);
 
-            private static Image ByteArrayToImage(byte[] byteArray)
+
+        }
+
+
+
+
+
+        private static Image ByteArrayToImage(byte[] byteArray)
+        {
+            using (var ms = new MemoryStream(byteArray))
             {
-                using (var ms = new MemoryStream(byteArray))
-                {
-                    return Image.FromStream(ms);
-                }
+                return Image.FromStream(ms);
             }
         }
     }
-
 }
+
+

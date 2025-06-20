@@ -47,9 +47,9 @@ namespace WinFormsApp1.Controladores
         }
 
         // Devuelve un evento por ID, cargando participantes y reuniones
-        public Evento GetById(int idEvento)
+        public Evento? GetById(int idEvento)
         {
-            Evento evento = null;
+            Evento evento = new Evento();
 
             using (var cmd = new SQLiteCommand(
                 @"SELECT 
@@ -69,33 +69,36 @@ namespace WinFormsApp1.Controladores
                 {
                     if (reader.Read())
                     {
-                        evento = new Evento
                         {
-                            IdEvento = reader.GetInt32(0),
-                            IdCatEvento = reader.GetInt32(1),
-                            Nombre = reader.GetString(2),
-                            TotalHoras = reader.IsDBNull(3) ? null : reader.GetInt32(3),
-                            FechaInicio = reader.IsDBNull(4) ? null : reader.GetDateTime(4),
-                            FechaFinalizacion = reader.IsDBNull(5) ? null : reader.GetDateTime(5),
-                            Estado = reader.GetInt32(6),
-                            cantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7)
+                            evento.IdEvento = reader.GetInt32(0);
+                            evento.IdCatEvento = reader.GetInt32(1);
+                            evento.Nombre = reader.GetString(2);
+                            evento.TotalHoras = reader.IsDBNull(3) ? null : reader.GetInt32(3);
+                            evento.FechaInicio = reader.IsDBNull(4) ? null : reader.GetDateTime(4);
+                            evento.FechaFinalizacion = reader.IsDBNull(5) ? null : reader.GetDateTime(5);
+                            evento.Estado = reader.GetInt32(6);
+                            evento.cantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
                         };
                     }
                 }
             }
 
             if (evento == null)
+            {
                 return null;
 
             }
+            else
+            {
 
-            // Cargar participantes
-            evento.Participantes = pParticipante.GetAllByEventoId(idEvento);
+                // Cargar participantes
+                evento.Participantes = pParticipante.getAllByEventoId(idEvento);
 
-            evento.Reuniones = pReunion.GetAllByEventoId(idEvento);
+                evento.Reuniones = pReunion.GetAllByEventoId(idEvento);
 
-            Conexion.CloseConnection();
-            return evento;
+                Conexion.CloseConnection();
+                return evento;
+            }
         }
 
             

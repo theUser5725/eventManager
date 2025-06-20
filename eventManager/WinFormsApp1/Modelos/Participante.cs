@@ -14,7 +14,7 @@ contraseña
 */
 namespace tp4_Prueba.Modelos
 {
-    internal class Participante
+    public class Participante
     {
         public int IdParticipante { get; set; }
         public string Nombre { get; set; }
