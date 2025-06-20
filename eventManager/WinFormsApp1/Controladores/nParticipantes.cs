@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using tp4_Prueba.Modelos;
+using WinFormsApp1.Modelos;
 
-namespace tp4_Prueba.Controladores
+namespace WinFormsApp1.Controladores
 {
     internal class nParticipantes
     {
@@ -13,7 +14,7 @@ namespace tp4_Prueba.Controladores
 
             SQLiteCommand cmd = new SQLiteCommand("SELECT idParticipante, nombre, apellido, mail, dni, contraseña FROM Participantes WHERE idParticipante = @idParticipante");
             cmd.Parameters.Add(new SQLiteParameter("@idParticipante", idParticipante));
-            cmd.Connection = Conexion.Connection;
+            cmd.Connection = connection.Connection;
 
             SQLiteDataReader objDBReader = cmd.ExecuteReader();
 
@@ -37,7 +38,7 @@ namespace tp4_Prueba.Controladores
             List<Participantes> participantes = new List<Participantes>();
 
             SQLiteCommand cmd = new SQLiteCommand("SELECT idParticipante, nombre, apellido, mail, dni, contraseña FROM Participantes");
-            cmd.Connection = Conexion.Connection;
+            cmd.Connection = connection.Connection;
 
             SQLiteDataReader objDBReader = cmd.ExecuteReader();
 
@@ -63,13 +64,13 @@ namespace tp4_Prueba.Controladores
             List<Participantes> participantes = new List<Participantes>();
 
             SQLiteCommand cmd = new SQLiteCommand(@"
-        SELECT p.idParticipante, p.nombre, p.apellido, p.mail, p.dni, p.contraseña
-        FROM Participantes p
-        INNER JOIN Inscripciones i ON p.idParticipante = i.idParticipante
-        WHERE i.idEvento = @idEvento");
+                SELECT p.idParticipante, p.nombre, p.apellido, p.mail, p.dni, p.contraseña
+                FROM Participantes p
+                INNER JOIN Inscripciones i ON p.idParticipante = i.idParticipante
+                WHERE i.idEvento = @idEvento");
 
             cmd.Parameters.Add(new SQLiteParameter("@idEvento", idEvento));
-            cmd.Connection = Conexion.Connection;
+            cmd.Connection = connection.Connection;
 
             SQLiteDataReader objDBReader = cmd.ExecuteReader();
 
@@ -88,6 +89,43 @@ namespace tp4_Prueba.Controladores
             }
 
             return participantes;
+        }
+
+        public static int Save(Participantes participante)
+        {
+            SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Participantes (nombre, apellido, mail, dni, contraseña) VALUES (@nombre, @apellido, @mail, @dni, @contraseña)");
+            cmd.Parameters.Add(new SQLiteParameter("@nombre", participante.Nombre));
+            cmd.Parameters.Add(new SQLiteParameter("@apellido", participante.Apellido));
+            cmd.Parameters.Add(new SQLiteParameter("@mail", participante.Mail));
+            cmd.Parameters.Add(new SQLiteParameter("@dni", participante.Dni));
+            cmd.Parameters.Add(new SQLiteParameter("@contraseña", participante.Contraseña));
+            cmd.Connection = connection.Connection;
+            cmd.ExecuteNonQuery();
+
+            cmd = new SQLiteCommand("SELECT last_insert_rowid()", connection.Connection);
+            long lastId = (long)cmd.ExecuteScalar();
+            return (int)lastId;
+        }
+
+        public static void Update(Participantes participante)
+        {
+            SQLiteCommand cmd = new SQLiteCommand("UPDATE Participantes SET nombre = @nombre, apellido = @apellido, mail = @mail, dni = @dni, contraseña = @contraseña WHERE idParticipante = @idParticipante");
+            cmd.Parameters.Add(new SQLiteParameter("@nombre", participante.Nombre));
+            cmd.Parameters.Add(new SQLiteParameter("@apellido", participante.Apellido));
+            cmd.Parameters.Add(new SQLiteParameter("@mail", participante.Mail));
+            cmd.Parameters.Add(new SQLiteParameter("@dni", participante.Dni));
+            cmd.Parameters.Add(new SQLiteParameter("@contraseña", participante.Contraseña));
+            cmd.Parameters.Add(new SQLiteParameter("@idParticipante", participante.IdParticipante));
+            cmd.Connection = connection.Connection;
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void Delete(Participantes participante)
+        {
+            SQLiteCommand cmd = new SQLiteCommand("DELETE FROM Participantes WHERE idParticipante = @idParticipante");
+            cmd.Parameters.Add(new SQLiteParameter("@idParticipante", participante.IdParticipante));
+            cmd.Connection = connection.Connection;
+            cmd.ExecuteNonQuery();
         }
     }
 }

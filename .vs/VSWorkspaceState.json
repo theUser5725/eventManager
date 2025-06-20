@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\eventManager",
+    "\\eventManager\\WinFormsApp1",
+    "\\eventManager\\WinFormsApp1\\Controladores"
   ],
-  "SelectedNode": "\\C:\\Users\\wardt\\Source\\Repos\\eventManager",
+  "SelectedNode": "\\eventManager\\eventManager.sln",
   "PreviewInSolutionExplorer": false
 }
