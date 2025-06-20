@@ -5,11 +5,11 @@ using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1.Controladores
 {
-    internal class nDirectivos
+    internal class nDirectivo
     {
-        public static Directivos getByPk(int idReunion, int idParticipante)
+        public static Directivo getByPk(int idReunion, int idParticipante)
         {
-            Directivos directivo = null;
+            Directivo directivo = null;
 
             SQLiteCommand cmd = new SQLiteCommand("SELECT idReunion, idParticipante, idCatDirectiva FROM Directivos WHERE idReunion = @idReunion AND idParticipante = @idParticipante");
             cmd.Parameters.Add(new SQLiteParameter("@idReunion", idReunion));
@@ -20,7 +20,7 @@ namespace WinFormsApp1.Controladores
 
             while (reader.Read())
             {
-                directivo = new Directivos(
+                directivo = new Directivo(
                     reader.GetInt32(0),
                     reader.GetInt32(1),
                     reader.GetInt32(2)
@@ -30,9 +30,9 @@ namespace WinFormsApp1.Controladores
             return directivo;
         }
 
-        public static List<Directivos> getAllByReunionId(int idReunion)
+        public static List<Directivo> getAllByReunionId(int idReunion)
         {
-            List<Directivos> directivos = new List<Directivos>();
+            List<Directivo> directivos = new List<Directivo>();
 
             SQLiteCommand cmd = new SQLiteCommand("SELECT idReunion, idParticipante, idCatDirectiva FROM Directivos WHERE idReunion = @idReunion");
             cmd.Parameters.Add(new SQLiteParameter("@idReunion", idReunion));
@@ -42,7 +42,7 @@ namespace WinFormsApp1.Controladores
 
             while (reader.Read())
             {
-                Directivos directivo = new Directivos(
+                Directivo directivo = new Directivo(
                     reader.GetInt32(0),
                     reader.GetInt32(1),
                     reader.GetInt32(2)
