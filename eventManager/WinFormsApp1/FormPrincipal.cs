@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsApp1.Resources;
 using WinFormsApp1.Vistas;
 
 namespace WinFormsApp1
@@ -16,25 +17,13 @@ namespace WinFormsApp1
         private Panel panelContenido;
         private Stack<int> historialVistas = new();
         private PanelHeader header;
+        private Button btnBack;
 
         public FormPrincipal()
         {
             InitializeComponent();
 
-            // Crear y añadir el header solo una vez
-            header = new PanelHeader();
-            header.Dock = DockStyle.Top;
-            this.Controls.Add(header);
-
-            header.btnBack.Click += BtnBack_Click;
-            this.KeyPreview = true;
-            this.KeyDown += FormPrincipal_KeyDown;
-
-
-            panelContenido = new Panel();
-            panelContenido.Dock = DockStyle.Fill;
-            this.Controls.Add(panelContenido);
-
+            inicializar();
             // Cargar la vista inicial
             cambiarVista(0);
         }
@@ -52,23 +41,24 @@ namespace WinFormsApp1
             {
                 case 0:
                     nuevaVista = new PanelHome();
-                    header.MostrarBotonAtras(false); // Oculta el botón en Home
+                    btnBack.Visible = false;
                     break;
                 case 1:
                     nuevaVista = new PanelManager();
-                    header.MostrarBotonAtras(false);
+                    btnBack.Visible = false;
                     break;
                 case 2:
                     nuevaVista = new PanelSettings();
-                    header.MostrarBotonAtras(false);
+                     btnBack.Visible=false;
                     break;
                 default:
                     nuevaVista = new PanelEvento();
-                    header.MostrarBotonAtras(true); // Muestra el botón en Evento
+                    btnBack.Visible = true; // Muestra atras el botón en Evento
                     break;
             }
             CargarVista(nuevaVista);
         }
+        
 
         private void CargarVista(UserControl nuevaVista)
         {
@@ -77,10 +67,44 @@ namespace WinFormsApp1
             panelContenido.Controls.Add(nuevaVista);
         }
 
+        public void inicializar()
+        {
+            // Header
+            header = new PanelHeader();
+            header.Dock = DockStyle.Top;
+            this.Controls.Add(header);
+
+            // Botón atrás
+            btnBack = new Button
+            {
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = Disenio.Colores.GrisClaro,
+                BackColor = Color.Transparent,
+                Location = new Point(25, 25),
+                Size = new Size(25, 25),
+                TabStop = false,
+                Visible = false // Oculto por defecto
+            };
+            btnBack.FlatAppearance.BorderSize = 0;
+            btnBack.ImageAlign = ContentAlignment.MiddleCenter;
+            btnBack.Image = new Bitmap(Disenio.Imagenes.IconoAtras, btnBack.Size);
+            btnBack.Click += BtnBack_Click;
+            this.Controls.Add(btnBack);
+            btnBack.BringToFront();
+
+            // Panel de contenido
+            panelContenido = new Panel();
+            panelContenido.Dock = DockStyle.Fill;
+            this.Controls.Add(panelContenido);
+
+            // Tecla Escape
+            this.KeyPreview = true;
+            this.KeyDown += FormPrincipal_KeyDown;
+
+        }
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
-
             VolverAtras();
         }
 

@@ -120,21 +120,17 @@
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="iconoAniadir" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\iconoAniadir.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>40x40</comment>
   </data>
   <data name="iconoAtras" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Arrow left.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="iconoEditar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\iconoEditar.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>35x35</comment>
   </data>
   <data name="iconoQuitar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\iconoEliminar.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>40x40</comment>
   </data>
   <data name="iconoUsuario" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\circle-user (1).png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    <comment>45x45</comment>
   </data>
 </root>
