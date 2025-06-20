@@ -7,6 +7,11 @@
 
 # Archivos de compilación
 **/bin/
+!eventManager/WinFormsApp1/bin/
+!eventManager/WinFormsApp1/bin/Debug/
+!eventManager/WinFormsApp1/bin/Debug/net9.0-windows/
+!eventManager/WinFormsApp1/bin/Debug/net9.0-windows/eventManager.db
+
 **/obj/
 
 # Otros archivos temporales

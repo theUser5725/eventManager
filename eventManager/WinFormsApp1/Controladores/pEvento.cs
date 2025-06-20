@@ -63,14 +63,15 @@ namespace WinFormsApp1.Controladores
             }
 
             // Cargar participantes
-            evento.Participantes = pParticipante.GetAllByEventoId(idEvento)
+            evento.Participantes = pParticipante.GetAllByEventoId(idEvento);
 
             // Cargar reuniones
             evento.Reuniones = pReunion.GetAllByEventoId(idEvento);
-        }
-
             Conexion.CloseConnection();
             return evento;
         }
+
+            
+        
     }
 }
