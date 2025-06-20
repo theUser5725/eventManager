@@ -91,7 +91,7 @@ namespace WinFormsApp1.Controladores
             return participantes;
         }
 
-        public static int Save(Participantes participante)
+        public static int Save(Participante participante)
         {
             SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Participantes (nombre, apellido, mail, dni, contraseña) VALUES (@nombre, @apellido, @mail, @dni, @contraseña)");
             cmd.Parameters.Add(new SQLiteParameter("@nombre", participante.Nombre));
@@ -99,15 +99,15 @@ namespace WinFormsApp1.Controladores
             cmd.Parameters.Add(new SQLiteParameter("@mail", participante.Mail));
             cmd.Parameters.Add(new SQLiteParameter("@dni", participante.Dni));
             cmd.Parameters.Add(new SQLiteParameter("@contraseña", participante.Contraseña));
-            cmd.Connection = connection.Connection;
+            cmd.Connection = Conexion.Connection;
             cmd.ExecuteNonQuery();
 
-            cmd = new SQLiteCommand("SELECT last_insert_rowid()", connection.Connection);
+            cmd = new SQLiteCommand("SELECT last_insert_rowid()", Conexion.Connection);
             long lastId = (long)cmd.ExecuteScalar();
             return (int)lastId;
         }
 
-        public static void Update(Participantes participante)
+        public static void Update(Participante participante)
         {
             SQLiteCommand cmd = new SQLiteCommand("UPDATE Participantes SET nombre = @nombre, apellido = @apellido, mail = @mail, dni = @dni, contraseña = @contraseña WHERE idParticipante = @idParticipante");
             cmd.Parameters.Add(new SQLiteParameter("@nombre", participante.Nombre));
@@ -116,15 +116,15 @@ namespace WinFormsApp1.Controladores
             cmd.Parameters.Add(new SQLiteParameter("@dni", participante.Dni));
             cmd.Parameters.Add(new SQLiteParameter("@contraseña", participante.Contraseña));
             cmd.Parameters.Add(new SQLiteParameter("@idParticipante", participante.IdParticipante));
-            cmd.Connection = connection.Connection;
+            cmd.Connection = Conexion.Connection;
             cmd.ExecuteNonQuery();
         }
 
-        public static void Delete(Participantes participante)
+        public static void Delete(Participante participante)
         {
             SQLiteCommand cmd = new SQLiteCommand("DELETE FROM Participantes WHERE idParticipante = @idParticipante");
             cmd.Parameters.Add(new SQLiteParameter("@idParticipante", participante.IdParticipante));
-            cmd.Connection = connection.Connection;
+            cmd.Connection = Conexion.Connection;
             cmd.ExecuteNonQuery();
         }
     }
