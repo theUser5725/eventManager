@@ -87,13 +87,19 @@ namespace WinFormsApp1.Controladores
             if (evento == null)
                 return null;
 
-            evento.Participantes = pParticipante.getAllByEventoId(idEvento);
+            }
+
+            // Cargar participantes
+            evento.Participantes = pParticipante.GetAllByEventoId(idEvento);
+
             evento.Reuniones = pReunion.GetAllByEventoId(idEvento);
 
+            Conexion.CloseConnection();
             return evento;
         }
 
-
+            
+        
         // Guarda un nuevo evento y devuelve el Id insertado
         public static int Save(Evento evento)
         {
@@ -147,6 +153,7 @@ namespace WinFormsApp1.Controladores
             cmd.Parameters.Add(new SQLiteParameter("@idEvento", evento.IdEvento));
             cmd.ExecuteNonQuery();
         }
+
     }
 
 }
