@@ -19,6 +19,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Vistas\PanelSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Vistas\PanelEvento.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Vistas\PanelManager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Vistas\PanelHome.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
