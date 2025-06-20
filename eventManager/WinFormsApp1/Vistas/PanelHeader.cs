@@ -1,27 +1,25 @@
-﻿using WinFormsApp1.Resources;
-namespace WinFormsApp1
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WinFormsApp1.Resources;
+
+namespace WinFormsApp1.Vistas
 {
-    public partial class Form1 : Form
+    public partial class PanelHeader:UserControl
     {
-        // Variable para guardar el último seleccionado
-        private int navSeleccionado = 0;
         // Referencia al underline
         private PictureBox underline;
         // Lista de labels de navegación
         private List<Label> navLabels = new();
 
-        public Form1()
+        public Button btnBack;
+
+
+        public PanelHeader()
         {
-            InitializeComponent();
-            inicializarHeader();
-        }
 
-
-
-
-
-        private void inicializarHeader()
-        {
             // Panel principal
             Panel panelHeader = new Panel
             {
@@ -32,18 +30,21 @@ namespace WinFormsApp1
             this.Controls.Add(panelHeader);
 
             // Botón de retroceso
-            Button btnBack = new Button
+           btnBack = new Button
             {
-                Image = Disenio.Imagenes.IconoAtras,
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = Disenio.Colores.GrisClaro,
                 BackColor = Color.Transparent,
-                Location = new Point(30, 28),
+                Location = new Point(25, 25),
                 Size = new Size(25, 25),
-                TabStop = false
+                TabStop = false,
             };
             btnBack.FlatAppearance.BorderSize = 0;
             btnBack.ImageAlign = ContentAlignment.MiddleCenter;
+
+            // Redimensionar la imagen al tamaño del botón
+            btnBack.Image = new Bitmap(Disenio.Imagenes.IconoAtras, btnBack.Size);
+
             panelHeader.Controls.Add(btnBack);
 
             // Botones de navegación
@@ -75,6 +76,7 @@ namespace WinFormsApp1
                 Size = new Size(navLabels[0].PreferredWidth, 4),
                 BackColor = Color.Transparent
             };
+
             underline.Paint += (s, e) =>
             {
                 int radius = 3;
@@ -98,7 +100,7 @@ namespace WinFormsApp1
             {
                 BackColor = Disenio.Colores.AzulOscuro,
                 Size = new Size(userCircleDiameter, userCircleDiameter),
-                Location = new Point(panelHeader.Width - 120, 2),
+                Location = new Point(panelHeader.Width - 120, 15),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             userCircle.Paint += (s, e) =>
@@ -107,7 +109,7 @@ namespace WinFormsApp1
                 //e.Graphics.FillEllipse(new SolidBrush(Disenio.Colores.AzulOscuro), 0, 0, userCircleDiameter, userCircleDiameter);
 
                 var icon = Disenio.Imagenes.IconoUsuario;
-                int iconSize = (userCircleDiameter*2);
+                int iconSize = (userCircleDiameter * 2);
                 int iconX = (userCircleDiameter - iconSize) / 2;
                 int iconY = (userCircleDiameter - iconSize) / 2;
                 e.Graphics.DrawImage(icon, iconX, iconY, iconSize, iconSize);
@@ -135,16 +137,21 @@ namespace WinFormsApp1
         }
 
         // Evento para mover el underline y guardar el seleccionado
-        private void NavLabel_Click(object sender, EventArgs e)
+        public void NavLabel_Click(object sender, EventArgs e)
         {
             if (sender is Label lbl)
             {
                 underline.Location = new Point(lbl.Left, 50);
                 underline.Width = lbl.PreferredWidth;
                 underline.Invalidate(); // Redibuja el underline
-                navSeleccionado = (int)lbl.Tag;
+                ((FormPrincipal)ParentForm).cambiarVista((int)lbl.Tag);
             }
         }
-    
+
+        public void MostrarBotonAtras(bool mostrar)
+        {
+            btnBack.Visible = mostrar;
+        }
     }
 }
+

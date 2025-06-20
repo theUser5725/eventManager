@@ -18,6 +18,8 @@
 *.log
 
 eventManager/.vs/*
+eventManager/Visual Studio 2022/*
+eventManager/Visual Studio 2022Templates/*
 eventManager/WinFormsApp1/obj/Debug/*
 eventManager/WinFormsApp1/obj/Release/*
 eventManager/WinFormsApp1/bin/*
