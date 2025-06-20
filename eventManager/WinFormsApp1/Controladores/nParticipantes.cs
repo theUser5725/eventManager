@@ -6,21 +6,21 @@ using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1.Controladores
 {
-    internal class pParticipante
+    internal class nParticipantes
     {
-        public static Participante getById(int idParticipante)
+        public static Participantes getById(int idParticipante)
         {
-            Participante participante = new Participante();
+            Participantes participante = new Participantes();
 
             SQLiteCommand cmd = new SQLiteCommand("SELECT idParticipante, nombre, apellido, mail, dni, contraseña FROM Participantes WHERE idParticipante = @idParticipante");
             cmd.Parameters.Add(new SQLiteParameter("@idParticipante", idParticipante));
-            cmd.Connection = Conexion.Connection;
+            cmd.Connection = connection.Connection;
 
             SQLiteDataReader objDBReader = cmd.ExecuteReader();
 
             while (objDBReader.Read())
             {
-                participante = new Participante(
+                participante = new Participantes(
                     objDBReader.GetInt32(0),
                     objDBReader.GetString(1),
                     objDBReader.GetString(2),
@@ -33,18 +33,18 @@ namespace WinFormsApp1.Controladores
             return participante;
         }
 
-        public static List<Participante> getAll()
+        public static List<Participantes> getAll()
         {
-            List<Participante> participantes = new List<Participante>();
+            List<Participantes> participantes = new List<Participantes>();
 
             SQLiteCommand cmd = new SQLiteCommand("SELECT idParticipante, nombre, apellido, mail, dni, contraseña FROM Participantes");
-            cmd.Connection = Conexion.Connection;
+            cmd.Connection = connection.Connection;
 
             SQLiteDataReader objDBReader = cmd.ExecuteReader();
 
             while (objDBReader.Read())
             {
-                Participante participante = new Participante(
+                Participantes participante = new Participantes(
                     objDBReader.GetInt32(0),
                     objDBReader.GetString(1),
                     objDBReader.GetString(2),
@@ -59,24 +59,24 @@ namespace WinFormsApp1.Controladores
             return participantes;
         }
 
-        public static List<Participante> getAllByEventoId(int idEvento)
+        public static List<Participantes> getAllByEventoId(int idEvento)
         {
-            List<Participante> participantes = new List<Participante>();
+            List<Participantes> participantes = new List<Participantes>();
 
             SQLiteCommand cmd = new SQLiteCommand(@"
-        SELECT p.idParticipante, p.nombre, p.apellido, p.mail, p.dni, p.contraseña
-        FROM Participantes p
-        INNER JOIN Inscripciones i ON p.idParticipante = i.idParticipante
-        WHERE i.idEvento = @idEvento");
+                SELECT p.idParticipante, p.nombre, p.apellido, p.mail, p.dni, p.contraseña
+                FROM Participantes p
+                INNER JOIN Inscripciones i ON p.idParticipante = i.idParticipante
+                WHERE i.idEvento = @idEvento");
 
             cmd.Parameters.Add(new SQLiteParameter("@idEvento", idEvento));
-            cmd.Connection = Conexion.Connection;
+            cmd.Connection = connection.Connection;
 
             SQLiteDataReader objDBReader = cmd.ExecuteReader();
 
             while (objDBReader.Read())
             {
-                Participante participante = new Participante(
+                Participantes participante = new Participantes(
                     objDBReader.GetInt32(0),
                     objDBReader.GetString(1),
                     objDBReader.GetString(2),
@@ -90,6 +90,7 @@ namespace WinFormsApp1.Controladores
 
             return participantes;
         }
+
         public static int Save(Participante participante)
         {
             SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Participantes (nombre, apellido, mail, dni, contraseña) VALUES (@nombre, @apellido, @mail, @dni, @contraseña)");

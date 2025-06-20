@@ -53,5 +53,35 @@ namespace WinFormsApp1.Controladores
 
             return directivos;
         }
+        public static int Save(Directivo directivo)
+        {
+            SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Directivos (idReunion, idParticipante, idCatDirectiva) VALUES (@idReunion, @idParticipante, @idCatDirectiva)");
+            cmd.Parameters.Add(new SQLiteParameter("@idReunion", directivo.IdReunion));
+            cmd.Parameters.Add(new SQLiteParameter("@idParticipante", directivo.IdParticipante));
+            cmd.Parameters.Add(new SQLiteParameter("@idCatDirectiva", directivo.IdCatDirectiva));
+            cmd.Connection = Conexion.Connection;
+            cmd.ExecuteNonQuery();
+
+            cmd = new SQLiteCommand("SELECT last_insert_rowid()", Conexion.Connection);
+            long lastId = (long)cmd.ExecuteScalar();
+            return (int)lastId;
+        }
+        public static void Delete(Directivo directivo)
+        {
+            SQLiteCommand cmd = new SQLiteCommand("DELETE FROM Directivos WHERE idReunion = @idReunion AND idParticipante = @idParticipante");
+            cmd.Parameters.Add(new SQLiteParameter("@idReunion", directivo.IdReunion));
+            cmd.Parameters.Add(new SQLiteParameter("@idParticipante", directivo.IdParticipante));
+            cmd.Connection = Conexion.Connection;
+            cmd.ExecuteNonQuery();
+        }
+        public static void Update(Directivo directivo)
+        {
+            SQLiteCommand cmd = new SQLiteCommand("UPDATE Directivos SET idCatDirectiva = @idCatDirectiva WHERE idReunion = @idReunion AND idParticipante = @idParticipante");
+            cmd.Parameters.Add(new SQLiteParameter("@idCatDirectiva", directivo.IdCatDirectiva));
+            cmd.Parameters.Add(new SQLiteParameter("@idReunion", directivo.IdReunion));
+            cmd.Parameters.Add(new SQLiteParameter("@idParticipante", directivo.IdParticipante));
+            cmd.Connection = Conexion.Connection;
+            cmd.ExecuteNonQuery();
+        }
     }
 }
