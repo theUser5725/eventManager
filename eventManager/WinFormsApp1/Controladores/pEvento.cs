@@ -9,7 +9,7 @@ namespace WinFormsApp1.Controladores
     public class pEvento
     {
         // Devuelve todos los eventos SIN cargar participantes ni reuniones
-        public List<Evento> GetAll()
+        public static List<Evento> GetAll()
         {
             var eventos = new List<Evento>();
             string query = @"
@@ -38,7 +38,7 @@ namespace WinFormsApp1.Controladores
                         FechaInicio = reader.IsDBNull(4) ? null : reader.GetDateTime(4).Date,
                         FechaFinalizacion = reader.IsDBNull(5) ? null : reader.GetDateTime(5).Date,
                         Estado = reader.GetInt32(6),
-                        cantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7)
+                        CantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7)
                     });
                 }
             }
@@ -47,7 +47,7 @@ namespace WinFormsApp1.Controladores
         }
 
         // Devuelve un evento por ID, cargando participantes y reuniones
-        public Evento? GetById(int idEvento)
+        public static Evento? GetById(int idEvento)
         {
             Evento evento = new Evento();
 
@@ -77,7 +77,7 @@ namespace WinFormsApp1.Controladores
                             evento.FechaInicio = reader.IsDBNull(4) ? null : reader.GetDateTime(4);
                             evento.FechaFinalizacion = reader.IsDBNull(5) ? null : reader.GetDateTime(5);
                             evento.Estado = reader.GetInt32(6);
-                            evento.cantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
+                            evento.CantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
                         };
                     }
                 }
@@ -156,7 +156,17 @@ namespace WinFormsApp1.Controladores
             cmd.Parameters.Add(new SQLiteParameter("@idEvento", evento.IdEvento));
             cmd.ExecuteNonQuery();
         }
-
+        public static string EstadoToString(int estado)
+        {
+            return estado switch
+            {
+                0 => "No iniciado",
+                1 => "En curso",
+                2 => "Finalizado",
+                3 => "Cancelado",
+                _ => "Desconocido"
+            };
+        }
     }
 
 }

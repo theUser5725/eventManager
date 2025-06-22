@@ -14,8 +14,6 @@ namespace WinFormsApp1.Vistas
         // Lista de labels de navegación
         private List<Label> navLabels = new();
 
-        public Button btnBack;
-
 
         public PanelHeader()
         {
@@ -29,23 +27,7 @@ namespace WinFormsApp1.Vistas
             };
             this.Controls.Add(panelHeader);
 
-            // Botón de retroceso
-           btnBack = new Button
-            {
-                FlatStyle = FlatStyle.Flat,
-                ForeColor = Disenio.Colores.GrisClaro,
-                BackColor = Color.Transparent,
-                Location = new Point(25, 25),
-                Size = new Size(25, 25),
-                TabStop = false,
-            };
-            btnBack.FlatAppearance.BorderSize = 0;
-            btnBack.ImageAlign = ContentAlignment.MiddleCenter;
-
-            // Redimensionar la imagen al tamaño del botón
-            btnBack.Image = new Bitmap(Disenio.Imagenes.IconoAtras, btnBack.Size);
-
-            panelHeader.Controls.Add(btnBack);
+            
 
             // Botones de navegación
             string[] navItems = { "Home", "Manager", "Settings" };
@@ -148,10 +130,8 @@ namespace WinFormsApp1.Vistas
             }
         }
 
-        public void MostrarBotonAtras(bool mostrar)
-        {
-            btnBack.Visible = mostrar;
-        }
+
+
     }
 }
 
