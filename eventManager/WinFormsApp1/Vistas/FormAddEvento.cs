@@ -16,5 +16,10 @@ namespace WinFormsApp1.Vistas
         {
             InitializeComponent();
         }
+
+        private void FormAddEvento_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
