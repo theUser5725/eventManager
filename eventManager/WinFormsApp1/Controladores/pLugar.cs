@@ -89,7 +89,20 @@ namespace WinFormsApp1.Controladores
             }
             return lugares;
         }
+        
+        public static List<Lugar> GetLugarByEventid(Evento evento)
+        {
+            if (evento.IdEvento <= 0) 
+            {
+                return null; // Return an empty list if the event ID is invalid
+            }
+            else 
+            {
+                List<Lugar> lugares = pReunion.GetAllByEventoId(evento.IdEvento).Where(r => r.IdLugar > 0).GroupBy(r => r.IdLugar).Select(l => GetByID(l.Key)).Distinct().ToList(); // Get all unique places by event ID
 
+                return lugares;
+            }
+        }
         
 
 

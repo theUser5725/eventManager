@@ -112,16 +112,28 @@ namespace WinFormsApp1.Vistas
                 Width = panelCentral.Width - 40, // Margen
                 Location = new Point(0, lblTitulo.Bottom + 20)
             };
+           
+
+            foreach (Evento evento in eventosHoy)
+            {
+                // Obtener todos los lugares para este evento (fuera del bucle de creación de labels)
+                var lugaresEvento = pLugar.GetLugarByEventid(evento);
+
+                foreach (Lugar lugar in lugaresEvento)
+                {
+                    var lblevento = new Label() // Agregados los paréntesis que faltaban
+                    {
+                        Text = $"{evento.Nombre} | {lugar.nombre} | {evento.FechaInicio:HH\\:mm} - {evento.FechaFinalizacion:HH\\:mm}",
+                        AutoSize = true,
+                        Margin = new Padding(0, 0, 0, 10) // Espacio entre elementos
+                    };
+
+                    // Agregar el label a tu contenedor (FlowLayoutPanel u otro)
+                    contenedorEventos.Controls.Add(lblevento);
+                }
+            }
             panelCentral.Controls.Add(contenedorEventos); // agregamos el contenedor de eventos al panel central
 
-            var lblevento = new Label
-            {
-                AutoSize = true,
-                Font = Disenio.Fuentes.Titulo,
-                Text = "Eventos de Hoy",
-                Padding = new Padding(0, 0, 0, 10)
-            };
-            panelCentral.Controls.Add(lblevento); // agregamos el titulo de eventos al panel central
         }
     }        
 }
