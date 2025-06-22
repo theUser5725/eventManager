@@ -40,6 +40,8 @@ namespace WinFormsApp1.Resources
             public static Image IconoUsuario => ByteArrayToImage(Properties.Resources.iconoUsuario);
             public static Image IconoAtras => ByteArrayToImage(Properties.Resources.iconoAtras);
 
+            public static Image IconoArchivos => ByteArrayToImage(Properties.Resources.iconoArchivos);
+
 
         }
 

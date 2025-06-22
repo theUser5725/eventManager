@@ -15,7 +15,7 @@ namespace WinFormsApp1.Controladores
     {
         public static void NuevaReunion(Reunion reunion)
         {
-            SQLiteCommand command = new SQLiteCommand("INSERT INTO Reunion (IdEvento, IdLugar, Horario) VALUES (@IdEvento, @IdLugar, @Horario)", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("INSERT INTO Reuniones (IdEvento, IdLugar, Horario) VALUES (@IdEvento, @IdLugar, @Horario)", Conexion.Connection);
             command.Parameters.AddWithValue("@IdEvento", reunion.IdEvento);
             command.Parameters.AddWithValue("@IdLugar", reunion.IdLugar);
             command.Parameters.AddWithValue("@Horario", reunion.Horario);
@@ -27,7 +27,7 @@ namespace WinFormsApp1.Controladores
 
         public static void ActualizarReunion(Reunion reunion)
         {
-            SQLiteCommand command = new SQLiteCommand("UPDATE Reunion SET IdEvento = @IdEvento, IdLugar = @IdLugar, Horario = @Horario WHERE IdReunion = @IdReunion", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("UPDATE Reuniones SET IdEvento = @IdEvento, IdLugar = @IdLugar, Horario = @Horario WHERE IdReunion = @IdReunion", Conexion.Connection);
             command.Parameters.AddWithValue("@IdReunion", reunion.IdReunion);
             command.Parameters.AddWithValue("@IdEvento", reunion.IdEvento);
             command.Parameters.AddWithValue("@IdLugar", reunion.IdLugar);
@@ -40,7 +40,7 @@ namespace WinFormsApp1.Controladores
 
         public static void EliminarReunion(int idReunion)
         {
-            SQLiteCommand command = new SQLiteCommand("DELETE FROM Reunion WHERE IdReunion = @IdReunion", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("DELETE FROM Reuniones WHERE IdReunion = @IdReunion", Conexion.Connection);
             command.Parameters.AddWithValue("@IdReunion", idReunion);
             command.ExecuteNonQuery();
         }
@@ -48,7 +48,7 @@ namespace WinFormsApp1.Controladores
         
         public static Reunion GetById(int idReunion)
         {
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reunion WHERE IdReunion = @IdReunion");
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reuniones WHERE IdReunion = @IdReunion");
             command.Parameters.AddWithValue("@IdReunion", idReunion);
             command.Connection = Conexion.Connection;
 
@@ -78,7 +78,7 @@ namespace WinFormsApp1.Controladores
         public static List<Reunion> GetAll()
         {
             List<Reunion> reuniones = new List<Reunion>();
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reunion", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reuniones", Conexion.Connection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -100,7 +100,7 @@ namespace WinFormsApp1.Controladores
         public static List<Reunion> GetAllByEventoId(int idEvento)
         {
             List<Reunion> reuniones = new List<Reunion>();
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reunion WHERE IdEvento = @IdEvento", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reuniones WHERE IdEvento = @IdEvento", Conexion.Connection);
             command.Parameters.AddWithValue("@IdEvento", idEvento);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -123,7 +123,7 @@ namespace WinFormsApp1.Controladores
         public static List<Reunion> GetAllByLugarId(int idLugar) 
         {
             List<Reunion> reuniones = new List<Reunion>();
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reunion WHERE IdLugar = @IdLugar", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reuniones WHERE IdLugar = @IdLugar", Conexion.Connection);
             command.Parameters.AddWithValue("@IdLugar", idLugar);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())

@@ -7,7 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsApp1.Resources;
 using WinFormsApp1.Vistas;
+using WinFormsApp1.Controladores;
+using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1
 {
@@ -16,27 +19,15 @@ namespace WinFormsApp1
         private Panel panelContenido;
         private Stack<int> historialVistas = new();
         private PanelHeader header;
+        private Button btnBack;
 
         public FormPrincipal()
         {
             InitializeComponent();
-
-            // Crear y añadir el header solo una vez
-            header = new PanelHeader();
-            header.Dock = DockStyle.Top;
-            this.Controls.Add(header);
-
-            header.btnBack.Click += BtnBack_Click;
-            this.KeyPreview = true;
-            this.KeyDown += FormPrincipal_KeyDown;
-
-
-            panelContenido = new Panel();
-            panelContenido.Dock = DockStyle.Fill;
-            this.Controls.Add(panelContenido);
-
+            this.WindowState = FormWindowState.Maximized;
+            inicializar();
             // Cargar la vista inicial
-            cambiarVista(0);
+            cambiarVista(3);
         }
 
         public void cambiarVista(int navSeleccionado, bool desdeAtras = false)
@@ -52,23 +43,29 @@ namespace WinFormsApp1
             {
                 case 0:
                     nuevaVista = new PanelHome();
-                    header.MostrarBotonAtras(false); // Oculta el botón en Home
+                    btnBack.Visible = false;
                     break;
                 case 1:
                     nuevaVista = new PanelManager();
-                    header.MostrarBotonAtras(false);
+                    btnBack.Visible = false;
                     break;
                 case 2:
                     nuevaVista = new PanelSettings();
-                    header.MostrarBotonAtras(false);
+                     btnBack.Visible=false;
                     break;
+                case 3:
+                    nuevaVista = new PanelEvento(pEvento.GetById(1));
+                    btnBack.Visible = true; // Muestra atras el botón en Evento
+                    break;
+
                 default:
-                    nuevaVista = new PanelEvento();
-                    header.MostrarBotonAtras(true); // Muestra el botón en Evento
+                    nuevaVista = new PanelHome();
+                    btnBack.Visible = false;
                     break;
             }
             CargarVista(nuevaVista);
         }
+        
 
         private void CargarVista(UserControl nuevaVista)
         {
@@ -77,10 +74,57 @@ namespace WinFormsApp1
             panelContenido.Controls.Add(nuevaVista);
         }
 
+        public void inicializar()
+        {
+
+            // Reemplaza en inicializar()
+            var layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 2,
+                ColumnCount = 1,
+            };
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 70)); // altura fija para header
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // resto para contenido
+            this.Controls.Add(layout);
+
+            // PanelHeader
+            header = new PanelHeader();
+            header.Dock = DockStyle.Fill;
+            layout.Controls.Add(header, 0, 0);
+
+            // PanelContenido
+            panelContenido = new Panel();
+            panelContenido.Dock = DockStyle.Fill;
+            layout.Controls.Add(panelContenido, 0, 1);
+
+            // Botón atrás
+            btnBack = new Button
+            {
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = Disenio.Colores.GrisClaro,
+                BackColor = Color.Transparent,
+                Location = new Point(25, 25),
+                Size = new Size(25, 25),
+                TabStop = false,
+                Visible = false // Oculto por defecto
+            };
+            btnBack.FlatAppearance.BorderSize = 0;
+            btnBack.ImageAlign = ContentAlignment.MiddleCenter;
+            btnBack.Image = new Bitmap(Disenio.Imagenes.IconoAtras, btnBack.Size);
+            btnBack.Click += BtnBack_Click;
+            this.Controls.Add(btnBack);
+            btnBack.BringToFront();
+
+           
+            // Tecla Escape
+            this.KeyPreview = true;
+            this.KeyDown += FormPrincipal_KeyDown;
+
+        }
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
-
             VolverAtras();
         }
 
