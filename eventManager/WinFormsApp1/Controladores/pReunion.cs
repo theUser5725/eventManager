@@ -13,7 +13,7 @@ namespace WinFormsApp1.Controladores
 {
     internal class pReunion
     {
-        public static void NuevaReunion(Reunion reunion)
+        public static void Save(Reunion reunion)
         {
             SQLiteCommand command = new SQLiteCommand("INSERT INTO Reunion (IdEvento, IdLugar, Horario) VALUES (@IdEvento, @IdLugar, @Horario)", Conexion.Connection);
             command.Parameters.AddWithValue("@IdEvento", reunion.IdEvento);
@@ -25,7 +25,7 @@ namespace WinFormsApp1.Controladores
             command.ExecuteNonQuery();
         }
 
-        public static void ActualizarReunion(Reunion reunion)
+        public static void Update(Reunion reunion)
         {
             SQLiteCommand command = new SQLiteCommand("UPDATE Reunion SET IdEvento = @IdEvento, IdLugar = @IdLugar, Horario = @Horario WHERE IdReunion = @IdReunion", Conexion.Connection);
             command.Parameters.AddWithValue("@IdReunion", reunion.IdReunion);
@@ -38,14 +38,12 @@ namespace WinFormsApp1.Controladores
             command.ExecuteNonQuery();
         }
 
-        public static void EliminarReunion(int idReunion)
+        public static void Delete(int idReunion)
         {
             SQLiteCommand command = new SQLiteCommand("DELETE FROM Reunion WHERE IdReunion = @IdReunion", Conexion.Connection);
             command.Parameters.AddWithValue("@IdReunion", idReunion);
             command.ExecuteNonQuery();
         }
-        
-        
         public static Reunion GetById(int idReunion)
         {
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM Reunion WHERE IdReunion = @IdReunion");
