@@ -20,15 +20,15 @@ namespace tp4_Prueba.Modelos
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Mail { get; set; }
-        public int Dni { get; set; }
-        public int Contraseña { get; set; }
+        public string Dni { get; set; }
+        public string Contraseña { get; set; }
         
         public Participante() 
         { 
         }
 
 
-        public Participante(int idParticipante, string nombre, string apellido, string mail, int dni, int contraseña)
+        public Participante(int idParticipante, string nombre, string apellido, string mail, string dni, string contraseña)
         {
             IdParticipante = idParticipante;
             Nombre = nombre;
