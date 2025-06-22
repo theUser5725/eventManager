@@ -10,7 +10,7 @@ namespace WinFormsApp1.Modelos
         public int IdCatEvento { get; set; }
         public string Nombre { get; set; }
         public int? TotalHoras { get; set; }
-        public int? cantidadParticipantes { get; set; }
+        public int? CantidadParticipantes { get; set; }
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaFinalizacion { get; set; }
         public int Estado { get; set; } // 0 = no iniciado, 1 = en curso, 2 = finalizado, 3 = cancelado

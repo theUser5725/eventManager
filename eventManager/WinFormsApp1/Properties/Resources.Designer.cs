@@ -73,6 +73,16 @@ namespace WinFormsApp1.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
+        internal static byte[] iconoArchivos {
+            get {
+                object obj = ResourceManager.GetObject("iconoArchivos", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
         internal static byte[] iconoAtras {
             get {
                 object obj = ResourceManager.GetObject("iconoAtras", resourceCulture);

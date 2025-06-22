@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormsApp1.Resources;
 using WinFormsApp1.Vistas;
+using WinFormsApp1.Controladores;
+using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1
 {
@@ -22,10 +24,10 @@ namespace WinFormsApp1
         public FormPrincipal()
         {
             InitializeComponent();
-
+            this.WindowState = FormWindowState.Maximized;
             inicializar();
             // Cargar la vista inicial
-            cambiarVista(0);
+            cambiarVista(3);
         }
 
         public void cambiarVista(int navSeleccionado, bool desdeAtras = false)
@@ -51,9 +53,14 @@ namespace WinFormsApp1
                     nuevaVista = new PanelSettings();
                      btnBack.Visible=false;
                     break;
-                default:
-                    nuevaVista = new PanelEvento();
+                case 3:
+                    nuevaVista = new PanelEvento(pEvento.GetById(1));
                     btnBack.Visible = true; // Muestra atras el botón en Evento
+                    break;
+
+                default:
+                    nuevaVista = new PanelHome();
+                    btnBack.Visible = false;
                     break;
             }
             CargarVista(nuevaVista);
@@ -69,10 +76,27 @@ namespace WinFormsApp1
 
         public void inicializar()
         {
-            // Header
+
+            // Reemplaza en inicializar()
+            var layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 2,
+                ColumnCount = 1,
+            };
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 70)); // altura fija para header
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // resto para contenido
+            this.Controls.Add(layout);
+
+            // PanelHeader
             header = new PanelHeader();
-            header.Dock = DockStyle.Top;
-            this.Controls.Add(header);
+            header.Dock = DockStyle.Fill;
+            layout.Controls.Add(header, 0, 0);
+
+            // PanelContenido
+            panelContenido = new Panel();
+            panelContenido.Dock = DockStyle.Fill;
+            layout.Controls.Add(panelContenido, 0, 1);
 
             // Botón atrás
             btnBack = new Button
@@ -92,11 +116,7 @@ namespace WinFormsApp1
             this.Controls.Add(btnBack);
             btnBack.BringToFront();
 
-            // Panel de contenido
-            panelContenido = new Panel();
-            panelContenido.Dock = DockStyle.Fill;
-            this.Controls.Add(panelContenido);
-
+           
             // Tecla Escape
             this.KeyPreview = true;
             this.KeyDown += FormPrincipal_KeyDown;

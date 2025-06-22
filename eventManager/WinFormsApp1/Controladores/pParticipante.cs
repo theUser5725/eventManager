@@ -25,8 +25,8 @@ namespace WinFormsApp1.Controladores
                     objDBReader.GetString(1),
                     objDBReader.GetString(2),
                     objDBReader.GetString(3),
-                    objDBReader.GetInt32(4),
-                    objDBReader.GetInt32(5)
+                    objDBReader.GetString(4),
+                    objDBReader.GetString(5)
                 );
             }
 
@@ -49,8 +49,8 @@ namespace WinFormsApp1.Controladores
                     objDBReader.GetString(1),
                     objDBReader.GetString(2),
                     objDBReader.GetString(3),
-                    objDBReader.GetInt32(4),
-                    objDBReader.GetInt32(5)
+                    objDBReader.GetString(4),
+                    objDBReader.GetString(5)
                 );
 
                 participantes.Add(participante);
@@ -81,8 +81,8 @@ namespace WinFormsApp1.Controladores
                     objDBReader.GetString(1),
                     objDBReader.GetString(2),
                     objDBReader.GetString(3),
-                    objDBReader.GetInt32(4),
-                    objDBReader.GetInt32(5)
+                    objDBReader.GetString(4),
+                    objDBReader.GetString(5)
                 );
 
                 participantes.Add(participante);
