@@ -1,56 +1,45 @@
--- Categorías de Eventos
-INSERT INTO CategoriasEventos (idCatEvento, nombre) VALUES
-(1, 'Taller'),
-(2, 'Seminario'),
-(3, 'Conferencia');
+-- Categoría de Evento
+INSERT INTO CategoriasEventos (idCatEvento, nombre)
+VALUES (1, 'Evento'),
+(2, 'Curso'),
+(3, 'Congreso');
 
--- Eventos
-INSERT INTO Eventos (idEvento, idCatEvento, nombre, totalHoras) VALUES
-(1, 1, 'Taller de Python', 4),
-(2, 2, 'Seminario de Ciberseguridad', 6),
-(3, 3, 'Conferencia de Inteligencia Artificial', 8);
 
--- Lugares
-INSERT INTO Lugares (idLugar, nombre, capacidad) VALUES
-(1, 'Auditorio Principal', 100),
-(2, 'Sala 101', 40),
-(3, 'Sala Virtual Zoom', 200);
+-- Evento
+INSERT INTO Eventos (idEvento, idCatEvento, nombre, totalHoras, fechaInicio, fechaFinalizacion, estado)
+VALUES (1, 1, 'Capacitación de Invierno', 20, '2025-06-21', '2025-07-09', 1);
 
--- Reuniones
-INSERT INTO Reuniones (idReunion, idEvento, idLugar, horario) VALUES
-(1, 1, 1, '2025-06-15 09:00'),
-(2, 2, 2, '2025-06-20 14:00'),
-(3, 3, 3, '2025-06-25 10:00');
+-- Lugar
+INSERT INTO Lugares (idLugar, nombre, capacidad)
+VALUES (1, 'Sala de Conferencias A', 100);
 
 -- Participantes
 INSERT INTO Participantes (idParticipante, nombre, apellido, mail, dni, contraseña) VALUES
-(1, 'Ana', 'López', 'ana@example.com', '12345678', 'pass123'),
-(2, 'Carlos', 'Pérez', 'carlos@example.com', '23456789', 'pass456'),
-(3, 'María', 'García', 'maria@example.com', '34567890', 'pass789');
+(1, 'Ana', 'Pérez', 'ana.perez@mail.com', '12345678', 'pass123'),
+(2, 'Luis', 'García', 'luis.garcia@mail.com', '23456789', 'pass123'),
+(3, 'María', 'López', 'maria.lopez@mail.com', '34567890', 'pass123');
+
+-- Categoría de Directivos
+INSERT INTO CategoriasDirectivos (idCatDirectiva, nombre)
+VALUES (1, 'Expositor'),
+(2, 'Coordinador'),
+(3, 'Ayudante');
+
+-- Reuniones
+INSERT INTO Reuniones (idReunion, idEvento, idLugar, horarioInicio, horarioFinalizacion) VALUES
+(1, 1, 1, '2025-06-22 09:00:00', '2025-06-22 12:00:00'),
+(2, 1, 1, '2025-06-29 09:00:00', '2025-06-29 12:00:00'),
+(3, 1, 1, '2025-07-06 09:00:00', '2025-07-06 12:00:00');
 
 -- Inscripciones
 INSERT INTO Inscripciones (idEvento, idParticipante) VALUES
 (1, 1),
-(2, 1),
-(2, 2),
-(3, 2),
-(3, 3);
+(1, 2),
+(1, 3);
 
--- Asistencias
-INSERT INTO Asistencias (idEvento, idParticipante, horariosAsistido) VALUES
-(1, 1, '2025-06-15 09:00-13:00'),
-(2, 1, '2025-06-20 14:00-18:00'),
-(2, 2, '2025-06-20 14:15-18:00'),
-(3, 3, '2025-06-25 10:00-18:00');
-
--- Categorías de Directivos
-INSERT INTO CategoriasDirectivos (idCatDirectiva, nombre) VALUES
-(1, 'Coordinador'),
-(2, 'Organizador'),
-(3, 'Moderador');
-
--- Directivos
+-- DIRECTIVOS
 INSERT INTO Directivos (idReunion, idParticipante, idCatDirectiva) VALUES
-(1, 1, 1), -- Ana es Coordinadora en la reunión 1
-(2, 2, 2), -- Carlos es Organizador en la reunión 2
-(3, 3, 3); -- María es Moderadora en la reunión 3
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1);
+
