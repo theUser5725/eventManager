@@ -43,7 +43,7 @@ namespace WinFormsApp1
             switch (navSeleccionado)
             {
                 case 0:
-                    nuevaVista = new PanelHomeSecudario();
+                    nuevaVista = new PanelHome();
                     btnBack.Visible = false;
                     break;
                 case 1:
@@ -60,7 +60,7 @@ namespace WinFormsApp1
                     break;
 
                 default:
-                    nuevaVista = new PanelHomeSecudario();
+                    nuevaVista = new PanelHome();
                     btnBack.Visible = false;
                     break;
             }

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinFormsApp1.Resources;
-using System.ComponentModel;
-using System.Drawing.Drawing2D;
 using WinFormsApp1.Controladores;
 using WinFormsApp1.Modelos;
+using WinFormsApp1.Resources;
 
 namespace WinFormsApp1.Vistas
 {
-    public partial class PanelHomeSecudario: UserControl
+    public partial class PanelHome: UserControl
     {
         // Contenedor principal del panel
 
@@ -20,11 +21,12 @@ namespace WinFormsApp1.Vistas
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public BindingSource ParticipantesBindingSource { get; private set; } = new BindingSource();
-        
+
         //las propiedades FechaInicio y FechaFinalizacion son de tipo DateTime? (nullable), es necesario verificar .HasValue antes de acceder al .Value
+        private List<Evento> eventos = pEvento.GetAll();
         private List<Evento> eventosHoy = pEvento.GetAll()
             .Where(e => e.FechaInicio.HasValue && e.FechaFinalizacion.HasValue && e.FechaInicio.Value.Date <= DateTime.Today && e.FechaFinalizacion.Value.Date >= DateTime.Today).ToList();
-        private List<Evento> eventos = pEvento.GetAll();
+      
         
         // Controles principales
         private Label lblTitulopanelSecundario;
@@ -32,7 +34,7 @@ namespace WinFormsApp1.Vistas
 
 
 
-        public PanelHomeSecudario()
+        public PanelHome()
         {
             ControlPaneles();
         }
@@ -86,12 +88,14 @@ namespace WinFormsApp1.Vistas
                     {
                         var lblevento = new Label()
                         {
-                            Text = $"{evento.Nombre} | {lugar.nombre} | De:{evento.FechaInicio:HH\\:mm} a {evento.FechaFinalizacion:HH\\:mm}",
+
+                            Text = $"{evento.Nombre} | {lugar.nombre} | De:{evento.FechaInicio:dd - MM - yyyy :HH\\:mm} a {evento.FechaFinalizacion:HH\\:mm} {FiltroPorEstado(evento)}",
                             TextAlign = ContentAlignment.TopCenter,
                             AutoSize = true,
                             Margin = new Padding(5, 0, 5, 10),
                             Font = Disenio.Fuentes.Titulo,
-                            BackColor = Disenio.Colores.GrisClaro,
+                            BackColor = FiltroColorPorEstado(evento),
+
                             Tag = evento // Almacena lo que se va a enviar al hacer click en el label
                         };
 
@@ -166,12 +170,12 @@ namespace WinFormsApp1.Vistas
 
                         var lblevento = new Label()
                         {
-                            Text = $"{eventohoy.Nombre} | {lugar.nombre} | De:{eventohoy.FechaInicio:HH\\:mm} a {eventohoy.FechaFinalizacion:HH\\:mm}",
+                            Text = $"{eventohoy.Nombre} | {lugar.nombre} | De:{eventohoy.FechaInicio:HH\\:mm} a {eventohoy.FechaFinalizacion:HH\\:mm} {FiltroPorEstado(eventohoy)}",
                             TextAlign = ContentAlignment.TopCenter,
                             AutoSize = true,
                             Margin = new Padding(5, 0, 5, 10),
                             Font = Disenio.Fuentes.Titulo,
-                            BackColor = Disenio.Colores.GrisClaro,
+                            BackColor = FiltroColorPorEstado(eventohoy),
                             Tag = eventohoy // Almacena lo que se va a enviar al hacer click en el label
                         };
 
@@ -230,7 +234,7 @@ namespace WinFormsApp1.Vistas
                     ColumnCount = 2,
                     RowCount = 1,
                     ColumnStyles = {
-                        new ColumnStyle(SizeType.Percent, 70F),
+                        new ColumnStyle(SizeType.Percent, 60F),
                         new ColumnStyle(SizeType.Percent, 30F)
                     },
                         
@@ -243,6 +247,34 @@ namespace WinFormsApp1.Vistas
                 this.Controls.Add(MasterTableLayout);
 
             }
+
+        }
+
+        private Color FiltroColorPorEstado(Evento evento)
+        {
+            // Devuelve un color basado en el estado del evento
+            return evento.Estado switch
+            {
+                0 => Color.White, // Estado 0: Gris claro
+                1 => Color.LightGreen, // Estado 1: Verde claro
+                2 => Color.OrangeRed, // Estado 2: Coral claro
+                _ => Color.Red, // Por defecto: Blanco
+            };
+
+        }
+
+        private String FiltroPorEstado(Evento evento)
+        {
+            // Devuelve un color basado en el estado del evento
+            return evento.Estado switch
+            {
+                0 => "No iniciado",
+                1 => "En curso",
+                2 => "Finalizado",
+                3 => "Cancelado",
+                _ => "Desconocido",
+            };
+            
         }
     }
 }
