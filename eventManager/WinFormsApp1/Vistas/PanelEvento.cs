@@ -15,11 +15,7 @@ namespace WinFormsApp1.Vistas
 {
     public partial class PanelEvento : UserControl
     {
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public BindingSource ReunionesBindingSource { get; private set; } = new BindingSource();
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public BindingSource ParticipantesBindingSource { get; private set; } = new BindingSource();
+       
 
         private Evento evento;
 
@@ -42,15 +38,13 @@ namespace WinFormsApp1.Vistas
         public PanelEvento(Evento evento)
         {
             this.evento = evento;
-            ReunionesBindingSource.DataSource = evento.Reuniones;
-            ParticipantesBindingSource.DataSource = evento.Participantes;
       
             Inicializar();
         }
 
         private void Inicializar()
         {
-            this.BackColor = Color.FromArgb(240, 240, 240);
+            this.BackColor = Color.White;
             this.Dock = DockStyle.Fill;
 
             // Contenedor con scroll
@@ -218,19 +212,42 @@ namespace WinFormsApp1.Vistas
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom
             };
 
+
+            tabControl.Appearance = TabAppearance.Normal;
+            tabControl.ItemSize = new Size(150, 40);
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.DrawItem += TabControl_DrawItem;
+            tabControl.Multiline = false; // asegura que las tabs estén en una sola fila
+            tabControl.Region = null;
+            tabControl.Padding = new Point(0, 0); // elimina sangrado interno
+
+
             // Pintar fondo detrás de pestañas
             tabControl.Paint += (s, e) =>
             {
-                Rectangle tabsArea = new Rectangle(0, 0, tabControl.Width, tabControl.ItemSize.Height + 6);
-                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(240, 240, 240)), tabsArea);
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+                // Pintar fondo de todo el área del tab control
+                e.Graphics.Clear(Disenio.Colores.VerdeOscuro);
+
+                // Pintar la franja detrás de las pestañas (solo si querés marcar esa zona)
+                Rectangle tabsArea = new Rectangle(0, 0, tabControl.Width, tabControl.ItemSize.Height);
+                using (SolidBrush backBrush = new SolidBrush(Disenio.Colores.VerdeOscuro))
+                {
+                    e.Graphics.FillRectangle(backBrush, tabsArea);
+                }
             };
 
-            tabControl.DrawItem += TabControl_DrawItem;
 
-            inicilaizarTabReuniones();
+
+            inicializarTabReuniones();
             
             tabParticipantes = new TabPage("Participantes") { BackColor = Color.White };
-            
+            inicializarTabParticipantes();
+
+
+
+
             tabControl.TabPages.Add(tabParticipantes);
 
             // Márgenes internos y fondo blanco de cada tab
@@ -238,6 +255,7 @@ namespace WinFormsApp1.Vistas
             {
                 tab.Padding = new Padding(24);
                 tab.BackColor = Color.White;
+                tab.BorderStyle = BorderStyle.None;
             }
 
             panelCentral.Controls.Add(tabControl);
@@ -265,8 +283,83 @@ namespace WinFormsApp1.Vistas
             };
 
         }
+        private void TabControl_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            TabControl tab = sender as TabControl;
+            Graphics g = e.Graphics;
+            Rectangle tabBounds = tab.GetTabRect(e.Index);
 
-        private void inicilaizarTabReuniones()
+            bool isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+
+            // Ajuste de altura para dar efecto de "levantar" la pestaña seleccionada
+            if (isSelected)
+            {
+                tabBounds.Y -= 10;         // sube la pestaña seleccionada
+                tabBounds.Height += 10;    // la agranda
+            }
+            else
+            {
+                tabBounds.Y += 10;         // baja la pestaña no seleccionada
+                tabBounds.Height -= 10;    // la achica
+            }
+
+            // Estilos visuales
+            Color backColor = isSelected ? Color.White : Disenio.Colores.AzulOscuro;
+            Color textColor = isSelected ? Color.Black : Color.White;
+            Font font = isSelected
+                ? new Font("Segoe UI", 12, FontStyle.Bold)
+                : new Font("Segoe UI", 8, FontStyle.Bold);
+
+            int radius = 12;
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                if (isSelected)
+                {
+                    // Pestaña seleccionada: esquinas redondeadas a ambos lados
+                    path.AddArc(tabBounds.Left, tabBounds.Top, radius, radius, 180, 90);
+                    path.AddArc(tabBounds.Right - radius, tabBounds.Top, radius, radius, 270, 90);
+                    path.AddLine(tabBounds.Right, tabBounds.Top + radius, tabBounds.Right, tabBounds.Bottom);
+                    path.AddLine(tabBounds.Right, tabBounds.Bottom, tabBounds.Left, tabBounds.Bottom);
+                    path.AddLine(tabBounds.Left, tabBounds.Bottom, tabBounds.Left, tabBounds.Top + radius);
+                }
+                else
+                {
+                    // Pestaña no seleccionada: solo una esquina redondeada externa
+                    if (e.Index == 0)
+                    {
+                        // primera pestaña: redondear solo esquina izquierda
+                        path.AddArc(tabBounds.Left, tabBounds.Top, radius, radius, 180, 90);
+                        path.AddLine(tabBounds.Left + radius, tabBounds.Top, tabBounds.Right, tabBounds.Top);
+                    }
+                    else
+                    {
+                        // última o intermedia: redondear solo esquina derecha
+                        path.AddLine(tabBounds.Left, tabBounds.Top, tabBounds.Right - radius, tabBounds.Top);
+                        path.AddArc(tabBounds.Right - radius, tabBounds.Top, radius, radius, 270, 90);
+                    }
+
+                    path.AddLine(tabBounds.Right, tabBounds.Top + radius, tabBounds.Right, tabBounds.Bottom);
+                    path.AddLine(tabBounds.Right, tabBounds.Bottom, tabBounds.Left, tabBounds.Bottom);
+                    path.AddLine(tabBounds.Left, tabBounds.Bottom, tabBounds.Left, tabBounds.Top + radius);
+                }
+
+                using (SolidBrush backBrush = new SolidBrush(backColor))
+                using (SolidBrush textBrush = new SolidBrush(textColor))
+                {
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                    g.FillPath(backBrush, path);
+
+                    StringFormat sf = new StringFormat
+                    {
+                        Alignment = StringAlignment.Center,
+                        LineAlignment = StringAlignment.Center
+                    };
+                    g.DrawString(tab.TabPages[e.Index].Text, font, textBrush, tabBounds, sf);
+                }
+            }
+
+        }
+        private void inicializarTabReuniones()
         {
             /*
             panel (la tarjeta)
@@ -312,6 +405,8 @@ namespace WinFormsApp1.Vistas
 
 
         }
+
+
         private Panel CrearTarjetaReunion(Reunion reunion)
         {
             if (reunion == null)
@@ -326,8 +421,7 @@ namespace WinFormsApp1.Vistas
                 Dock = DockStyle.Top,
                 Height = 80, // Altura inicial colapsada
                 BorderStyle = BorderStyle.None,
-                Padding = new Padding(10),
-                Margin = new Padding(24, 6, 24, 6),
+                Padding = new Padding(16),
                 BackColor = Color.White,
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink
@@ -337,22 +431,48 @@ namespace WinFormsApp1.Vistas
  
 
 
-            var panelCabecera = new Panel
+            var panelCabecera = new TableLayoutPanel
             {
                 Dock = DockStyle.Top,
-                Height = 50,
-                Padding = new Padding(10),
-                BackColor = Color.Transparent
+                AutoSize = true,
+                ColumnCount = 4,
+                Padding = new Padding(16),
+                BackColor = Color.White,
+
             };
 
-            var lblTitulo = new Label
+            panelCabecera.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30)); // Nombre Reunion
+            panelCabecera.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50)); // Lugar
+            panelCabecera.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15)); // fechaInicio
+            panelCabecera.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5)); // Botón
+
+            var lblReunion = new Label
             {
-                Text = $"{reunion.Nombre} - Lugar: {reunion.Lugar.nombre} - {reunion.HorarioInicio:dd/MM/yyyy}",
+                Text = $"{reunion.Nombre}",
                 Font = Disenio.Fuentes.General,
                 AutoSize = true,
                 Location = new Point(0, 10)
             };
-            panelCabecera.Controls.Add(lblTitulo);
+            panelCabecera.Controls.Add(lblReunion, 0,0);
+
+            var lblLugar = new Label
+            {
+                Text = $"Lugar: {reunion.Lugar.nombre}",
+                Font = Disenio.Fuentes.General,
+                AutoSize = true,
+                Location = new Point(0, 10)
+            };
+            panelCabecera.Controls.Add(lblLugar, 1,0);
+
+            var lblFecha = new Label
+            {
+                Text = $"{reunion.HorarioInicio:dd/MM/yyyy}",
+                Font = Disenio.Fuentes.General,
+                AutoSize = true,
+                Location = new Point(0, 10)
+            };
+            panelCabecera.Controls.Add(lblFecha, 2, 0);
+
 
             var lblExpandir = new Label
             {
@@ -361,7 +481,7 @@ namespace WinFormsApp1.Vistas
                 Size = new Size(30, 30),
                 TextAlign = ContentAlignment.MiddleCenter
             };
-            panelCabecera.Controls.Add(lblExpandir);
+            panelCabecera.Controls.Add(lblExpandir,3, 0);
 
             // Ajustar posición de lblExpandir dinámicamente
             panelCabecera.Resize += (s, e) =>
@@ -475,7 +595,7 @@ namespace WinFormsApp1.Vistas
                     {
                         var lblDir = new Label
                         {
-                            Text = $"\t \t{dir.Participante.Nombre} {dir.Participante.Apellido} - {dir.Categoria.Nombre}",
+                            Text = $"       {dir.Participante.Nombre} {dir.Participante.Apellido} - {dir.Categoria.Nombre}",
                             Font = Disenio.Fuentes.labelsLetras,
                             AutoSize = true
                         };
@@ -491,59 +611,116 @@ namespace WinFormsApp1.Vistas
             return panel;
         }
 
-        private void TabControl_DrawItem(object sender, DrawItemEventArgs e)
+
+
+
+        private void inicializarTabParticipantes()
         {
-            TabControl tab = sender as TabControl;
-            Graphics g = e.Graphics;
-            Rectangle tabBounds = tab.GetTabRect(e.Index);
+            var participantes = pParticipante.getAllByEventoId(evento.IdEvento);
 
-            bool isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
-
-            // Simular altura mayor para tab seleccionada
-            if (isSelected)
+            var tabla = new TableLayoutPanel
             {
-                tabBounds.Y -= 10; // sube
-                tabBounds.Height += 10; // agranda
-            }else
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                ColumnCount = 3,
+                Padding = new Padding(16),
+                BackColor = Color.White,
+            };
+
+            tabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40)); // Nombre + Apellido
+            tabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45)); // Mail
+            tabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15)); // Botón
+
+            // Función auxiliar para agregar fila + línea
+            void AgregarFila(int fila, string nombreCompleto, string mail, Button boton = null)
             {
-                tabBounds.Y += 10; // sube
-                tabBounds.Height -= 10; // agranda
-            }
+                tabla.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
+                tabla.Controls.Add(new Label { Text = nombreCompleto, Font = Disenio.Fuentes.General, AutoSize = true, Padding = new Padding(4) }, 0, fila);
+                tabla.Controls.Add(new Label { Text = mail, Font = Disenio.Fuentes.General, AutoSize = true, Padding = new Padding(4) }, 1, fila);
 
-                // Estilos
-                Color backColor = isSelected ? Color.White : Disenio.Colores.AzulOscuro;
-            Color textColor = isSelected ? Color.Black : Color.White;
-            Font font = isSelected
-                ? new Font("Segoe UI", 12, FontStyle.Bold)
-                : new Font("Segoe UI", 8, FontStyle.Bold);
-
-            // Bordes redondeados
-            int radius = 12;
-            using (GraphicsPath path = new GraphicsPath())
-            {
-                path.AddArc(tabBounds.Left, tabBounds.Top, radius, radius, 180, 90);
-                path.AddArc(tabBounds.Right - radius, tabBounds.Top, radius, radius, 270, 90);
-                path.AddLine(tabBounds.Right, tabBounds.Top + radius, tabBounds.Right, tabBounds.Bottom);
-                path.AddLine(tabBounds.Right, tabBounds.Bottom, tabBounds.Left, tabBounds.Bottom);
-                path.AddLine(tabBounds.Left, tabBounds.Bottom, tabBounds.Left, tabBounds.Top + radius);
-
-                using (SolidBrush backBrush = new SolidBrush(backColor))
-                using (SolidBrush textBrush = new SolidBrush(textColor))
+                if (boton != null)
                 {
-                    g.SmoothingMode = SmoothingMode.AntiAlias;
-                    g.FillPath(backBrush, path);
-
-                    // Texto centrado
-                    StringFormat sf = new StringFormat
+                    var panelBtn = new Panel
                     {
-                        Alignment = StringAlignment.Center,
-                        LineAlignment = StringAlignment.Center
+                        Anchor = AnchorStyles.None,
+                        AutoSize = false,
+                        Size = new Size(34, 34), // ligeramente más grande que el botón
+                        Margin = new Padding(0),
+                        Padding = new Padding(0)
                     };
-                    g.DrawString(tab.TabPages[e.Index].Text, font, textBrush, tabBounds, sf);
+
+                    panelBtn.Controls.Add(boton); 
+                    boton.Location = new Point(3, 3); 
+                    tabla.Controls.Add(panelBtn, 2, fila);
                 }
+                else
+                {
+                    tabla.Controls.Add(new Label { Text = "Dar de baja", AutoSize = true }, 2, fila);
+                }
+
+                // Línea divisoria debajo de cada fila
+                tabla.RowStyles.Add(new RowStyle(SizeType.Absolute, 2));
+                var panelLinea = new Panel
+                {
+                    Height = 2,
+                    Dock = DockStyle.Bottom,
+                    BackColor = Color.Gray
+                };
+                tabla.Controls.Add(panelLinea, 0, fila + 1);
+                tabla.SetColumnSpan(panelLinea, 3);
             }
+
+            // Encabezado
+            AgregarFila(0, "Nombre", "Mail");
+
+            int fila = 2; // fila 1 es la línea divisoria
+            foreach (var part in participantes)
+            {
+                var btnDarDeBaja = new Button
+                {
+                    Image = new Bitmap(Disenio.Imagenes.IconoQuitar, new Size(Disenio.tamanoIcono, Disenio.tamanoIcono)), // <-- redimensionar ícono aquí
+                    BackColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    Width = 28,
+                    Height = 28,
+                    Margin = new Padding(0),
+                    Padding = new Padding(0),
+                    Tag = part,
+                    Cursor = Cursors.Hand,
+                    Text = "",
+
+                };
+                btnDarDeBaja.Left = tabla.Left - Disenio.tamanoIcono - 10;
+
+                btnDarDeBaja.FlatAppearance.BorderSize = 0;
+
+                btnDarDeBaja.Click += (s, e) =>
+                {
+                    var btn = s as Button;
+                    var participanteSeleccionado = btn?.Tag as Participante;
+                    if (participanteSeleccionado != null)
+                    {
+                        var confirmar = MessageBox.Show(
+                            $"¿Desea dar de baja a {participanteSeleccionado.Nombre} {participanteSeleccionado.Apellido}?",
+                            "Confirmar baja", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (confirmar == DialogResult.Yes)
+                        {
+                            pParticipante.Delete(participanteSeleccionado);
+                            inicializarTabParticipantes(); // refrescar
+                        }
+                    }
+                };
+
+                AgregarFila(fila, part.toString(), part.Mail, btnDarDeBaja);
+                fila += 2;
+            }
+
+            tabParticipantes.Controls.Clear();
+            tabParticipantes.Controls.Add(tabla);
         }
+
 
 
 
