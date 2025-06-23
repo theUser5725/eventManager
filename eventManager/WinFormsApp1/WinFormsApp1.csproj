@@ -19,6 +19,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Vistas\PanelHomePrincipal.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Vistas\PanelSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
