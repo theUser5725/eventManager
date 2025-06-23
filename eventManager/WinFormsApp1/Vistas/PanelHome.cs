@@ -8,13 +8,12 @@ using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using WinFormsApp1.Controladores;
 using WinFormsApp1.Modelos;
-using WinFormsApp1.Resources;
+
 namespace WinFormsApp1.Vistas
 {
-    public partial class PanelManager : UserControl
+    public partial class PanelHome: UserControl
     {
         // Contenedor principal del panel
-
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public BindingSource ReunionesBindingSource { get; private set; } = new BindingSource();
@@ -22,9 +21,9 @@ namespace WinFormsApp1.Vistas
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public BindingSource ParticipantesBindingSource { get; private set; } = new BindingSource();
 
-        private static List<Evento> eventos = pEvento.GetAll(); // lista eventos
-        
-        private static List<Evento> eventosHoy = eventos.FindAll(e => e.FechaInicio.HasValue && e.FechaInicio.Value.Date == DateTime.Today).ToList(); // eventos de hoy
+        private List<Evento> eventos; // lista eventos
+
+        private List<Evento> eventosHoy;
 
 
         // Referencia al underline
@@ -34,61 +33,78 @@ namespace WinFormsApp1.Vistas
 
         // Controles principales
         private Label lblTitulo;
-        private Label lblEstado;
-        private Label lblSubtitulo;
-        private Button btnEditarEvento;
-        private Button btnGenerarCertificados;
-        private TabControl tabControl;
-        private TabPage tabReuniones;
-        private TabPage tabParticipantes;
-        private int margenLateralTabs = 50;
         private int margenLateralBody = 150;
 
 
 
-        public PanelManager()
+        public PanelHome()
         {
-            return;
+            eventos = pEvento.GetAll();
+            eventosHoy = eventos;
+            
+            
+            Inicializar(); 
+
         }
 
         private void Inicializar()
         {
+            if (eventos.Count == 0)
+            {
+                MessageBox.Show("No hay eventos programados para hoy.");
+                return;
+            }
+            if (eventosHoy.Count == 0)
+            {
+                MessageBox.Show($"Eventos hoy: {eventosHoy.Count}");
+            }
+            // Configuración del panel principal
             this.BackColor = Color.FromArgb(240, 240, 240);
             this.Dock = DockStyle.Fill;
-            // Contenedor con scroll
-            var panelScrollable = new Panel
-            {
-                Dock = DockStyle.Fill,
-                AutoScroll = true,
-            };
-            this.Controls.Add(panelScrollable);
-            // Panel central que se centra automáticamente en el scroll
+            // panel central 
             var panelCentral = new Panel
             {
                 Dock = DockStyle.Fill,
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Padding = new Padding(20),
-            };
-            panelScrollable.Controls.Add(panelCentral);
+                Padding = new Padding(25),
+                BorderStyle = BorderStyle.Fixed3D,
+                BackColor = Disenio.Colores.AzulOscuro
+            }; // 
 
-            panelScrollable.Resize += (s, e) =>
+            // Contenedor con scroll
+            var panelScrolEventosHoy = new Panel
             {
-                int anchoDisponible = panelScrollable.ClientSize.Width;
+                Dock = DockStyle.Right, // ubicacion de la lista de los eventos de hoy
 
+                Width = 500,
+                AutoScroll = true,
+               
+
+            };
+            var panelScrolGeneral = new Panel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll= true,
+                 BorderStyle = BorderStyle.FixedSingle,
+            };
+            // redimencion del scrol
+            panelScrolEventosHoy.Resize += (s, e) =>
+            {
+                int anchoDisponible = panelScrolEventosHoy.ClientSize.Width;
                 // cuando el espacio sea chico para mostrar el pantel (1200 en este caso), se elimina el margen
                 int margenAplicado = (anchoDisponible < 1200) ? 0 : margenLateralBody;
+                
+                panelCentral.Width = anchoDisponible - (2* anchoDisponible);
 
-                panelCentral.Width = anchoDisponible - (2 * margenAplicado);
                 panelCentral.Left = margenAplicado;
-                panelCentral.Top = 40; // constante vertical
+
+                panelCentral.Top = 100; // constante vertical
             };
-
-            panelScrollable.Controls.Add(panelCentral);
-
-            panelScrollable.Resize += (s, e) =>
+            //???
+            panelScrolEventosHoy.Resize += (s, e) =>
             {
-                panelCentral.Left = (panelScrollable.ClientSize.Width - panelCentral.Width) / 2;
+                panelCentral.Left = (panelScrolEventosHoy.ClientSize.Width - panelCentral.Width) / 2;
             };
 
             // Título
@@ -96,43 +112,74 @@ namespace WinFormsApp1.Vistas
             {
                 AutoSize = true,
                 Font = Disenio.Fuentes.Titulo,
-                Text = "Reuniones de Hoy",
-                Location = new Point(0, 0)
-            };
-            panelCentral.Controls.Add(lblTitulo); // agregamos el titulo al panel central
 
-            //contenedor eventos
-            var contenedorEventos = new FlowLayoutPanel
+                Text = $" Reuniones del {DateTime.Now:dd - MM - yyyy}",
+               
+                ForeColor = Color.White,
+                Location = new Point(25, 0),
+    
+            };
+            
+            //contenedor Eventos de hoy
+            var contenedorEventosHoy = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                FlowDirection = FlowDirection.TopDown,
-                Padding = new Padding(20),
-                Width = panelCentral.Width - 40, // Margen
-                Location = new Point(0, lblTitulo.Bottom + 20)
-            };
-           
 
+                BackColor = Disenio.Colores.AzulOscuro,
+
+                FlowDirection = FlowDirection.TopDown,
+                Padding = new Padding(5),
+                Width = panelCentral.Width - 40, // Margen
+                
+                //BorderStyle = BorderStyle.FixedSingle,
+               
+            };
+            
             foreach (Evento evento in eventosHoy)
             {
-                // Obtener todos los lugares para este evento (fuera del bucle de creación de labels)
+                // Obtener todos los lugares para este evento 
                 var lugaresEvento = pLugar.GetLugarByEventid(evento);
 
                 foreach (Lugar lugar in lugaresEvento)
                 {
-                    var lblevento = new Label() // Agregados los paréntesis que faltaban
+                    
+                    var lblevento = new Label() 
                     {
-                        Text = $"{evento.Nombre} | {lugar.nombre} | {evento.FechaInicio:HH\\:mm} - {evento.FechaFinalizacion:HH\\:mm}",
+                        Text = $"{evento.Nombre} | {lugar.nombre} | De:{evento.FechaInicio:HH\\:mm} a {evento.FechaFinalizacion:HH\\:mm}",
+                        TextAlign = ContentAlignment.TopCenter,
                         AutoSize = true,
-                        Margin = new Padding(0, 0, 0, 10) // Espacio entre elementos
+                        Margin = new Padding(5, 0, 5, 10), 
+                        Font = Disenio.Fuentes.Titulo,
+                        BackColor = Disenio.Colores.GrisClaro,
+                        
+
+                        Tag = evento // Almacena lo que se va a enviar al hacer click en el label
                     };
 
-                    // Agregar el label a tu contenedor (FlowLayoutPanel u otro)
-                    contenedorEventos.Controls.Add(lblevento);
+                    lblevento.Click += (s, e) =>
+                    {
+                       // evento click en el label...
+                       Cursor = Cursors.WaitCursor;
+                        
+                    };
+
+                    contenedorEventosHoy.Controls.Add(lblevento); // agregar el label del evento al contenedor de eventos
                 }
             }
-            panelCentral.Controls.Add(contenedorEventos); // agregamos el contenedor de eventos al panel central
+
+            panelScrolEventosHoy.Controls.Add(panelCentral);
+
+            panelCentral.Controls.Add(lblTitulo); // agregamos el titulo al panel central
+            
+            panelCentral.Controls.Add(contenedorEventosHoy); // agregamos el contenedor de eventos al panel central
+           
+
+            this.Controls.Add(panelScrolEventosHoy);
+
+
+
 
         }
     }        
