@@ -38,7 +38,8 @@ namespace WinFormsApp1.Controladores
                         FechaInicio = reader.IsDBNull(4) ? null : reader.GetDateTime(4).Date,
                         FechaFinalizacion = reader.IsDBNull(5) ? null : reader.GetDateTime(5).Date,
                         Estado = reader.GetInt32(6),
-                        CantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7)
+                        CantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7),
+                        Categoria = pCategoriaEvento.GetById(reader.GetInt32(1))
                     });
                 }
             }
@@ -78,7 +79,9 @@ namespace WinFormsApp1.Controladores
                             evento.FechaFinalizacion = reader.IsDBNull(5) ? null : reader.GetDateTime(5);
                             evento.Estado = reader.GetInt32(6);
                             evento.CantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
-                        };
+                            evento.Categoria = pCategoriaEvento.GetById(evento.IdCatEvento);
+                        }
+                        ;
                     }
                 }
             }
@@ -109,7 +112,7 @@ namespace WinFormsApp1.Controladores
                 @"INSERT INTO Eventos (idCatEvento, nombre, totalHoras, fechaInicio, fechaFinalizacion, estado) 
                   VALUES (@idCatEvento, @nombre, @totalHoras, @fechaInicio, @fechaFinalizacion, @estado)",
                 Conexion.Connection);
-            cmd.Parameters.Add(new SQLiteParameter("@idCatEvento", evento.IdCatEvento));
+            cmd.Parameters.Add(new SQLiteParameter("@idCatEvento", evento.Categoria.IdCategoriaEvento));
             cmd.Parameters.Add(new SQLiteParameter("@nombre", evento.Nombre));
             cmd.Parameters.Add(new SQLiteParameter("@totalHoras", (object?)evento.TotalHoras ?? DBNull.Value));
             cmd.Parameters.Add(new SQLiteParameter("@fechaInicio", (object?)evento.FechaInicio ?? DBNull.Value));
@@ -136,7 +139,7 @@ namespace WinFormsApp1.Controladores
                       estado = @estado
                   WHERE idEvento = @idEvento",
                 Conexion.Connection);
-            cmd.Parameters.Add(new SQLiteParameter("@idEvento", evento.IdEvento));
+            cmd.Parameters.Add(new SQLiteParameter("@idEvento", evento.Categoria.IdCategoriaEvento));
             cmd.Parameters.Add(new SQLiteParameter("@idCatEvento", evento.IdCatEvento));
             cmd.Parameters.Add(new SQLiteParameter("@nombre", evento.Nombre));
             cmd.Parameters.Add(new SQLiteParameter("@totalHoras", (object?)evento.TotalHoras ?? DBNull.Value));

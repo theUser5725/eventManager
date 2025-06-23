@@ -27,7 +27,7 @@ namespace WinFormsApp1
             this.WindowState = FormWindowState.Maximized;
             inicializar();
             // Cargar la vista inicial
-            cambiarVista(0);
+            cambiarVista(3);
         }
 
         public void cambiarVista(int navSeleccionado, bool desdeAtras = false)

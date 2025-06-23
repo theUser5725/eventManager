@@ -93,7 +93,7 @@ namespace WinFormsApp1.Vistas
             {
                 AutoSize = true,
                 Font = Disenio.Fuentes.Titulo,
-                Text = $": {evento?.Nombre}",
+                Text = $"{evento?.Categoria.Nombre}: {evento?.Nombre}",
                 Location = new Point(0, 50) // temporal, lo centramos después
             };
             panelCentral.Controls.Add(lblTitulo);
