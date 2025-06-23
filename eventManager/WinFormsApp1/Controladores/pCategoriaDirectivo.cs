@@ -12,7 +12,7 @@ namespace WinFormsApp1.Modelos
     {
         public static void Save(CategoriaDirectiva categoriaDirectivo)
         {
-            SQLiteCommand command = new SQLiteCommand("INSERT INTO CategoriasDirectivos (IdCatDirectivo, nombre) VALUES (@IdCategoriaDirectivo, @Nombre)", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("INSERT INTO CategoriasDirectivos (IdCatDirectiva, nombre) VALUES (@IdCategoriaDirectivo, @Nombre)", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaDirectivo", categoriaDirectivo.IdCategoriaDirectivo);
             command.Parameters.AddWithValue("@Nombre", categoriaDirectivo.Nombre);
             command.ExecuteNonQuery();
@@ -20,7 +20,7 @@ namespace WinFormsApp1.Modelos
 
         public static void Update(CategoriaDirectiva categoriaDirectivo)
         {
-            SQLiteCommand command = new SQLiteCommand("UPDATE CategoriasDirectivos SET nombre = @Nombre WHERE IdCatDirectivo = @IdCategoriaDirectivo", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("UPDATE CategoriasDirectivos SET nombre = @Nombre WHERE IdCatDirectiva = @IdCategoriaDirectivo", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaDirectivo", categoriaDirectivo.IdCategoriaDirectivo);
             command.Parameters.AddWithValue("@Nombre", categoriaDirectivo.Nombre);
             command.ExecuteNonQuery();
@@ -28,14 +28,14 @@ namespace WinFormsApp1.Modelos
 
         public static void Delete(int idCategoriaDirectivo)
         {
-            SQLiteCommand command = new SQLiteCommand("DELETE FROM CategoriasDirectivos WHERE IdCatDirectivo = @IdCategoriaDirectivo", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("DELETE FROM CategoriasDirectivos WHERE IdCatDirectiva = @IdCategoriaDirectivo", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaDirectivo", idCategoriaDirectivo);
             command.ExecuteNonQuery();
         }
 
         public static CategoriaDirectiva GetById(int idCategoriaDirectivo)
         {
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriasDirectivos WHERE IdCatDirectivo = @IdCategoriaDirectivo", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriasDirectivos WHERE IdCatDirectiva = @IdCategoriaDirectivo", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaDirectivo", idCategoriaDirectivo);
             SQLiteDataReader reader = command.ExecuteReader();
             if (reader.Read())

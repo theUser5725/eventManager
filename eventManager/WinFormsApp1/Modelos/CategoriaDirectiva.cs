@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1.Modelos
 {
-    internal class CategoriaDirectiva
+    public class CategoriaDirectiva
     {
         public int IdCategoriaDirectivo { get; set; }
         public string Nombre { get; set; }

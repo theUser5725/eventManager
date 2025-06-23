@@ -30,7 +30,7 @@ namespace WinFormsApp1
             cambiarVista(3);
         }
 
-        public void cambiarVista(int navSeleccionado, bool desdeAtras = false)
+        public void cambiarVista(int navSeleccionado, bool desdeAtras = false, Evento? eventoSeleccionado= null)
         {
             if (!desdeAtras && panelContenido.Controls.Count > 0)
             {
