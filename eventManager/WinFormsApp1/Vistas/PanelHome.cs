@@ -53,6 +53,26 @@ namespace WinFormsApp1.Vistas
             }
             else
             {
+                var btNuevoEvento = new Button
+                {
+                    Text = "Nuevo Evento",
+                    Dock = DockStyle.Bottom,
+                    Height = 50,
+                    Width = 100,
+                    Font = Disenio.Fuentes.Boton,
+                    BackColor = Disenio.Colores.AmarilloClaro,
+                    FlatStyle = FlatStyle.Flat,
+                    AutoSize = true,
+                    Visible = true // Valor inicial (opcional, ya que true es el valor por defecto)
+                };
+
+                btNuevoEvento.Click += (s, e) =>
+                {
+                    // Lógica para crear un nuevo evento
+                    Cursor = Cursors.WaitCursor;
+                };
+
+
                 // panel general -> eventos  
                 var panelGeneral = new Panel
                 {
@@ -60,7 +80,8 @@ namespace WinFormsApp1.Vistas
                     Dock = DockStyle.Fill,
                     AutoSize = true,
                     AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                    Padding = new Padding(25),
+                    Padding = new Padding(15),
+                    Top = btNuevoEvento.Height*2 + 5,
                     BorderStyle = BorderStyle.Fixed3D,
                     BackColor = Disenio.Colores.AzulOscuro
                 };
@@ -129,7 +150,7 @@ namespace WinFormsApp1.Vistas
 
                 // agregamos los controles al panel correspondiente
                 panelGeneral.Controls.Add(contenedorEventosGeneral); // agregamos el contenedor de eventos al panel general
-
+                panelGeneral.Controls.Add(btNuevoEvento);
                 ScrolEventosGeneral.Controls.Add(panelGeneral); // agregamos el panel general al panel con scroll
 
                //__________________________________________________________
@@ -245,9 +266,7 @@ namespace WinFormsApp1.Vistas
                 MasterTableLayout.Controls.Add(ScrolEventos, 1, 0);
 
                 this.Controls.Add(MasterTableLayout);
-
             }
-
         }
 
         private Color FiltroColorPorEstado(Evento evento)
