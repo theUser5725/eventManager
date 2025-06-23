@@ -31,9 +31,13 @@ namespace WinFormsApp1.Resources
         public static class Fuentes
         {
 
-            public static Font General => new Font("Segoe UI", 10 * modificadorFuente, FontStyle.Regular);
+            public static Font General => new Font("Segoe UI", 18 * modificadorFuente, FontStyle.Regular);
             public static Font Boton => new Font("Segoe UI Semibold", 12 * modificadorFuente, FontStyle.Regular);
-            public static Font Titulo => new Font("Segoe UI Semilight", 9 * modificadorFuente, FontStyle.Regular);
+
+            public static Font Titulo => new Font("Segoe UI Semilight", 24 * modificadorFuente, FontStyle.Bold);
+
+            public static Font labelsLetras => new Font("Segoe UI", 12 * modificadorFuente, FontStyle.Bold);
+
         }
 
         public static class Imagenes
@@ -43,7 +47,6 @@ namespace WinFormsApp1.Resources
             public static Image IconoQuitar => ByteArrayToImage(Properties.Resources.iconoQuitar);
             public static Image IconoUsuario => ByteArrayToImage(Properties.Resources.iconoUsuario);
             public static Image IconoAtras => ByteArrayToImage(Properties.Resources.iconoAtras);
-
             public static Image IconoArchivos => ByteArrayToImage(Properties.Resources.iconoArchivos);
 
 

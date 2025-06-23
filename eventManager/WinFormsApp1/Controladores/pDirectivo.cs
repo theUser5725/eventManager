@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1.Controladores
 {
-    internal class nDirectivo
+    public class pDirectivo
     {
         public static Directivo getByPk(int idReunion, int idParticipante)
         {
@@ -23,7 +23,8 @@ namespace WinFormsApp1.Controladores
                 directivo = new Directivo(
                     reader.GetInt32(0),
                     reader.GetInt32(1),
-                    reader.GetInt32(2)
+                    reader.GetInt32(2),
+                    pParticipante.getById(reader.GetInt32(1))
                 );
             }
 
@@ -45,7 +46,8 @@ namespace WinFormsApp1.Controladores
                 Directivo directivo = new Directivo(
                     reader.GetInt32(0),
                     reader.GetInt32(1),
-                    reader.GetInt32(2)
+                    reader.GetInt32(2),
+                    pParticipante.getById(reader.GetInt32(1))
                 );
 
                 directivos.Add(directivo);
@@ -85,3 +87,4 @@ namespace WinFormsApp1.Controladores
         }
     }
 }
+
