@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
@@ -24,8 +25,7 @@ namespace WinFormsApp1.Vistas
 
         //las propiedades FechaInicio y FechaFinalizacion son de tipo DateTime? (nullable), es necesario verificar .HasValue antes de acceder al .Value
         private List<Evento> eventos = pEvento.GetAll();
-        private List<Evento> eventosHoy = pEvento.GetAll()
-            .Where(e => e.FechaInicio.HasValue && e.FechaFinalizacion.HasValue && e.FechaInicio.Value.Date <= DateTime.Today && e.FechaFinalizacion.Value.Date >= DateTime.Today).ToList();
+        
       
         
         // Controles principales
@@ -36,6 +36,7 @@ namespace WinFormsApp1.Vistas
 
         public PanelHome()
         {
+            
             ControlPaneles();
         }
 
@@ -47,9 +48,9 @@ namespace WinFormsApp1.Vistas
             this.BackColor = Color.FromArgb(240, 240, 240);
             this.Dock = DockStyle.Right;
 
-            if (eventosHoy.Count == 0)
+            if (eventos.Count == 0)
             {
-                MessageBox.Show($"Eventos hoy: {eventosHoy.Count}");
+                MessageBox.Show($"Eventos hoy: {eventos.Count}");
             }
             else
             {
@@ -83,7 +84,7 @@ namespace WinFormsApp1.Vistas
                     Padding = new Padding(15),
                     Top = btNuevoEvento.Height*2 + 5,
                     BorderStyle = BorderStyle.Fixed3D,
-                    BackColor = Disenio.Colores.AzulOscuro
+                    BackColor = Disenio.Colores.BeageMarroncito
                 };
 
                 //contenedor Eventos general
@@ -92,7 +93,7 @@ namespace WinFormsApp1.Vistas
                     Dock = DockStyle.Fill,
                     AutoSize = true,
                     AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                    BackColor = Disenio.Colores.AzulOscuro,
+                    BackColor = Disenio.Colores.GrisClaro,
                     FlowDirection = FlowDirection.TopDown,
                     Padding = new Padding(5),
                     Width = panelGeneral.Width - 40, // Margen
@@ -110,7 +111,7 @@ namespace WinFormsApp1.Vistas
                         var lblevento = new Label()
                         {
 
-                            Text = $"{evento.Nombre} | {lugar.nombre} | De:{evento.FechaInicio:dd - MM - yyyy :HH\\:mm} a {evento.FechaFinalizacion:HH\\:mm} {FiltroPorEstado(evento)}",
+                            Text = $"{evento.Nombre} | {lugar.nombre} | De:{evento.FechaInicio:dd-MM-yyyy} a {evento.FechaFinalizacion:dd-MM-yyyy} {FiltroPorEstado(evento)}",
                             TextAlign = ContentAlignment.TopCenter,
                             AutoSize = true,
                             Margin = new Padding(5, 0, 5, 10),
@@ -155,7 +156,7 @@ namespace WinFormsApp1.Vistas
 
                //__________________________________________________________
 
-                // panel secundario -> eventos  
+                // panel secundario -> Reuniones  
                 var panelSecundario = new Panel
                 {
                     AutoScroll = true,
@@ -164,49 +165,55 @@ namespace WinFormsApp1.Vistas
                     AutoSizeMode = AutoSizeMode.GrowAndShrink,
                     Padding = new Padding(25),
                     BorderStyle = BorderStyle.Fixed3D,
-                    BackColor = Disenio.Colores.AzulOscuro
+                    BackColor = Disenio.Colores.BeageMarroncito
                 };
 
                 //contenedor Eventos de hoy
-                var contenedorEventosHoy = new FlowLayoutPanel
+                var contenedorReunionesHoy = new FlowLayoutPanel
                 {
                     Dock = DockStyle.Fill,
                     AutoSize = true,
                     AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                    BackColor = Disenio.Colores.AzulOscuro,
+                    BackColor = Disenio.Colores.GrisClaro,
                     FlowDirection = FlowDirection.TopDown,
                     Padding = new Padding(5),
                     Width = panelSecundario.Width - 40, // Margen
                     BorderStyle = BorderStyle.Fixed3D,
                 };
 
-                // foreach-> pertenece a contenedor de eventos (contenedorEventosHoy) carga labesl 
-                foreach (Evento eventohoy in eventosHoy)
+                // foreach-> pertenece a contenedor de eventos (contenedorReunionHoy) carga labesl 
+                foreach (Evento evento in eventos)// para cada evento 
                 {
-                    // Obtener todos los lugares para este evento 
-                    var lugaresEvento = pLugar.GetLugarByEventid(eventohoy);
 
-                    foreach (Lugar lugar in lugaresEvento) // agrega lablels en el contenedor 
+                    List<Reunion> reunionesDia = pReunion.OrderByEventoAndDate(evento.IdEvento,DateTime.Now); // obtener una lista de reuniones de cada evento, para el dia presente
+
+                    foreach(Reunion reunion in reunionesDia) // para cada reunion del evento
                     {
-
-                        var lblevento = new Label()
+                        List<Lugar> lugares  = pLugar.GetLugarByEventid(evento);// buscamos el lugar en el que estará
+                        foreach (Lugar lugar in lugares) 
                         {
-                            Text = $"{eventohoy.Nombre} | {lugar.nombre} | De:{eventohoy.FechaInicio:HH\\:mm} a {eventohoy.FechaFinalizacion:HH\\:mm} {FiltroPorEstado(eventohoy)}",
-                            TextAlign = ContentAlignment.TopCenter,
-                            AutoSize = true,
-                            Margin = new Padding(5, 0, 5, 10),
-                            Font = Disenio.Fuentes.Titulo,
-                            BackColor = FiltroColorPorEstado(eventohoy),
-                            Tag = eventohoy // Almacena lo que se va a enviar al hacer click en el label
-                        };
+                            var lblevento = new Label()// creamos una lavel con los datos del evento
+                            {
+                                Text = $"{evento.Nombre} | {lugar.nombre} |Desde:{evento.FechaInicio:HH\\:mm}",
+                                TextAlign = ContentAlignment.TopCenter,
+                                AutoSize = true,
+                                Margin = new Padding(5, 0, 5, 10),
+                                Font = Disenio.Fuentes.Titulo,
+                                BackColor = FiltroColorPorEstado(evento),
+                                Tag = evento // Almacena lo que se va a enviar al hacer click en el label
+                            };
 
-                        lblevento.Click += (s, e) =>
-                        {
-                            // evento click en el label...
-                            Cursor = Cursors.WaitCursor;
-                        };
-                        contenedorEventosHoy.Controls.Add(lblevento); // agregar el label del evento al contenedor de eventos
-                    }
+                            lblevento.Click += (s, e) =>
+                            {
+                                // evento click en el label...
+                                Cursor = Cursors.WaitCursor;
+                            };
+                            contenedorReunionesHoy.Controls.Add(lblevento); // agregar el label del evento al contenedor de eventos
+
+                        }
+                        
+                    }      
+                    
                 }
 
                 // Título
@@ -239,10 +246,9 @@ namespace WinFormsApp1.Vistas
                     panelSecundario.Left = (anchoDisponible - panelSecundario.Width) / 2;
                     panelSecundario.Top = 100;
                 };
-
                 
                 // agregamos los controles al panel correspondiente
-                panelSecundario.Controls.Add(contenedorEventosHoy); // agregamos el contenedor de eventos al panel secundario
+                panelSecundario.Controls.Add(contenedorReunionesHoy); // agregamos el contenedor de eventos al panel secundario
 
                 panelSecundario.Controls.Add(lblTitulopanelSecundario); // agregamos el titulo al panel secudario
 
@@ -255,7 +261,7 @@ namespace WinFormsApp1.Vistas
                     ColumnCount = 2,
                     RowCount = 1,
                     ColumnStyles = {
-                        new ColumnStyle(SizeType.Percent, 60F),
+                        new ColumnStyle(SizeType.Percent, 70F),
                         new ColumnStyle(SizeType.Percent, 30F)
                     },
                         

@@ -142,5 +142,24 @@ namespace WinFormsApp1.Controladores
 
         }
 
+        public static List<Reunion> OrderByEventoAndDate( int idEvento, DateTime fecha)
+        {
+             List<Reunion> reuniones = pReunion.GetAllByEventoId(idEvento);
+            // Validación de parámetros
+            if (reuniones == null)
+                throw new ArgumentNullException(nameof(reuniones), "La lista de reuniones no puede ser nula");
+
+            if (idEvento <= 0)
+                throw new ArgumentException("El ID del evento debe ser mayor que cero", nameof(idEvento));
+
+            // Filtrado y ordenamiento
+            return reuniones
+                .Where(r => r != null &&
+                            r.IdEvento == idEvento &&
+                            r.Horario.Date == fecha.Date)
+                .OrderBy(r => r.Horario)  // Ordenar por horario ascendente
+                .ToList();
+        }
     }
+        
 }

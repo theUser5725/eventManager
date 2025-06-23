@@ -21,6 +21,10 @@ namespace WinFormsApp1.Resources
             public static Color RojoOscuro => ColorTranslator.FromHtml("#661213");
             public static Color VerdeOscuro => ColorTranslator.FromHtml("#165023");
             public static Color MarronOscuro => ColorTranslator.FromHtml("#191408");
+            public static Color BeageMarroncito => ColorTranslator.FromHtml("#D4C9BE"); 
+
+
+
         }
 
         
