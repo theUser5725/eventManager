@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using tp4_Prueba.Modelos;
 using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1.Modelos

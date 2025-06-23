@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using tp4_Prueba.Modelos;
 using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1.Controladores
@@ -90,6 +89,7 @@ namespace WinFormsApp1.Controladores
 
             return participantes;
         }
+
         public static int Save(Participante participante)
         {
             SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Participantes (nombre, apellido, mail, dni, contraseña) VALUES (@nombre, @apellido, @mail, @dni, @contraseña)");
@@ -126,5 +126,6 @@ namespace WinFormsApp1.Controladores
             cmd.Connection = Conexion.Connection;
             cmd.ExecuteNonQuery();
         }
+
     }
 }

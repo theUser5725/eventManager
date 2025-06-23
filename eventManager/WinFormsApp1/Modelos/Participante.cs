@@ -12,7 +12,7 @@ mail
 dni
 contraseña
 */
-namespace tp4_Prueba.Modelos
+namespace WinFormsApp1.Modelos
 {
     public class Participante
     {
@@ -36,6 +36,10 @@ namespace tp4_Prueba.Modelos
             Mail = mail;
             Dni = dni;
             Contraseña = contraseña;
+        }
+        public string toString()
+        {
+            return $"{Nombre} {Apellido}";
         }
     }
 }
