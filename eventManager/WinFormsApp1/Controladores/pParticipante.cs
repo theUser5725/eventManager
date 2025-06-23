@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using tp4_Prueba.Modelos;
 using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1.Controladores
@@ -90,5 +89,7 @@ namespace WinFormsApp1.Controladores
 
             return participantes;
         }
+
+        
     }
 }

@@ -96,7 +96,6 @@ namespace WinFormsApp1.Controladores
 
                 evento.Reuniones = pReunion.GetAllByEventoId(idEvento);
 
-                Conexion.CloseConnection();
                 return evento;
             }
         }
