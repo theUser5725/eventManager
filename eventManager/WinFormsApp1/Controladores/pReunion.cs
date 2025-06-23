@@ -7,8 +7,10 @@ namespace WinFormsApp1.Controladores
 {
     public class pReunion
     {
+
         // Devuelve todas las reuniones de un evento SIN cargar directivos ni lugar
         public static List<Reunion> GetAllByEventoId(int idEvento)
+
         {
             var reuniones = new List<Reunion>();
             string query = @"
@@ -21,6 +23,7 @@ namespace WinFormsApp1.Controladores
                     r.horarioFinalizacion
                 FROM Reuniones r
                 WHERE r.idEvento = @idEvento";
+
 
             using (var cmd = new SQLiteCommand(query, Conexion.Connection))
             {
@@ -58,6 +61,7 @@ namespace WinFormsApp1.Controladores
                     r.horarioFinalizacion
                 FROM Reuniones r
                 WHERE r.idReunion = @idReunion";
+
 
             using (var cmd = new SQLiteCommand(query, Conexion.Connection))
             {

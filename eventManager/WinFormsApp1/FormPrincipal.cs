@@ -39,6 +39,7 @@ namespace WinFormsApp1
             }
 
             UserControl nuevaVista;
+
             switch (navSeleccionado)
             {
                 case 0:

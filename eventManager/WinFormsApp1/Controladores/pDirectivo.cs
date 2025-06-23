@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using WinFormsApp1.Modelos;
@@ -87,3 +87,4 @@ namespace WinFormsApp1.Controladores
         }
     }
 }
+

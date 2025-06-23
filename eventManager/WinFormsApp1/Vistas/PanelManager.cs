@@ -7,7 +7,7 @@ using WinFormsApp1.Resources;
 
 namespace WinFormsApp1.Vistas
 {
-    public partial class PanelHome : UserControl
+    public partial class PanelManager : UserControl
     {
         // Referencia al underline
         private PictureBox underline;
@@ -15,7 +15,7 @@ namespace WinFormsApp1.Vistas
         private List<Label> navLabels = new();
 
 
-        public PanelHome()
+        public PanelManager()
         {
             return;
         }
