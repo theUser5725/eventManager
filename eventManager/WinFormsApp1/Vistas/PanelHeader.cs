@@ -13,11 +13,8 @@ namespace WinFormsApp1.Vistas
         private PictureBox underline;
         // Lista de labels de navegación
         private List<Label> navLabels = new();
-
-
         public PanelHeader()
         {
-
             // Panel principal
             Panel panelHeader = new Panel
             {
