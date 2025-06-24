@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using WinFormsApp1.Controladores;
 using WinFormsApp1.Modelos;
 using WinFormsApp1.Resources;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WinFormsApp1.Vistas
 {
@@ -38,6 +39,7 @@ namespace WinFormsApp1.Vistas
         public PanelHome()
         {
             ControlPaneles();
+
         }
 
         private void ControlPaneles()
@@ -54,60 +56,67 @@ namespace WinFormsApp1.Vistas
             }
             else
             {
-                var btNuevoEvento = new Button
+                var btNuevoEvento = new System.Windows.Forms.Button
                 {
-                    Text = "Nuevo Evento (+)",
+                    Text = "Agregar Evento",
                     Font = Disenio.Fuentes.Boton,
-                    BackColor = Disenio.Colores.RojoOscuro,
-                    FlatStyle = FlatStyle.Popup,
-                    AutoSize = true,
-
+                    Image = new Bitmap(Disenio.Imagenes.IconoAgregar, new Size(Disenio.tamanoIcono, Disenio.tamanoIcono)),
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    BackColor = Color.White,
+                    ImageAlign = ContentAlignment.MiddleRight, // ícono a la derecha
+                    TextImageRelation = TextImageRelation.TextBeforeImage,
+                    Size = new Size(180, 40),
+                    Padding = new Padding(8, 4, 8, 4),
+                    Left = 43,
+                    Anchor = AnchorStyles.Top | AnchorStyles.Left
                 };
-
+                
                 btNuevoEvento.Click += (s, e) =>
                 {
                     // Lógica para crear un nuevo evento
                     Cursor = Cursors.WaitCursor;
                 };
 
-                var cbxTipoBusqueda = new ComboBox
+                var cbxTipoBusqueda = new System.Windows.Forms.ComboBox
                 {
+                    Text = "Filtrar",
                     DropDownStyle = ComboBoxStyle.DropDownList, // Evita que el usuario escriba
                     AutoSize = false, // Mejor control del tamaño
-                    Width = 300, // Ancho fijo recomendado
+                    Width = 280, // Ancho fijo recomendado
                     Font = Disenio.Fuentes.Boton, // Fuente estándar de Windows
                     FlatStyle = FlatStyle.Popup, // Apariencia moderna
-                    Anchor = AnchorStyles.Top | AnchorStyles.Left // Comportamiento al redimensionar
+                    Left = 400,
+                    Anchor = AnchorStyles.Top | AnchorStyles.Left ,// Comportamiento al redimensionar
+                    
                 }; // combobox para tipo de busqueda
 
-                var textoBusqueda = new TextBox
+                var textoBusqueda = new System.Windows.Forms.TextBox
                 {
-                    PlaceholderText = "Buscar evento por nombre o categoría...",
+                    PlaceholderText = "Buscar",
                     Width = 200, // Ancho fijo recomendado
                     Font = Disenio.Fuentes.Boton, // Fuente estándar de Windows
                     Anchor = AnchorStyles.Top | AnchorStyles.Left // Comportamiento al redimensionar
                 }; // ingresar datos tipo string al buscar
 
-                var btBuscar = new Button
+                var btBuscar = new System.Windows.Forms.Button
                 {
-                    Text = "Buscar",
+                    FlatStyle = FlatStyle.Flat,
+                    Image = new Bitmap(Disenio.Imagenes.IconoLupa, new Size(Disenio.tamanoIcono, Disenio.tamanoIcono)),
                     Font = Disenio.Fuentes.Boton,
-                    BackColor = Disenio.Colores.RojoOscuro,
-                    FlatStyle = FlatStyle.Popup,
                     AutoSize = true,
 
+
                 }; // bt busqueda 
+                btBuscar.FlatAppearance.BorderSize = 0;
 
                 btBuscar.Click += (s, e) =>
                 {
-                    // Lógica para buscar eventos
-                   
                     string terminoBusqueda = textoBusqueda.Text.Trim();
                     int indiceBusqueda = cbxTipoBusqueda.SelectedIndex;
-                    if (indiceBusqueda >= 0 && !string.IsNullOrEmpty(terminoBusqueda))
+                    if (indiceBusqueda > 0 && !string.IsNullOrEmpty(terminoBusqueda))
                     {
-                        eventos = FiltrarEventos(indiceBusqueda, terminoBusqueda);
-                        cbxTipoBusqueda.SelectedIndex = -1;
+                        eventos = FiltrarEventos(indiceBusqueda - 1, terminoBusqueda); // -1 porque el primer ítem es el placeholder
+                        cbxTipoBusqueda.SelectedIndex = 0;
                     }
                     else
                     {
@@ -126,7 +135,7 @@ namespace WinFormsApp1.Vistas
                 var contenedorEventos = new FlowLayoutPanel
                 {
                     Dock = DockStyle.Fill,
-                    BackColor = Disenio.Colores.GrisAzulado,
+                    BackColor = Color.White,
                     FlowDirection = FlowDirection.TopDown,
                     BorderStyle = BorderStyle.Fixed3D,
                     
@@ -139,7 +148,7 @@ namespace WinFormsApp1.Vistas
                 {
                     Dock = DockStyle.Fill, // ubicacion de la lista de los eventos de hoy
                     AutoScroll = true,
-                    BackColor = Disenio.Colores.AzulOscuro
+                    BackColor = Disenio.Colores.GrisClaro
                 };
 
                 // redimension del scroll
@@ -169,9 +178,10 @@ namespace WinFormsApp1.Vistas
                 scrolEventos.Controls.Add(PanelIntermedioEventos); // agregamos el panel general al panel con scroll
 
                 // control combobox
-                cbxTipoBusqueda.Location = new Point(btNuevoEvento.Width + 5, 1);
-                cbxTipoBusqueda.Items.AddRange(new object[] { "...Categoria", "...Nombre","...Fecha" });
-                cbxTipoBusqueda.Text = "Buscar por...";
+                cbxTipoBusqueda.Location = new Point(btNuevoEvento.Width + 50, 1);
+                cbxTipoBusqueda.Items.Add("Filtrar por...");
+                cbxTipoBusqueda.Items.AddRange(new object[] { "Categoria", "Nombre","Fecha" });
+                cbxTipoBusqueda.SelectedIndex = 0;
 
                 //control textbox
                 textoBusqueda.Location = new Point(cbxTipoBusqueda.Location.X+cbxTipoBusqueda.Width + 5, 1);
@@ -189,7 +199,7 @@ namespace WinFormsApp1.Vistas
                 {
 
                     Dock = DockStyle.Fill,
-                    BackColor = Disenio.Colores.GrisAzulado,
+                    BackColor = Color.White,
                     FlowDirection = FlowDirection.TopDown,
                     BorderStyle = BorderStyle.Fixed3D,
                 };
@@ -200,10 +210,9 @@ namespace WinFormsApp1.Vistas
                 lblTitulocontenedorReunionesHoy = new Label
                 {
                     AutoSize = true,
-                    Font = Disenio.Fuentes.Boton,
-                    Text = $" Reuniones del {DateTime.Now:dd - MM - yyyy}",
-                    ForeColor = Disenio.Colores.GrisClaro,
-                    BackColor = Disenio.Colores.AzulOscuro,
+                    Font = Disenio.Fuentes.General,
+                    Text = $" Reuniones de hoy: ",
+
                 };
 
                 // Contenedor con scroll - (defino las psiciones del resto de los panels)
@@ -211,7 +220,7 @@ namespace WinFormsApp1.Vistas
                 {
                     Dock = DockStyle.Fill, // ubicacion de la lista de los eventos de hoy
                     AutoScroll = true,
-                    BackColor = Disenio.Colores.AzulOscuro
+                    BackColor = Disenio.Colores.GrisClaro
                 };
                 // redimencion del scrol
                 ScrolReuniones.Resize += (s, e) =>
@@ -248,16 +257,28 @@ namespace WinFormsApp1.Vistas
                     Dock = DockStyle.Fill,
                     ColumnCount = 2,
                     RowCount = 1,
+        
+                    BackColor = Color.White,
                     ColumnStyles = {
                         new ColumnStyle(SizeType.Percent, 70F),
                         new ColumnStyle(SizeType.Percent, 30F)
                     },
-
-                    CellBorderStyle = TableLayoutPanelCellBorderStyle.Single
+                    
+                    CellBorderStyle = TableLayoutPanelCellBorderStyle.None
                 };
 
-                MasterTableLayout.Controls.Add(scrolEventos, 0, 0);
-                MasterTableLayout.Controls.Add(ScrolReuniones, 1, 0);
+                Panel panelEspacio = new Panel
+                {
+                    Dock = DockStyle.Top,
+
+                    ForeColor = Color.White,
+                };
+                panelEspacio.Height = 40;
+                MasterTableLayout.Controls.Add(panelEspacio, 0, 0);
+                MasterTableLayout.SetColumnSpan(panelEspacio, 1);
+
+                MasterTableLayout.Controls.Add(scrolEventos, 0, 1);
+                MasterTableLayout.Controls.Add(ScrolReuniones, 1, 1);
 
                 this.Controls.Add(MasterTableLayout);
             }
@@ -283,24 +304,74 @@ namespace WinFormsApp1.Vistas
 
                     foreach (Lugar lugar in lugaresEvento) // agrega labels en el contenedor 
                     {
-                        var lblevento = new Label()
+
+
+
+                        var table = new TableLayoutPanel
+                        {
+                            Dock = DockStyle.Fill,
+                            AutoSize = true,
+                            ColumnCount = 5,
+                            Margin = new Padding(5, 5, 5, 10),
+                            Tag = evento,
+                        };
+
+
+
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10)); 
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22)); 
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25)); 
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33)); 
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10)); 
+
+
+                        var lblNombre = new Label()
                         {
 
-                            Text = $"{evento.Nombre} | {lugar.nombre} | De:{evento.FechaInicio:dd-MM-yyyy} a {evento.FechaFinalizacion:dd-MM-yyyy} | {FiltroPorEstado(evento)}",
+                            Text = $"{evento.Nombre} ",
                             AutoSize = true,
                             Font = Disenio.Fuentes.SecundarioBold,
-                            BackColor = FiltroColorPorEstado(evento, true),
-                            ForeColor = FiltroColorPorEstado(evento, false),
-                            Tag = evento // Almacena lo que se va a enviar al hacer click en el label
+                            ForeColor = Color.Black,
                         };
 
-                        lblevento.Click += (s, e) =>
+                        var lblLugar = new Label()
                         {
-                            // evento click en el label...
 
-                            ((FormPrincipal)ParentForm).cambiarVista(3, true, (Evento)((Label)s).Tag);
+                            Text = $"{lugar.nombre}",
+                            AutoSize = true,
+                            Font = Disenio.Fuentes.SecundarioBold,
+                            ForeColor = Color.Black,
+
                         };
-                        panelContenedor.Controls.Add(lblevento);
+
+                        var lblFecha = new Label()
+                        {
+
+                            Text = $"De:{evento.FechaInicio:dd-MM-yyyy} a {evento.FechaFinalizacion:dd-MM-yyyy}",
+  
+                            AutoSize = true,
+                            Font = Disenio.Fuentes.SecundarioBold,
+                            ForeColor = Color.Black,
+                        };
+                        var lblEstado = new Label()
+                        {
+
+                            Text = $"{FiltroPorEstado(evento)}",
+                            AutoSize = true,
+                            Font = Disenio.Fuentes.SecundarioBold,
+                            ForeColor = Color.Black,
+                        };
+                        lblNombre.Click += expandirLabel;
+                        lblLugar.Click += expandirLabel;
+                        lblFecha.Click += expandirLabel;
+                        lblEstado.Click += expandirLabel;
+                        table.Controls.Add(lblNombre, 1, 0); 
+                        table.Controls.Add(lblLugar,  2, 0);
+                        table.Controls.Add(lblFecha, 3, 0);
+                        table.Controls.Add(lblEstado, 4, 0);
+
+                        table.Click += expandirTable;
+                        panelContenedor.Controls.Add(table);
                     }
                 }
             }
@@ -310,6 +381,15 @@ namespace WinFormsApp1.Vistas
 
             }
         }
+        private void expandirTable(object sender, EventArgs e)
+        {
+            ((FormPrincipal)ParentForm).cambiarVista(3, true, (Evento)((TableLayoutPanel)sender).Tag);
+        }
+        private void expandirLabel(object sender, EventArgs e)
+        {
+            ((FormPrincipal)ParentForm).cambiarVista(3, true, (Evento)((Label)sender).Tag);
+        }
+
         public void MostrarReuniones(List<Evento> eventos, FlowLayoutPanel panelContenedor, bool mostrar)
         {
             if (mostrar)
@@ -395,5 +475,6 @@ namespace WinFormsApp1.Vistas
             };
 
         }
+   
     }
 }

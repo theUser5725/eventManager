@@ -84,6 +84,7 @@ namespace WinFormsApp1
                 Dock = DockStyle.Fill,
                 RowCount = 2,
                 ColumnCount = 1,
+                BackColor = Color.White,
             };
             layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 70)); // altura fija para header
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // resto para contenido
@@ -103,8 +104,7 @@ namespace WinFormsApp1
             btnBack = new Button
             {
                 FlatStyle = FlatStyle.Flat,
-                ForeColor = Disenio.Colores.GrisClaro,
-                BackColor = Color.Transparent,
+                BackColor = Disenio.Colores.AzulOscuro,
                 Location = new Point(25, 25),
                 Size = new Size(25, 25),
                 TabStop = false,

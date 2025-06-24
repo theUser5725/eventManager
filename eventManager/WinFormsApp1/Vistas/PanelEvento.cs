@@ -146,7 +146,7 @@ namespace WinFormsApp1.Vistas
             {
                 Text = "Editar Evento",
                 Font = Disenio.Fuentes.Boton,
-                Image = Disenio.Imagenes.IconoEditar,
+                Image = new Bitmap(Disenio.Imagenes.IconoEditar, new Size(Disenio.tamanoIcono, Disenio.tamanoIcono)),
                 TextAlign = ContentAlignment.MiddleLeft,
                 BackColor = Color.White,
                 ImageAlign = ContentAlignment.MiddleRight, // ícono a la derecha
@@ -162,7 +162,7 @@ namespace WinFormsApp1.Vistas
             {
                 Text = "Agregar Reunión",
                 Font = Disenio.Fuentes.Boton,
-                Image = Disenio.Imagenes.IconoAgregar,
+                Image = new Bitmap(Disenio.Imagenes.IconoAgregar, new Size(Disenio.tamanoIcono, Disenio.tamanoIcono)),
                 BackColor = Color.White,
                 TextAlign = ContentAlignment.MiddleLeft,
                 ImageAlign = ContentAlignment.MiddleRight,
@@ -178,9 +178,9 @@ namespace WinFormsApp1.Vistas
 
             btnGenerarCertificados = new Button
             {
+                Image = new Bitmap(Disenio.Imagenes.IconoArchivos, new Size(Disenio.tamanoIcono, Disenio.tamanoIcono)),
                 Text = "Generar Certificados",
                 Font = Disenio.Fuentes.Boton,
-                Image = Disenio.Imagenes.IconoArchivos,
                 BackColor = Color.White,
                 TextAlign = ContentAlignment.MiddleLeft,
                 ImageAlign = ContentAlignment.MiddleRight,
@@ -734,7 +734,14 @@ namespace WinFormsApp1.Vistas
         // Métodos para eventos de botones (vacíos para que los completes)
         private void OnEditarEvento() { /* lógica a implementar */}
         private void OnAgregarReunion() { /* lógica a implementar */ }
-        private void OnGenerarCertificados() { /* lógica a implementar */ }
+
+
+        private void OnGenerarCertificados() 
+        { 
+            var generador = new GeneradorCertificados();
+            generador.GenerarCertificadosParaEvento(evento.IdEvento);
+        
+        }
     }
 }
 
