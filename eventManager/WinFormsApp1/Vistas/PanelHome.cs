@@ -316,21 +316,29 @@ namespace WinFormsApp1.Vistas
                             Tag = evento,
                         };
 
+                        Font fuente = Disenio.Fuentes.SecundarioBold;
 
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17)); 
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 29)); 
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24)); 
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20)); 
+                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 8));
 
-                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10)); 
-                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22)); 
-                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25)); 
-                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33)); 
-                        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10)); 
+                        var lblCategoria = new Label()
+                        {
 
+                            Text = $"{evento.Categoria.Nombre} ",
+                            AutoSize = true,
+                            Font = fuente,
+                            ForeColor = Color.Black,
+                        };
 
                         var lblNombre = new Label()
                         {
 
                             Text = $"{evento.Nombre} ",
                             AutoSize = true,
-                            Font = Disenio.Fuentes.SecundarioBold,
+                            Font = fuente,
                             ForeColor = Color.Black,
                         };
 
@@ -339,7 +347,7 @@ namespace WinFormsApp1.Vistas
 
                             Text = $"{lugar.nombre}",
                             AutoSize = true,
-                            Font = Disenio.Fuentes.SecundarioBold,
+                            Font = fuente,
                             ForeColor = Color.Black,
 
                         };
@@ -347,10 +355,10 @@ namespace WinFormsApp1.Vistas
                         var lblFecha = new Label()
                         {
 
-                            Text = $"De:{evento.FechaInicio:dd-MM-yyyy} a {evento.FechaFinalizacion:dd-MM-yyyy}",
+                            Text = $"{evento.FechaInicio:dd/MM/yyyy} - {evento.FechaFinalizacion:dd/MM/yyyy}",
   
                             AutoSize = true,
-                            Font = Disenio.Fuentes.SecundarioBold,
+                            Font = fuente,
                             ForeColor = Color.Black,
                         };
                         var lblEstado = new Label()
@@ -358,13 +366,16 @@ namespace WinFormsApp1.Vistas
 
                             Text = $"{FiltroPorEstado(evento)}",
                             AutoSize = true,
-                            Font = Disenio.Fuentes.SecundarioBold,
+                            Font = fuente   ,
                             ForeColor = Color.Black,
                         };
+                        lblCategoria.Click += expandirLabel;
                         lblNombre.Click += expandirLabel;
                         lblLugar.Click += expandirLabel;
                         lblFecha.Click += expandirLabel;
                         lblEstado.Click += expandirLabel;
+
+                        table.Controls.Add(lblCategoria, 0, 0);
                         table.Controls.Add(lblNombre, 1, 0); 
                         table.Controls.Add(lblLugar,  2, 0);
                         table.Controls.Add(lblFecha, 3, 0);
