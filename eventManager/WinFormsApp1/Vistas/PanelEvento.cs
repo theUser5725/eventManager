@@ -531,9 +531,12 @@ namespace WinFormsApp1.Vistas
                 Text = "Administrar Directivos",
                 Font = Disenio.Fuentes.Boton,
                 AutoSize = true,
-                Margin = new Padding(8)
+                Margin = new Padding(8),
+                Tag = reunion,
             };
-            
+            btnAdministrarDir.Click += OnModificarDirectiva;
+
+
             layout.Controls.Add(lblHorario, 0, 0);
             layout.Controls.Add(btnEditar, 1, 0);
             layout.Controls.Add(btnAdministrarDir, 2, 0);
@@ -735,7 +738,12 @@ namespace WinFormsApp1.Vistas
         private void OnEditarEvento() { /* lógica a implementar */}
         private void OnAgregarReunion() { /* lógica a implementar */ }
 
-
+        private void OnModificarDirectiva(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            FormAddDirectivo form = new FormAddDirectivo((Reunion)btn.Tag);
+            form.ShowDialog();
+        }
         private void OnGenerarCertificados() 
         { 
             var generador = new GeneradorCertificados();
