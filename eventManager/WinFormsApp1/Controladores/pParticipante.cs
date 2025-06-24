@@ -90,6 +90,40 @@ namespace WinFormsApp1.Controladores
             return participantes;
         }
 
+        public static List<Participante> GetAllByReunionId(int idReunion)
+        {
+            List<Participante> participantes = new List<Participante>();
+
+            SQLiteCommand cmd = new SQLiteCommand(@"
+        SELECT p.idParticipante, p.nombre, p.apellido, p.mail, p.dni, p.contraseña
+        FROM Participantes p
+        INNER JOIN Inscripciones i ON p.idParticipante = i.idParticipante
+        INNER JOIN Reuniones r ON i.idEvento = r.idEvento
+        WHERE r.idReunion = @idReunion");
+
+            cmd.Parameters.Add(new SQLiteParameter("@idReunion", idReunion));
+            cmd.Connection = Conexion.Connection;
+
+            SQLiteDataReader objDBReader = cmd.ExecuteReader();
+
+            while (objDBReader.Read())
+            {
+                Participante participante = new Participante(
+                    objDBReader.GetInt32(0),
+                    objDBReader.GetString(1),
+                    objDBReader.GetString(2),
+                    objDBReader.GetString(3),
+                    objDBReader.GetString(4),
+                    objDBReader.GetString(5)
+                );
+
+                participantes.Add(participante);
+            }
+
+            return participantes;
+        }
+
+
         public static int Save(Participante participante)
         {
             SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Participantes (nombre, apellido, mail, dni, contraseña) VALUES (@nombre, @apellido, @mail, @dni, @contraseña)");

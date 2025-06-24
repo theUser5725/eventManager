@@ -138,7 +138,7 @@ namespace WinFormsApp1.Vistas
                     Dock = DockStyle.Fill,
                     BackColor = Color.White,
                     AutoScroll = true,
-                    
+                    //VerticalScroll = true,
                     Margin = new Padding(10, 10, 10, 10),
                     FlowDirection = FlowDirection.TopDown,
                     BorderStyle = BorderStyle.Fixed3D,
@@ -430,8 +430,7 @@ namespace WinFormsApp1.Vistas
                                 
                                 Dock = DockStyle.Fill,
                                 AutoSize = true,
-                                ColumnCount = 2,
-                                RowCount = 2,
+                                ColumnCount = 3,
                                 Margin = new Padding(5, 5, 5, 10),
                                 Tag = evento,
                                 
@@ -440,29 +439,14 @@ namespace WinFormsApp1.Vistas
                             Font fuente = Disenio.Fuentes.SecundarioBold;
 
                             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
-                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55));
                             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
-                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55));
+                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
+
+                            //agregar qr
 
                             var lblNombre = new Label()
                             {
-                                Text = $"{evento.Nombre} ",
-                                AutoSize = true,
-                                Font = fuente,
-                                ForeColor = Color.Black,
-                            };
-
-                            var lblCategoria = new Label()
-                            {
-                                Text = $"{evento.Categoria.Nombre} ",
-                                AutoSize = true,
-                                Font = fuente,
-                                ForeColor = Color.Black,
-                            };
-
-                            var lblFecha = new Label()// este label no recuerdo que querias poner
-                            {
-                                Text = $"{evento.FechaInicio:dd/MM/yyyy}",
+                                Text = $"Evento: {evento.Nombre} ",
                                 AutoSize = true,
                                 Font = fuente,
                                 ForeColor = Color.Black,
@@ -470,22 +454,33 @@ namespace WinFormsApp1.Vistas
 
                             var lblLugar = new Label()
                             {
-                                Text = $"{lugar.nombre}",
+                                Text = $"Lugar: {lugar.nombre}",
                                 AutoSize = true,
                                 Font = fuente,
                                 ForeColor = Color.Black,
                             };
 
-                            lblCategoria.Click += expandirLabel;
+                            var lblFecha = new Label()// este label no recuerdo que querias poner
+                            {
+                                Text = $"{evento.FechaInicio:hh:mm}",
+                                AutoSize = true,
+                                Font = fuente,
+                                ForeColor = Color.Black,
+                            };
+
+
                             lblNombre.Click += expandirLabel;
-                            lblFecha.Click += expandirLabel;
+
                             lblLugar.Click += expandirLabel;
 
-                            table.Controls.Add(lblCategoria, 0, 0);
-                            table.Controls.Add(lblNombre, 1, 0);
+                            lblFecha.Click += expandirLabel;
 
-                            table.Controls.Add(lblFecha, 0, 1);
-                            table.Controls.Add(lblLugar, 1, 1);
+
+                            table.Controls.Add(lblNombre, 0, 0);
+                            
+                            table.Controls.Add(lblLugar, 1, 0);
+
+                            table.Controls.Add(lblFecha, 2, 0);
 
                             table.Click += expandirTable;
                             panelContenedor.Controls.Add(table);

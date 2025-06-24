@@ -429,8 +429,6 @@ namespace WinFormsApp1.Vistas
             panel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             panel.MinimumSize = new Size(400, 80); // para evitar colapsos visuales
  
-
-
             var panelCabecera = new TableLayoutPanel
             {
                 Dock = DockStyle.Top,
@@ -501,7 +499,7 @@ namespace WinFormsApp1.Vistas
             var layout = new TableLayoutPanel
             {
                 Dock = DockStyle.Top,
-                ColumnCount = 3,
+                ColumnCount = 4,
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 Margin = new Padding(0),
@@ -536,10 +534,25 @@ namespace WinFormsApp1.Vistas
             };
             btnAdministrarDir.Click += OnModificarDirectiva;
 
+            var btnNuevaAsistencia = new Button
+            {
+                Text = "Administrar Asistentcia",
+                Font = Disenio.Fuentes.Boton,
+                AutoSize = true,
+                Margin = new Padding(8),
+                Tag = reunion,
+            };
+            btnNuevaAsistencia.Click += OnModificarAsistencai;
+
+
 
             layout.Controls.Add(lblHorario, 0, 0);
             layout.Controls.Add(btnEditar, 1, 0);
             layout.Controls.Add(btnAdministrarDir, 2, 0);
+
+            layout.Controls.Add(btnNuevaAsistencia, 3, 0);
+
+
             //fila 2
 
             var lblDirectivos = new Label
@@ -700,6 +713,7 @@ namespace WinFormsApp1.Vistas
                     Text = "",
 
                 };
+
                 btnDarDeBaja.Left = tabla.Left - Disenio.tamanoIcono - 10;
 
                 btnDarDeBaja.FlatAppearance.BorderSize = 0;
@@ -744,6 +758,16 @@ namespace WinFormsApp1.Vistas
             FormAddDirectivo form = new FormAddDirectivo((Reunion)btn.Tag);
             form.ShowDialog();
         }
+
+        private void OnModificarAsistencai(object sender, EventArgs e)
+        {
+            
+            Button btn = (Button)sender;
+            
+            FormAddAsistencia form = new FormAddAsistencia((Reunion)btn.Tag);
+            form.ShowDialog();
+        }
+
         private void OnGenerarCertificados() 
         { 
             var generador = new GeneradorCertificados();

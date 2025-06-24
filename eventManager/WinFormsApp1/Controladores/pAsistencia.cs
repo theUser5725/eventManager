@@ -50,8 +50,7 @@ namespace WinFormsApp1.Controladores
                 Asistencia asistencia = new Asistencia
                 {
                     idParticipante = reader.GetInt32(0),
-                    idReunion = reader.GetInt32(1),
-                    horasAsistido = reader.GetInt32(2)
+                    idReunion = reader.GetInt32(1)
                 };
                 asistencias.Add(asistencia);
             }
