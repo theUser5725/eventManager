@@ -11,7 +11,7 @@ namespace WinFormsApp1.Controladores
     {
         public static void Save(Modelos.CategoriaEvento categoriaEvento)
         {
-            SQLiteCommand command = new SQLiteCommand("INSERT INTO CategoriasEventos (IdCategoriaEvento, Nombre) VALUES (@IdCategoriaEvento, @Nombre)", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("INSERT INTO CategoriasEventos (IdCatEvento, Nombre) VALUES (@IdCategoriaEvento, @Nombre)", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaEvento", categoriaEvento.IdCategoriaEvento);
             command.Parameters.AddWithValue("@Nombre", categoriaEvento.Nombre);
             command.ExecuteNonQuery();
@@ -19,7 +19,7 @@ namespace WinFormsApp1.Controladores
 
         public static void Update(Modelos.CategoriaEvento categoriaEvento)
         {
-            SQLiteCommand command = new SQLiteCommand("UPDATE CategoriasEventos SET Nombre = @Nombre WHERE IdCategoriaEvento = @IdCategoriaEvento", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("UPDATE CategoriasEventos SET Nombre = @Nombre WHERE IdCatEvento = @IdCategoriaEvento", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaEvento", categoriaEvento.IdCategoriaEvento);
             command.Parameters.AddWithValue("@Nombre", categoriaEvento.Nombre);
             command.ExecuteNonQuery();
@@ -27,7 +27,7 @@ namespace WinFormsApp1.Controladores
 
         public static void Delete(int idCategoriaEvento)
         {
-            SQLiteCommand command = new SQLiteCommand("DELETE FROM CategoriasEventos WHERE IdCategoriaEvento = @IdCategoriaEvento", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("DELETE FROM CategoriasEventos WHERE IdCatEvento = @IdCategoriaEvento", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaEvento", idCategoriaEvento);
             command.ExecuteNonQuery();
         }
@@ -52,7 +52,7 @@ namespace WinFormsApp1.Controladores
 
         public static CategoriaEvento GetById(int idCategoriaEvento)
         {
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriasEventos WHERE IdCategoriaEvento = @IdCategoriaEvento", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriasEventos WHERE IdCatEvento = @IdCategoriaEvento", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaEvento", idCategoriaEvento);
             SQLiteDataReader reader = command.ExecuteReader();
             if (reader.Read())
