@@ -29,8 +29,8 @@ namespace WinFormsApp1.Resources
         {
 
             public static Font General => new Font("Segoe UI", 18 * modificadorFuente, FontStyle.Regular);
-            public static Font Boton => new Font("Segoe UI Semibold", 12 * modificadorFuente, FontStyle.Regular);
-
+            public static Font Boton => new Font("Segoe UI Semibold", 10 * modificadorFuente, FontStyle.Regular);
+            public static Font ButonDos => new Font("Segoe UI Semibold", 12 * modificadorFuente, FontStyle.Regular);
             public static Font Titulo => new Font("Segoe UI Semilight", 24 * modificadorFuente, FontStyle.Bold);
 
             public static Font labelsLetras => new Font("Segoe UI", 12 * modificadorFuente, FontStyle.Bold);
