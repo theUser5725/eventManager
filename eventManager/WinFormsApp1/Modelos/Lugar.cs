@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1.Modelos
 {
-    internal class Lugar
+    public class Lugar
     {
         public int idLugar { get; set; }    
         public string nombre {get; set; }

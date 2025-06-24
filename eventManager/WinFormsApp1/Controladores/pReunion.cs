@@ -39,7 +39,8 @@ namespace WinFormsApp1.Controladores
                             IdLugar = reader.GetInt32(2),
                             Nombre = reader.GetString(3),
                             HorarioInicio = reader.GetDateTime(4),
-                            HorarioFinalizacion = reader.GetDateTime(5)
+                            HorarioFinalizacion = reader.GetDateTime(5),
+                            Lugar = pLugar.GetById(reader.GetInt32(2))
                         });
                     }
                 }
@@ -77,7 +78,8 @@ namespace WinFormsApp1.Controladores
                             IdLugar = reader.GetInt32(2),
                             Nombre = reader.GetString(3),
                             HorarioInicio = reader.GetDateTime(4),
-                            HorarioFinalizacion = reader.GetDateTime(5)
+                            HorarioFinalizacion = reader.GetDateTime(5),
+                            Lugar = pLugar.GetById(reader.GetInt32(2))
                         };
                     }
                 }
@@ -100,7 +102,7 @@ namespace WinFormsApp1.Controladores
                   VALUES (@idEvento, @idLugar, @nombre, @horarioInicio, @horarioFinalizacion)",
                 Conexion.Connection);
             cmd.Parameters.Add(new SQLiteParameter("@idEvento", reunion.IdEvento));
-            cmd.Parameters.Add(new SQLiteParameter("@idLugar", reunion.IdLugar));
+            cmd.Parameters.Add(new SQLiteParameter("@idLugar", reunion.Lugar.idLugar));
             cmd.Parameters.Add(new SQLiteParameter("@nombre", reunion.Nombre));
             cmd.Parameters.Add(new SQLiteParameter("@horarioInicio", reunion.HorarioInicio));
             cmd.Parameters.Add(new SQLiteParameter("@horarioFinalizacion", reunion.HorarioFinalizacion));
@@ -125,7 +127,7 @@ namespace WinFormsApp1.Controladores
                 Conexion.Connection);
             cmd.Parameters.Add(new SQLiteParameter("@idReunion", reunion.IdReunion));
             cmd.Parameters.Add(new SQLiteParameter("@idEvento", reunion.IdEvento));
-            cmd.Parameters.Add(new SQLiteParameter("@idLugar", reunion.IdLugar));
+            cmd.Parameters.Add(new SQLiteParameter("@idLugar", reunion.Lugar.idLugar));
             cmd.Parameters.Add(new SQLiteParameter("@nombre", reunion.Nombre));
             cmd.Parameters.Add(new SQLiteParameter("@horarioInicio", reunion.HorarioInicio));
             cmd.Parameters.Add(new SQLiteParameter("@horarioFinalizacion", reunion.HorarioFinalizacion));
