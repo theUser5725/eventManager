@@ -34,7 +34,7 @@ namespace WinFormsApp1.Controladores
             command.Parameters.AddWithValue("@IdLugar", idLugar);
             command.ExecuteNonQuery();
         }
-        public static Lugar GetByID(int idlugar) 
+        public static Lugar GetById(int idlugar) 
         {
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM Lugares WHERE idLugar = @IdLugar", Conexion.Connection);
             command.Parameters.AddWithValue("@IdLugar", idlugar);
@@ -98,7 +98,7 @@ namespace WinFormsApp1.Controladores
             }
             else 
             {
-                List<Lugar> lugares = pReunion.GetAllByEventoId(evento.IdEvento).Where(r => r.IdLugar > 0).GroupBy(r => r.IdLugar).Select(l => GetByID(l.Key)).Distinct().ToList(); // Get all unique places by event ID
+                List<Lugar> lugares = pReunion.GetAllByEventoId(evento.IdEvento).Where(r => r.IdLugar > 0).GroupBy(r => r.IdLugar).Select(l => GetById(l.Key)).Distinct().ToList(); // Get all unique places by event ID
 
                 return lugares;
             }

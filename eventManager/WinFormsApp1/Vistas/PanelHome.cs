@@ -123,7 +123,7 @@ namespace WinFormsApp1.Vistas
                         lblevento.Click += (s, e) =>
                         {
                             // evento click en el label...
-                            Cursor = Cursors.WaitCursor;
+                            ((FormPrincipal)ParentForm).cambiarVista(3, true, (Evento)((Label)s).Tag);
                         };
                         contenedorEventosGeneral.Controls.Add(lblevento);
                     }
@@ -199,13 +199,7 @@ namespace WinFormsApp1.Vistas
                             BackColor = FiltroColorPorEstado(eventohoy),
                             Tag = eventohoy // Almacena lo que se va a enviar al hacer click en el label
                         };
-
-                        lblevento.Click += (s, e) =>
-                        {
-                            // evento click en el label...
-                            Cursor = Cursors.WaitCursor;
-                        };
-                        contenedorEventosHoy.Controls.Add(lblevento); // agregar el label del evento al contenedor de eventos
+                    // agregar el label del evento al contenedor de eventos
                     }
                 }
 
