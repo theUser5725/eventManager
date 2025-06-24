@@ -11,14 +11,14 @@ namespace WinFormsApp1.Resources
 {
     public static class Disenio
     {
-        private static float modificadorFuente = 1.0f; // Modificador de fuente para escalabilidad  }
-        public static int tamanoIcono = 20;
+        public static float modificadorFuente = 1.0f; // Modificador de fuente para escalabilidad  
+        public static int tamanoIcono = 28;
         public static class Colores
         {
             public static Color AzulOscuro => ColorTranslator.FromHtml("#123142");
             public static Color GrisAzulado => ColorTranslator.FromHtml("#142026");
             public static Color AmarilloClaro => ColorTranslator.FromHtml("#FFECC3");
-            public static Color GrisClaro => Color.FromArgb(240, 240, 240);
+            public static Color GrisClaro => ColorTranslator.FromHtml("#E4E4E4");
             public static Color RojoOscuro => ColorTranslator.FromHtml("#661213");
             public static Color VerdeOscuro => ColorTranslator.FromHtml("#165023");
             public static Color MarronOscuro => ColorTranslator.FromHtml("#191408");
