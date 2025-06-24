@@ -635,8 +635,14 @@ namespace WinFormsApp1.Vistas
             void AgregarFila(int fila, string nombreCompleto, string mail, Button boton = null)
             {
                 tabla.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-                tabla.Controls.Add(new Label { Text = nombreCompleto, Font = Disenio.Fuentes.General, AutoSize = true, Padding = new Padding(4) }, 0, fila);
+                var lbl = new Label
+                {
+                    Text = nombreCompleto,
+                    Font = Disenio.Fuentes.General,
+                    AutoSize = true,
+                    Padding = new Padding(4)
+                };
+                tabla.Controls.Add(lbl, 0, fila);
                 tabla.Controls.Add(new Label { Text = mail, Font = Disenio.Fuentes.General, AutoSize = true, Padding = new Padding(4) }, 1, fila);
 
                 if (boton != null)
