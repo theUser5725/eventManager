@@ -35,6 +35,7 @@ namespace WinFormsApp1.Resources
 
             public static Font labelsLetras => new Font("Segoe UI", 12 * modificadorFuente, FontStyle.Bold);
 
+            public static Font SecundarioBold => new Font("Segoe UI", 12 * modificadorFuente, FontStyle.Bold);
         }
 
         public static class Imagenes
