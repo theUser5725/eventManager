@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using tp4_Prueba.Modelos;
 using WinFormsApp1.Controladores;
 using WinFormsApp1.Modelos;
 using WinFormsApp1.Resources;

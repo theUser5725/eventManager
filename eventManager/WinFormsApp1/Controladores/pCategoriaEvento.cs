@@ -11,7 +11,7 @@ namespace WinFormsApp1.Controladores
     {
         public static void Save(Modelos.CategoriaEvento categoriaEvento)
         {
-            SQLiteCommand command = new SQLiteCommand("INSERT INTO CategoriaEvento (IdCategoriaEvento, Nombre) VALUES (@IdCategoriaEvento, @Nombre)", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("INSERT INTO CategoriasEventos (IdCategoriaEvento, Nombre) VALUES (@IdCategoriaEvento, @Nombre)", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaEvento", categoriaEvento.IdCategoriaEvento);
             command.Parameters.AddWithValue("@Nombre", categoriaEvento.Nombre);
             command.ExecuteNonQuery();
@@ -19,7 +19,7 @@ namespace WinFormsApp1.Controladores
 
         public static void Update(Modelos.CategoriaEvento categoriaEvento)
         {
-            SQLiteCommand command = new SQLiteCommand("UPDATE CategoriaEvento SET Nombre = @Nombre WHERE IdCategoriaEvento = @IdCategoriaEvento", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("UPDATE CategoriasEventos SET Nombre = @Nombre WHERE IdCategoriaEvento = @IdCategoriaEvento", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaEvento", categoriaEvento.IdCategoriaEvento);
             command.Parameters.AddWithValue("@Nombre", categoriaEvento.Nombre);
             command.ExecuteNonQuery();
@@ -27,14 +27,14 @@ namespace WinFormsApp1.Controladores
 
         public static void Delete(int idCategoriaEvento)
         {
-            SQLiteCommand command = new SQLiteCommand("DELETE FROM CategoriaEvento WHERE IdCategoriaEvento = @IdCategoriaEvento", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("DELETE FROM CategoriasEventos WHERE IdCategoriaEvento = @IdCategoriaEvento", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaEvento", idCategoriaEvento);
             command.ExecuteNonQuery();
         }
 
         public static List<CategoriaEvento> GetAll() 
         {
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriaEvento", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriasEventos", Conexion.Connection);
             SQLiteDataReader reader = command.ExecuteReader();
             List<CategoriaEvento> categorias = new List<CategoriaEvento>();
 
@@ -52,7 +52,7 @@ namespace WinFormsApp1.Controladores
 
         public static CategoriaEvento GetById(int idCategoriaEvento)
         {
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriaEvento WHERE IdCategoriaEvento = @IdCategoriaEvento", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriasEventos WHERE IdCategoriaEvento = @IdCategoriaEvento", Conexion.Connection);
             command.Parameters.AddWithValue("@IdCategoriaEvento", idCategoriaEvento);
             SQLiteDataReader reader = command.ExecuteReader();
             if (reader.Read())

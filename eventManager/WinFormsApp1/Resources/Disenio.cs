@@ -11,7 +11,8 @@ namespace WinFormsApp1.Resources
 {
     public static class Disenio
     {
-        private static float modificadorFuente = 1.0f; // Modificador de fuente para escalabilidad  
+        public static float modificadorFuente = 1.0f; // Modificador de fuente para escalabilidad  
+        public static int tamanoIcono = 28;
         public static class Colores
         {
             public static Color AzulOscuro => ColorTranslator.FromHtml("#123142");
