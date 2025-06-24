@@ -143,5 +143,25 @@ namespace WinFormsApp1.Controladores
             cmd.Parameters.Add(new SQLiteParameter("@idReunion", reunion.IdReunion));
             cmd.ExecuteNonQuery();
         }
+        public static List<Reunion> OrderByEventoAndDate(int idEvento, DateTime fecha)
+        {
+            List<Reunion> reuniones = pReunion.GetAllByEventoId(idEvento);
+            // Validación de parámetros
+            if (reuniones == null)
+                throw new ArgumentNullException(nameof(reuniones), "La lista de reuniones no puede ser nula");
+
+            if (idEvento <= 0)
+                throw new ArgumentException("El ID del evento debe ser mayor que cero", nameof(idEvento));
+
+            // Filtrado y ordenamiento
+            return reuniones
+                .Where(r => r != null &&
+                            r.IdEvento == idEvento &&
+                            r.HorarioInicio.Date == fecha.Date || r.HorarioFinalizacion.Date == fecha.Date)
+                .OrderBy(r => r.IdReunion)  // Ordenar por horario ascendente
+                .ToList();
+        }
+
+
     }
 }

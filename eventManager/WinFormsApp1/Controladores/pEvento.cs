@@ -169,6 +169,81 @@ namespace WinFormsApp1.Controladores
                 _ => "Desconocido"
             };
         }
+
+        
+            public static List<Evento> BuscarEnBD(int tipoBusqueda, string termino)
+            {
+                var eventos = new List<Evento>();
+                termino = termino?.Trim() ?? "";
+
+                string query = @"
+            SELECT 
+                e.idEvento, 
+                e.idCatEvento, 
+                e.nombre, 
+                e.totalHoras,
+                e.fechaInicio,
+                e.fechaFinalizacion,
+                e.estado,
+                (SELECT COUNT(*) FROM Inscripciones i WHERE i.idEvento = e.idEvento) as cantidadParticipantes,
+                c.nombre as nombreCategoria
+            FROM Eventos e
+            LEFT JOIN CategoriasEventos c ON e.idCatEvento = c.idCatEvento
+            WHERE " + GetWhereClause(tipoBusqueda);
+
+                try
+                {
+                    Conexion.OpenConnection();
+
+                    using (var cmd = new SQLiteCommand(query, Conexion.Connection))
+                    {
+                        cmd.Parameters.AddWithValue("@termino", $"%{termino}%");
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                eventos.Add(new Evento
+                                {
+                                    IdEvento = reader.GetInt32(0),
+                                    IdCatEvento = reader.GetInt32(1),
+                                    Nombre = reader.GetString(2),
+                                    TotalHoras = reader.IsDBNull(3) ? null : reader.GetInt32(3),
+                                    FechaInicio = reader.IsDBNull(4) ? null : reader.GetDateTime(4),
+                                    FechaFinalizacion = reader.IsDBNull(5) ? null : reader.GetDateTime(5),
+                                    Estado = reader.GetInt32(6),
+                                    CantidadParticipantes = reader.IsDBNull(7) ? 0 : reader.GetInt32(7),
+                                    Categoria = pCategoriaEvento.GetById(reader.GetInt32(1))
+                                });
+                            }
+                        }
+                    }
+
+                    return eventos;
+                }
+                finally
+                {
+                    Conexion.CloseConnection();
+                }
+            }
+
+            private static string GetWhereClause(int tipoBusqueda)
+            {
+                return tipoBusqueda switch
+                {
+                    0 => "e.nombre LIKE @termino", // Búsqueda por nombre
+
+                    1 => "c.nombre LIKE @termino", // Búsqueda por categoría
+                    
+                    2 => "strftime('%d/%m/%Y', e.fechaInicio) LIKE @termino OR " +
+                         "strftime('%d/%m/%Y', e.fechaFinalizacion) LIKE @termino", // Búsqueda por fecha
+                    
+                    _ => "e.nombre LIKE @termino OR c.nombre LIKE @termino OR " +
+                         "strftime('%d/%m/%Y', e.fechaInicio) LIKE @termino OR " +
+                         "strftime('%d/%m/%Y', e.fechaFinalizacion) LIKE @termino" // Búsqueda general
+                };
+            }
+        
     }
 
 }
