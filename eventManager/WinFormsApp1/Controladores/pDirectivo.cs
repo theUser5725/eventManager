@@ -23,7 +23,8 @@ namespace WinFormsApp1.Controladores
                 directivo = new Directivo(
                     reader.GetInt32(0),
                     reader.GetInt32(1),
-                    reader.GetInt32(2)
+                    reader.GetInt32(2),
+                    pParticipante.getById(reader.GetInt32(1))
                 );
             }
 
@@ -45,7 +46,8 @@ namespace WinFormsApp1.Controladores
                 Directivo directivo = new Directivo(
                     reader.GetInt32(0),
                     reader.GetInt32(1),
-                    reader.GetInt32(2)
+                    reader.GetInt32(2),
+                    pParticipante.getById(reader.GetInt32(1))
                 );
 
                 directivos.Add(directivo);
@@ -53,6 +55,7 @@ namespace WinFormsApp1.Controladores
 
             return directivos;
         }
+
         public static int Save(Directivo directivo)
         {
             SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Directivos (idReunion, idParticipante, idCatDirectiva) VALUES (@idReunion, @idParticipante, @idCatDirectiva)");

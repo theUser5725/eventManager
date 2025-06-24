@@ -12,7 +12,7 @@ mail
 dni
 contraseña
 */
-namespace tp4_Prueba.Modelos
+namespace WinFormsApp1.Modelos
 {
     public class Participante
     {
