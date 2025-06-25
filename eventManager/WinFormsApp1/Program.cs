@@ -13,7 +13,7 @@ namespace WinFormsApp1
             // see https://aka.ms/applicationconfiguration.
             Conexion.OpenConnection();
             ApplicationConfiguration.Initialize();
-            Application.Run(new FormAddDirectivo(pReunion.GetById(1)));
+            Application.Run(new FormPrincipal());
             Conexion.CloseConnection();
         }
     }

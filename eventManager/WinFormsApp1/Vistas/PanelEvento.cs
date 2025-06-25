@@ -606,18 +606,19 @@ namespace WinFormsApp1.Vistas
                 if (contenidoExpandido.Visible && !directivosCargados)
                 {
                     var directivos = pDirectivo.getAllByReunionId(reunion.IdReunion);
-
-                    foreach (var dir in directivos)
+                    if (directivos is not null)
                     {
-                        var lblDir = new Label
+                        foreach (var dir in directivos)
                         {
-                            Text = $"       {dir.Participante.Nombre} {dir.Participante.Apellido} - {dir.Categoria.Nombre}",
-                            Font = Disenio.Fuentes.labelsLetras,
-                            AutoSize = true
-                        };
-                        panelDirectivos.Controls.Add(lblDir);
+                            var lblDir = new Label
+                            {
+                                Text = $"       {dir.Participante.Nombre} {dir.Participante.Apellido} - {dir.Categoria.Nombre}",
+                                Font = Disenio.Fuentes.labelsLetras,
+                                AutoSize = true
+                            };
+                            panelDirectivos.Controls.Add(lblDir);
+                        }
                     }
-
                     directivosCargados = true;
                 }
             }

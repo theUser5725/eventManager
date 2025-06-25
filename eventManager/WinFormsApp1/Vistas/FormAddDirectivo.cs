@@ -188,47 +188,6 @@ namespace WinFormsApp1.Vistas
         }
 
 
-        private void CargarParticipantes()
-        {
-            participantes = pParticipante.getAllByEventoId(reunion.IdEvento);
-            FlowLayoutPanelIzqParticipantes.Controls.Clear();
-            FlowLayoutPanelIzqParticipantes.Font = Disenio.Fuentes.General;
-
-            foreach (var p in participantes.ToList())
-            {
-                Panel fila = new Panel();
-                fila.Size = new Size(250, 30);
-                fila.BackColor = Color.White;
-
-                Label lbl = new Label();
-                lbl.Text = $"{p.Nombre} {p.Apellido}";
-                lbl.Font = Disenio.Fuentes.General;
-                lbl.ForeColor = Color.Black;
-                lbl.Size = new Size(200, 30);
-                lbl.TextAlign = ContentAlignment.MiddleLeft;
-
-                PictureBox iconoAgregar = new PictureBox();
-                iconoAgregar.Image = Disenio.Imagenes.IconoAgregar;
-                iconoAgregar.SizeMode = PictureBoxSizeMode.Zoom;
-                iconoAgregar.Size = new Size(30, 30);
-                iconoAgregar.Location = new Point(200, 0);
-                iconoAgregar.Cursor = Cursors.Hand;
-
-                iconoAgregar.Click += (sender, e) =>
-                {
-                    Directivo nuevoDirectivo = new Directivo(reunion.IdReunion, p.IdParticipante, 0, p);
-                    directivos.Add(nuevoDirectivo);
-                    participantes.Remove(p);
-                    RefrescaPaneles();
-                };
-
-                fila.Controls.Add(lbl);
-                fila.Controls.Add(iconoAgregar);
-                FlowLayoutPanelIzqParticipantes.Controls.Add(fila);
-            }
-        }
-
-
         private void CargarDirectivos()
         {
             FlowLayoutPanelDerDirectivos.Controls.Clear();
@@ -298,15 +257,15 @@ namespace WinFormsApp1.Vistas
 
         private void GuardarDirectivos()
         {
-            var directivosExistentes = nDirectivo.getAllByReunionId(reunion.IdReunion);
+            var directivosExistentes = pDirectivo.getAllByReunionId(reunion.IdReunion);
             foreach (var d in directivosExistentes)
             {
-                nDirectivo.Delete(d);
+                pDirectivo.Delete(d);
             }
 
             foreach (var d in directivos)
             {
-                nDirectivo.Save(d);
+                pDirectivo.Save(d);
             }
         }
 
