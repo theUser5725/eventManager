@@ -59,7 +59,7 @@ namespace WinFormsApp1.Vistas
                 var btNuevoEvento = new System.Windows.Forms.Button
                 {
                     Text = "Agregar Evento",
-                    Font = Disenio.Fuentes.Boton,
+                    Font = Disenio.Fuentes.ButonDos,
                     Image = new Bitmap(Disenio.Imagenes.IconoAgregar, new Size(Disenio.tamanoIcono, Disenio.tamanoIcono)),
                     TextAlign = ContentAlignment.MiddleLeft,
                     BackColor = Color.White,
@@ -129,6 +129,7 @@ namespace WinFormsApp1.Vistas
                 {
                     Dock = DockStyle.Fill,
                     AutoSize = true,
+
                 };
 
                 //contenedor Eventos general
@@ -136,6 +137,9 @@ namespace WinFormsApp1.Vistas
                 {
                     Dock = DockStyle.Fill,
                     BackColor = Color.White,
+                    AutoScroll = true,
+                    //VerticalScroll = true,
+                    Margin = new Padding(10, 10, 10, 10),
                     FlowDirection = FlowDirection.TopDown,
                     BorderStyle = BorderStyle.Fixed3D,
                     
@@ -147,8 +151,9 @@ namespace WinFormsApp1.Vistas
                 var scrolEventos = new Panel
                 {
                     Dock = DockStyle.Fill, // ubicacion de la lista de los eventos de hoy
-                    AutoScroll = true,
-                    BackColor = Disenio.Colores.GrisClaro
+                    
+                    BackColor = Disenio.Colores.GrisClaro,
+                    Margin = new Padding(10, 10, 10, 10),
                 };
 
                 // redimension del scroll
@@ -197,9 +202,11 @@ namespace WinFormsApp1.Vistas
                 //contenedor reuniones de hoy
                 var contenedorReunionesHoy = new FlowLayoutPanel
                 {
-
                     Dock = DockStyle.Fill,
                     BackColor = Color.White,
+                    AutoScroll = true,
+
+                    Margin = new Padding(10, 10, 10, 10),
                     FlowDirection = FlowDirection.TopDown,
                     BorderStyle = BorderStyle.Fixed3D,
                 };
@@ -220,6 +227,7 @@ namespace WinFormsApp1.Vistas
                 {
                     Dock = DockStyle.Fill, // ubicacion de la lista de los eventos de hoy
                     AutoScroll = true,
+                    Margin = new Padding(10, 10, 10, 10),
                     BackColor = Disenio.Colores.GrisClaro
                 };
                 // redimencion del scrol
@@ -260,8 +268,8 @@ namespace WinFormsApp1.Vistas
         
                     BackColor = Color.White,
                     ColumnStyles = {
-                        new ColumnStyle(SizeType.Percent, 70F),
-                        new ColumnStyle(SizeType.Percent, 30F)
+                        new ColumnStyle(SizeType.Percent, 60F),
+                        new ColumnStyle(SizeType.Percent, 40F)
                     },
                     
                     CellBorderStyle = TableLayoutPanelCellBorderStyle.None
@@ -299,6 +307,9 @@ namespace WinFormsApp1.Vistas
                 // foreach-> pertenece a contenedor de eventos (contenedorEventos) carga labels 
                 foreach (Evento evento in eventos)
                 {
+
+
+
 
                     var table = new TableLayoutPanel
                     {
@@ -408,69 +419,80 @@ namespace WinFormsApp1.Vistas
                 {
                     List<Reunion> reunionesDia = pReunion.OrderByEventoAndDate(evento.IdEvento, DateTime.Now); // reuniones del día para ese evento
 
+
+
                     foreach (Reunion reunion in reunionesDia)
                     {
+
+
                         List<Lugar> lugares = pLugar.GetLugarByEventid(evento); // lugares asociados al evento
 
                         foreach (Lugar lugar in lugares)
                         {
                             var table = new TableLayoutPanel
                             {
+
+                                
                                 Dock = DockStyle.Fill,
                                 AutoSize = true,
-                                ColumnCount = 4,
+                                ColumnCount = 3,
                                 Margin = new Padding(5, 5, 5, 10),
                                 Tag = evento,
+                                
+
                             };
 
                             Font fuente = Disenio.Fuentes.SecundarioBold;
 
-                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35));
-                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35));
-                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15));
-                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15));
 
-                            var lblCategoria = new Label()
-                            {
-                                Text = $"{evento.Categoria.Nombre} ",
-                                AutoSize = true,
-                                Font = fuente,
-                                ForeColor = Color.Black,
-                            };
+                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
+                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
+                            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10));
+
+                            //agregar qr
 
                             var lblNombre = new Label()
                             {
-                                Text = $"{evento.Nombre} ",
+                                Text = $"Evento: {evento.Nombre} ",
+
                                 AutoSize = true,
                                 Font = fuente,
                                 ForeColor = Color.Black,
                             };
 
-                            var lblFecha = new Label()
+                            var lblLugar = new Label()
                             {
-                                Text = $"{evento.FechaInicio:dd/MM/yyyy} - {evento.FechaFinalizacion:dd/MM/yyyy}",
+                                Text = $"Lugar: {lugar.nombre}",
+
                                 AutoSize = true,
                                 Font = fuente,
                                 ForeColor = Color.Black,
                             };
 
-                            var lblEstado = new Label()
+                            var lblFecha = new Label()// este label no recuerdo que querias poner
                             {
-                                Text = $"{FiltroPorEstado(evento)}",
+                                Text = $"{evento.FechaInicio:hh:mm}",
+
                                 AutoSize = true,
                                 Font = fuente,
                                 ForeColor = Color.Black,
                             };
 
-                            lblCategoria.Click += expandirLabel;
+
+
                             lblNombre.Click += expandirLabel;
-                            lblFecha.Click += expandirLabel;
-                            lblEstado.Click += expandirLabel;
 
-                            table.Controls.Add(lblCategoria, 0, 0);
-                            table.Controls.Add(lblNombre, 1, 0);
+                            lblLugar.Click += expandirLabel;
+
+                            lblFecha.Click += expandirLabel;
+
+
+                            table.Controls.Add(lblNombre, 0, 0);
+                            
+                            table.Controls.Add(lblLugar, 1, 0);
+
                             table.Controls.Add(lblFecha, 2, 0);
-                            table.Controls.Add(lblEstado, 3, 0);
+
 
                             table.Click += expandirTable;
                             panelContenedor.Controls.Add(table);
