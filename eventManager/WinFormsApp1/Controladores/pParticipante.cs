@@ -61,7 +61,10 @@ namespace WinFormsApp1.Controladores
         public static List<Participante> getAllByEventoId(int idEvento)
         {
             List<Participante> participantes = new List<Participante>();
-
+            if (Conexion.Connection.State != System.Data.ConnectionState.Open)
+            {
+                Conexion.OpenConnection();
+            }
             SQLiteCommand cmd = new SQLiteCommand(@"
         SELECT p.idParticipante, p.nombre, p.apellido, p.mail, p.dni, p.contraseña
         FROM Participantes p

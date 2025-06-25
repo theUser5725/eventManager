@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+
+﻿using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SQLite;
-using WinFormsApp1.Modelos; // Assuming categoriaDirectivo is in this namespace
+using WinFormsApp1.Modelos;
+
+
 namespace WinFormsApp1.Controladores
 {
     internal class pCategoriaEvento
@@ -67,3 +69,4 @@ namespace WinFormsApp1.Controladores
         }
     }
 }
+
