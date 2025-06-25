@@ -64,109 +64,128 @@ namespace WinFormsApp1.Vistas
             Label labelTitulo = new Label();
             labelTitulo.Text = "Manager";
             labelTitulo.Font = Disenio.Fuentes.Titulo;
-            labelTitulo.Size = new Size(335, 75);
-            labelTitulo.Location = new Point(610, 5);
+            labelTitulo.Size = new Size(200, 70);
+            labelTitulo.Location = new Point(595, 5);
             panelGris.Controls.Add(labelTitulo);
 
             //LABELS DE TITULOS (3)
 
-            //LABEL TITULO CATEGORIAS EVENTOS
+            //LABEL TITULO CATEGORIAS EVENTOS (subido eje Y)
             Label tituloCatEv = new Label();
             tituloCatEv.Text = "Categorías de Eventos";
             tituloCatEv.Font = Disenio.Fuentes.labelsLetras;
             tituloCatEv.Size = new Size(500, 50);
-            tituloCatEv.Location = new Point(275, 70);
+            tituloCatEv.Location = new Point(275, 65); // antes 90
             panelGris.Controls.Add(tituloCatEv);
 
-            //LAVEL TITULO CATEGORIAS DIRECTIVOS
+            //LABEL TITULO CATEGORIAS DIRECTIVOS (subido eje Y)
             Label TitulocatDirect = new Label();
             TitulocatDirect.Text = "Categorías Directas";
             TitulocatDirect.Font = Disenio.Fuentes.labelsLetras;
             TitulocatDirect.Size = new Size(500, 50);
-            TitulocatDirect.Location = new Point(900, 75);
+            TitulocatDirect.Location = new Point(900, 65); // antes 90
             panelGris.Controls.Add(TitulocatDirect);
 
-            //LABEL TITULO CATEGORIAS LUGARES
+            //LABEL TITULO CATEGORIAS LUGARES (centrado en X, mismo Y)
             Label TituloLugar = new Label();
             TituloLugar.Text = "Lugares";
             TituloLugar.Font = Disenio.Fuentes.labelsLetras;
             TituloLugar.Size = new Size(100, 55);
-            TituloLugar.Location = new Point(655, 445);
+            TituloLugar.Location = new Point(665, 445); // centrado respecto a flowLugares
             TituloLugar.BackColor = Color.Transparent;
             panelGris.Controls.Add(TituloLugar);
 
             //_________________________________________________________
 
-            //FLOWLAYOUTPANEL PANELES (DE LOS LABELS ANTERIORES) (4)
-
-            //FLOWLAYPOTPANEL PARA CATEGORÍAS DE EVENTOS (5)
+            //FLOWLAYPOTPANEL PARA CATEGORÍAS DE EVENTOS (subido eje Y)
             flowCatEv = new FlowLayoutPanel();
             flowCatEv.Size = new Size(420, 300);
-            flowCatEv.Location = new Point(190, 130);  // SUBIDO eje Y
+            flowCatEv.Location = new Point(190, 135); // antes 160
             flowCatEv.BackColor = Color.White;
             flowCatEv.BorderStyle = BorderStyle.FixedSingle;
             flowCatEv.AutoScroll = true;
-            Label labelCatEv = new Label();
-            labelCatEv.Text = "Agregar";
-            labelCatEv.Font = Disenio.Fuentes.labelsLetras;
-            labelCatEv.Size = new Size(100, 5);
-            labelCatEv.AutoSize = true;
-            flowCatEv.Controls.Add(labelCatEv);
             panelGris.Controls.Add(flowCatEv);
 
-            //ICONO SOLO PARA AGREGAR (6)
+            // BOTÓN AGREGAR ALINEADO - EVENTOS
+            Panel filaAgregarEv = new Panel();
+            filaAgregarEv.Size = new Size(400, 50);
+            filaAgregarEv.BackColor = Color.White;
+
+            Label labelAgregarEv = new Label();
+            labelAgregarEv.Text = "Agregar";
+            labelAgregarEv.Font = Disenio.Fuentes.labelsLetras;
+            labelAgregarEv.Size = new Size(300, 50);
+            labelAgregarEv.Location = new Point(10, 5);
+
             PictureBox iconoAgregarCatEv = new PictureBox();
             iconoAgregarCatEv.Image = Disenio.Imagenes.IconoAgregar;
-            iconoAgregarCatEv.Size = new Size(50, 50);
-            iconoAgregarCatEv.Margin = new Padding(255, 5, 0, 0);
+            iconoAgregarCatEv.Size = new Size(40, 40);
+            iconoAgregarCatEv.Location = new Point(320, 5);
             iconoAgregarCatEv.Cursor = Cursors.Hand;
-            flowCatEv.Controls.Add(iconoAgregarCatEv);
 
-            //FLOWLAYPUTPANEL CATEGORIAS DIRECTIVOS (7)
+            filaAgregarEv.Controls.Add(labelAgregarEv);
+            filaAgregarEv.Controls.Add(iconoAgregarCatEv);
+            flowCatEv.Controls.Add(filaAgregarEv);
+
+            //FLOWLAYPUTPANEL CATEGORIAS DIRECTIVOS (subido eje Y)
             flowCatDirect = new FlowLayoutPanel();
             flowCatDirect.Size = new Size(400, 300);
-            flowCatDirect.Location = new Point(800, 130); // SUBIDO eje Y
+            flowCatDirect.Location = new Point(800, 135); // antes 160
             flowCatDirect.AutoScroll = true;
             flowCatDirect.BackColor = Color.White;
             flowCatDirect.BorderStyle = BorderStyle.FixedSingle;
-            Label labelCatDir = new Label();
-            labelCatDir.Text = "Agregar";
-            labelCatDir.Font = Disenio.Fuentes.labelsLetras;
-            labelCatDir.Size = new Size(100, 40);
-            labelCatDir.AutoSize = true;
-            flowCatDirect.Controls.Add(labelCatDir);
             panelGris.Controls.Add(flowCatDirect);
 
-            //ICONO SOLO PARA AGREGAR (8)
+            // BOTÓN AGREGAR ALINEADO - DIRECTIVOS
+            Panel filaAgregarDir = new Panel();
+            filaAgregarDir.Size = new Size(400, 50);
+            filaAgregarDir.BackColor = Color.White;
+
+            Label labelAgregarDir = new Label();
+            labelAgregarDir.Text = "Agregar";
+            labelAgregarDir.Font = Disenio.Fuentes.labelsLetras;
+            labelAgregarDir.Size = new Size(300, 50);
+            labelAgregarDir.Location = new Point(10, 5);
+
             PictureBox iconoAgregarCatDirect = new PictureBox();
             iconoAgregarCatDirect.Image = Disenio.Imagenes.IconoAgregar;
-            iconoAgregarCatDirect.Size = new Size(50, 50);
-            iconoAgregarCatDirect.Margin = new Padding(3, 5, 0, 0);
+            iconoAgregarCatDirect.Size = new Size(40, 40);
+            iconoAgregarCatDirect.Location = new Point(320, 5);
             iconoAgregarCatDirect.Cursor = Cursors.Hand;
-            flowCatDirect.Controls.Add(iconoAgregarCatDirect);
 
-            //FLOWLAYPUTPANEL PARA LUGARES (9)
+            filaAgregarDir.Controls.Add(labelAgregarDir);
+            filaAgregarDir.Controls.Add(iconoAgregarCatDirect);
+            flowCatDirect.Controls.Add(filaAgregarDir);
+
+            //FLOWLAYPUTPANEL PARA LUGARES (igual)
             flowLugares = new FlowLayoutPanel();
             flowLugares.Size = new Size(650, 290);
             flowLugares.Location = new Point(400, 500);
             flowLugares.BackColor = Color.White;
             flowLugares.BorderStyle = BorderStyle.FixedSingle;
             flowLugares.AutoScroll = true;
-            Label labelLugar = new Label();
-            labelLugar.Text = "Agregar";
-            labelLugar.Font = Disenio.Fuentes.labelsLetras;
-            labelLugar.Size = new Size(100, 20);
-            labelLugar.AutoSize = true;
-            flowLugares.Controls.Add(labelLugar);
             panelGris.Controls.Add(flowLugares);
 
-            //ICONO SOLO PARA AGREGAR (10)
+            // BOTÓN AGREGAR ALINEADO - LUGARES
+            Panel filaAgregarLugar = new Panel();
+            filaAgregarLugar.Size = new Size(600, 50);
+            filaAgregarLugar.BackColor = Color.White;
+
+            Label labelAgregarLugar = new Label();
+            labelAgregarLugar.Text = "Agregar";
+            labelAgregarLugar.Font = Disenio.Fuentes.labelsLetras;
+            labelAgregarLugar.Size = new Size(500, 50);
+            labelAgregarLugar.Location = new Point(10, 5);
+
             PictureBox iconoAgregarLugar = new PictureBox();
             iconoAgregarLugar.Image = Disenio.Imagenes.IconoAgregar;
-            iconoAgregarLugar.Size = new Size(50, 50);
-            iconoAgregarLugar.Margin = new Padding(545, 0, 0, 0);
+            iconoAgregarLugar.Size = new Size(40, 40);
+            iconoAgregarLugar.Location = new Point(520, 5);
             iconoAgregarLugar.Cursor = Cursors.Hand;
-            flowLugares.Controls.Add(iconoAgregarLugar);
+
+            filaAgregarLugar.Controls.Add(labelAgregarLugar);
+            filaAgregarLugar.Controls.Add(iconoAgregarLugar);
+            flowLugares.Controls.Add(filaAgregarLugar);
         }
 
         // MÉTODOS PARA CARGAR LAS CATEGORÍAS DE EVENTOS DESDE LA BASE DE DATOS (11)
@@ -220,7 +239,7 @@ namespace WinFormsApp1.Vistas
                 PictureBox iconoEditar = new PictureBox();
                 iconoEditar.Image = Disenio.Imagenes.IconoEditar;
                 iconoEditar.Size = new Size(40, 40);
-                iconoEditar.Location = new Point(330, 5);
+                iconoEditar.Location = new Point(320, 5);
                 iconoEditar.Cursor = Cursors.Hand;
 
                 fila.Controls.Add(labelCategoria);
@@ -250,7 +269,7 @@ namespace WinFormsApp1.Vistas
                 PictureBox iconoEditar = new PictureBox();
                 iconoEditar.Image = Disenio.Imagenes.IconoEditar;
                 iconoEditar.Size = new Size(40, 40);
-                iconoEditar.Location = new Point(610 - 40 - 10, 5);
+                iconoEditar.Location = new Point(520, 5);
                 iconoEditar.Cursor = Cursors.Hand;
 
                 fila.Controls.Add(labelCategoria);
