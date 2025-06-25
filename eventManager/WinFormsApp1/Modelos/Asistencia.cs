@@ -11,13 +11,11 @@ namespace WinFormsApp1.Modelos
         public int idParticipante { get; set; }   
         public int idReunion { get; set; }
 
-        public int horasAsistido { get; set; }
 
-        public Asistencia(int idAsistencia, int idReunion, int horasAsistido)
+        public Asistencia(int idAsistencia, int idReunion)
         {
             this.idParticipante = idAsistencia;
             this.idReunion = idReunion;
-            this.horasAsistido = horasAsistido;
         }
 
         public Asistencia()

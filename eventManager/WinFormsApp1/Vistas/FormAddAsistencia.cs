@@ -125,14 +125,16 @@ namespace WinFormsApp1.Vistas
                     if (participanteSeleccionado != null)
                     {
                         var confirmar = MessageBox.Show(
-                            $"¿Desea dar de baja a {participanteSeleccionado.Nombre} {participanteSeleccionado.Apellido}?",
-                            "Confirmar baja", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            $"¿Desea registrar la asistencia a {participanteSeleccionado.Nombre} {participanteSeleccionado.Apellido}?",
+                            "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                         if (confirmar == DialogResult.Yes)
                         {
-                            pParticipante.Delete(participanteSeleccionado);
+                            Asistencia nuevaAsistencia = new Asistencia() { idReunion = idReunion, idParticipante = participanteSeleccionado.IdParticipante };
+                            pAsistencia.Save(nuevaAsistencia);
                             inicializarTabParticipantes(idReunion); // refrescar
                         }
+
                     }
                 };
 

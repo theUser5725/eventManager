@@ -5,11 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormsApp1.Modelos;
 using WinFormsApp1.Resources;
+using WinFormsApp1.Controladores;
 
 namespace WinFormsApp1.Vistas
 {
@@ -20,7 +22,7 @@ namespace WinFormsApp1.Vistas
         private Button _btnConfirmar;
         private Button _btnCancelar;
         private Panel _panelPrincipal;
-
+        private Panel _headerPanel;
         public FormABM(object mdl)
         {
             InitializeComponent();
@@ -62,7 +64,7 @@ namespace WinFormsApp1.Vistas
                     e.FechaInicio = (DateTime)camposEditadosEvento[3].Valor;
                     e.FechaFinalizacion = (DateTime)camposEditadosEvento[4].Valor;
                     e.Estado = Convert.ToInt32(camposEditadosEvento[5].Valor);
-                    e.Categoria = (CategoriaEvento)camposEditadosEvento[6].Valor;
+                    e.Categoria = pCategoriaEvento.GetById((int)(camposEditadosEvento[6].Valor));
 
                     EjecutarPersistencia("pEvento", accionEvento, e);
                     break;
@@ -98,7 +100,7 @@ namespace WinFormsApp1.Vistas
                     if (DialogResult == DialogResult.Cancel) return;
 
                     d.Participante = (Participante)camposEditadosDirectivo[0].Valor;
-                    d.Categoria = (CategoriaDirectiva)camposEditadosDirectivo[1].Valor;
+                    d.Categoria = pCategoriaDirectivo.GetById((int)((ComboBox)camposEditadosDirectivo[1].Valor).SelectedValue);
 
                     EjecutarPersistencia("pDirectivo", accionDirectivo, d);
                     break;
@@ -119,19 +121,7 @@ namespace WinFormsApp1.Vistas
                     EjecutarPersistencia("pLugar", accionLugar, l);
                     break;
 
-                case Asistencia a:
-                    if (nuevo) a = new Asistencia();
 
-                    campos.Add(new CampoEditable { Nombre = "HorasAsistido", Valor = a.horasAsistido, Tipo = typeof(int), EsModificable = true });
-
-                    var (camposEditadosAsistencia, accionAsistencia) = generarABM(campos, nuevo);
-                    ShowDialog();
-                    if (DialogResult == DialogResult.Cancel) return;
-
-                    a.horasAsistido = Convert.ToInt32(camposEditadosAsistencia[0].Valor);
-
-                    EjecutarPersistencia("pAsistencia", accionAsistencia, a);
-                    break;
 
                 case CategoriaEvento ce:
                     if (nuevo) ce = new CategoriaEvento();
@@ -158,7 +148,7 @@ namespace WinFormsApp1.Vistas
 
                     cd.Nombre = (string)camposEditadosCatDir[0].Valor;
 
-                    EjecutarPersistencia("pCategoriaDirectiva", accionCatDir, cd);
+                    EjecutarPersistencia("pCategoriaDirectivo", accionCatDir, cd);
                     break;
 
                 default:
@@ -170,9 +160,54 @@ namespace WinFormsApp1.Vistas
         // Stub para compilar. Debe implementarse correctamente
         private void EjecutarPersistencia(string nombreControlador, int accion, object objeto)
         {
+            object controlador = null;
 
-            // Aquí deberías usar tus clases reales de persistencia
-            Console.WriteLine($"[{nombreControlador}] Acción: {accion}, Objeto: {objeto}");
+            // Crear instancia del controlador por nombre
+            switch (nombreControlador)
+            {
+                case "pCategoriaDirectivo":
+                    controlador = new pCategoriaDirectivo();
+                    break;
+                case "pEvento":
+                    controlador = new pEvento();
+                    break;
+                case "pReunion":
+                    controlador = new pReunion();
+                    break;
+                case "pDirectivo":
+                    controlador = new pDirectivo();
+                    break;
+                case "pLugar":
+                    controlador = new pLugar();
+                    break;
+                case "pCategoriaEvento":
+                    controlador = new pCategoriaEvento();
+                    break;
+
+                default:
+                    MessageBox.Show($"Controlador '{nombreControlador}' no reconocido.");
+                    return;
+            }
+
+            // Ejecutar la acción correspondiente
+            switch (accion)
+            {
+                case 0: // Save
+                    controlador.GetType().GetMethod("Save")?.Invoke(controlador, new[] { objeto });
+                    break;
+
+                case 1: // Update
+                    controlador.GetType().GetMethod("Update")?.Invoke(controlador, new[] { objeto });
+                    break;
+
+                case 2: // Delete
+                    controlador.GetType().GetMethod("Delete")?.Invoke(controlador, new[] { objeto });
+                    break;
+
+                default:
+                    MessageBox.Show("Acción no soportada.");
+                    break;
+            }
         }
 
         private (List<CampoEditable>, int) generarABM(List<CampoEditable> campos, bool nuevo)
@@ -189,77 +224,127 @@ namespace WinFormsApp1.Vistas
             this.Size = new Size(800, 600);
             this.AutoScroll = true;
 
+            // Header panel (azul oscuro)
+            _headerPanel = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 80,
+                BackColor = Disenio.Colores.AzulOscuro,
+                Padding = new Padding(30, 0, 30, 0)
+            };
+            this.Controls.Add(_headerPanel);
+
+            // Título en el header
+            Label lblTitulo = new Label
+            {
+                Text = "ABM",
+                Font = new Font(Disenio.Fuentes.Titulo.FontFamily, 24, FontStyle.Bold),
+                ForeColor = Color.White,
+                Dock = DockStyle.Left,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Height = 80
+            };
+            _headerPanel.Controls.Add(lblTitulo);
+
+            // Subtítulo en el header
+            Label lblSubtitulo = new Label
+            {
+                Text = this.Text,
+                Font = Disenio.Fuentes.Titulo,
+                ForeColor = Color.White,
+                Dock = DockStyle.Left,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Height = 80,
+                Padding = new Padding(20, 0, 0, 0)
+            };
+            _headerPanel.Controls.Add(lblSubtitulo);
+
             // Panel principal con padding
             _panelPrincipal = new Panel
             {
                 Dock = DockStyle.Fill,
                 Padding = new Padding(30),
-                BackColor = Disenio.Colores.GrisClaro
+                BackColor = Disenio.Colores.GrisClaro,
+                AutoScroll = true
             };
             this.Controls.Add(_panelPrincipal);
 
-            // Título del formulario
-            Label lblTitulo = new Label
+            // Contenedor para campos
+            TableLayoutPanel camposTable = new TableLayoutPanel
             {
-                Text = this.Text,
-                Font = Disenio.Fuentes.Titulo,
-                ForeColor = Disenio.Colores.AzulOscuro,
-                Dock = DockStyle.Top,
-                Height = 60,
-                Margin = new Padding(0, 0, 0, 20)
-            };
-            _panelPrincipal.Controls.Add(lblTitulo);
-
-            // Contenedor para campos (FlowLayoutPanel para disposición automática)
-            FlowLayoutPanel camposPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Top,
                 AutoSize = true,
-                FlowDirection = FlowDirection.TopDown,
-                WrapContents = false,
-                Padding = new Padding(0, 0, 0, 30),
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                ColumnCount = 2,
+                ColumnStyles = {
+                    new ColumnStyle(SizeType.Percent, 35F),
+                    new ColumnStyle(SizeType.Percent, 65F)
+                },
+                Dock = DockStyle.Top,
                 BackColor = Disenio.Colores.GrisClaro
             };
-            _panelPrincipal.Controls.Add(camposPanel);
+            _panelPrincipal.Controls.Add(camposTable);
 
             // Crear controles para cada campo
             foreach (var campo in campos)
             {
-                // Panel contenedor para cada campo
-                Panel campoContainer = new Panel
-                {
-                    Width = _panelPrincipal.Width - 60,
-                    Height = 60,
-                    Margin = new Padding(0, 0, 0, 15),
-                    BackColor = Color.White
-                };
-
                 // Etiqueta
                 Label lbl = new Label
                 {
                     Text = campo.Nombre + ":",
                     Font = Disenio.Fuentes.labelsLetras,
-                    Location = new Point(20, 20),
-                    AutoSize = true,
-                    ForeColor = Disenio.Colores.AzulOscuro
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleRight,
+                    ForeColor = Disenio.Colores.AzulOscuro,
+                    Margin = new Padding(0, 10, 20, 10)
+                };
+
+                // Panel para el control de entrada (borde inferior)
+                Panel controlContainer = new Panel
+                {
+                    Dock = DockStyle.Fill,
+                    Height = 50,
+                    Padding = new Padding(0, 10, 0, 5),
+                    BackColor = Color.White
+                };
+
+                // Línea inferior
+                controlContainer.Paint += (sender, e) =>
+                {
+                    e.Graphics.DrawLine(
+                        new Pen(Disenio.Colores.AzulOscuro, 1),
+                        0, controlContainer.Height - 1,
+                        controlContainer.Width, controlContainer.Height - 1
+                    );
                 };
 
                 // Control de entrada
                 Control control = CrearControlParaTipo(
                     campo.Tipo,
                     campo.Valor,
-                    campo.EsModificable
+                    campo.EsModificable,
+                    campo.Opciones
                 );
-                control.Location = new Point(220, 15);
-                control.Width = campoContainer.Width - 240;
+                control.Dock = DockStyle.Fill;
                 control.Font = Disenio.Fuentes.General;
                 control.BackColor = Color.White;
+                control.ForeColor = Disenio.Colores.AzulOscuro;
                 _controlesEntrada.Add(control);
 
-                campoContainer.Controls.Add(lbl);
-                campoContainer.Controls.Add(control);
-                camposPanel.Controls.Add(campoContainer);
+                controlContainer.Controls.Add(control);
+
+                camposTable.RowCount++;
+                camposTable.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                camposTable.Controls.Add(lbl, 0, camposTable.RowCount - 1);
+                camposTable.Controls.Add(controlContainer, 1, camposTable.RowCount - 1);
             }
+
+            // Espaciador
+            Panel spacer = new Panel
+            {
+                Height = 30,
+                Dock = DockStyle.Top
+            };
+            _panelPrincipal.Controls.Add(spacer);
 
             // Panel para botones
             Panel panelBotones = new Panel
@@ -278,6 +363,7 @@ namespace WinFormsApp1.Vistas
                 BackColor = Disenio.Colores.RojoOscuro,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
+                Anchor = AnchorStyles.Right | AnchorStyles.Top,
                 Location = new Point(panelBotones.Width - 260, 20),
                 Size = new Size(120, 40),
                 Cursor = Cursors.Hand
@@ -297,6 +383,7 @@ namespace WinFormsApp1.Vistas
                 BackColor = Disenio.Colores.VerdeOscuro,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
+                Anchor = AnchorStyles.Right | AnchorStyles.Top,
                 Location = new Point(panelBotones.Width - 130, 20),
                 Size = new Size(120, 40),
                 Cursor = Cursors.Hand
@@ -310,8 +397,65 @@ namespace WinFormsApp1.Vistas
             return (campos, nuevo ? 1 : 2); // 1=Nuevo, 2=Editar
         }
 
-        private Control CrearControlParaTipo(Type tipo, object valor, bool editable)
+        private Control CrearControlParaTipo(Type tipo, object valor, bool editable, List<object> opciones = null)
         {
+            // Para campos con opciones (como categorías)
+            if (opciones != null && opciones.Count > 0)
+            {
+                ComboBox combo = new ComboBox
+                {
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    Dock = DockStyle.Fill,
+                    Enabled = editable,
+                    FlatStyle = FlatStyle.Flat
+                };
+
+                // Configurar display y value según el tipo
+                if (tipo == typeof(CategoriaEvento))
+                {
+                    combo.DisplayMember = "Nombre";
+                    combo.ValueMember = "IdCategoriaEvento";
+                }
+                else if (tipo == typeof(CategoriaDirectiva))
+                {
+                    combo.DisplayMember = "Nombre";
+                    combo.ValueMember = "IdCategoriaDirectiva";
+                }
+                else
+                {
+                    // Configuración por defecto
+                    combo.DisplayMember = "Nombre";
+                    combo.ValueMember = "Id";
+                }
+
+                // Cargar opciones
+                combo.DataSource = opciones;
+
+                // Seleccionar valor actual si existe
+                if (valor != null)
+                {
+                    // Buscar por ID
+                    PropertyInfo idProperty = valor.GetType().GetProperty(combo.ValueMember);
+                    if (idProperty != null)
+                    {
+                        object currentId = idProperty.GetValue(valor);
+
+                        foreach (var item in combo.Items)
+                        {
+                            object itemId = item.GetType().GetProperty(combo.ValueMember)?.GetValue(item);
+                            if (itemId != null && itemId.Equals(currentId))
+                            {
+                                combo.SelectedItem = item;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                return combo;
+            }
+
+            // Tipos específicos
             if (tipo == typeof(string))
                 return new TextBox
                 {
@@ -335,7 +479,8 @@ namespace WinFormsApp1.Vistas
                     Value = valor != null ? (DateTime)valor : DateTime.Now,
                     Enabled = editable,
                     Format = DateTimePickerFormat.Short,
-                    ShowUpDown = true
+                    ShowUpDown = false,
+                    Dock = DockStyle.Fill
                 };
 
             // Objetos complejos (solo lectura)
@@ -363,6 +508,11 @@ namespace WinFormsApp1.Vistas
 
         private object ObtenerValorDeControl(Control control, Type tipo)
         {
+            if (control is ComboBox combo)
+            {
+                return combo.SelectedItem;
+            }
+
             if (control is TextBox txt)
             {
                 if (tipo == typeof(int))
@@ -379,7 +529,7 @@ namespace WinFormsApp1.Vistas
             return null;
         }
 
-        // Métodos existentes se mantienen...
+       
     }
 
     public class CampoEditable
@@ -388,7 +538,6 @@ namespace WinFormsApp1.Vistas
         public object Valor { get; set; }
         public Type Tipo { get; set; }
         public bool EsModificable { get; set; }
+        public List<object> Opciones { get; set; } // Para opciones de ComboBox
     }
 }
-
-

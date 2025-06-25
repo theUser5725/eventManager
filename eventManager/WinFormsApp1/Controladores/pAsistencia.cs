@@ -14,10 +14,9 @@ namespace WinFormsApp1.Controladores
 
         public static void Save(Asistencia asistencia)
         {
-            SQLiteCommand command = new SQLiteCommand("INSERT INTO Asistencias (idParticipante, idReunion, horasAsistido) VALUES (@idParticipante, @idReunion, @horasAsistido)", Conexion.Connection);
+            SQLiteCommand command = new SQLiteCommand("INSERT INTO Asistencias (idParticipante, idReunion) VALUES (@idParticipante, @idReunion)", Conexion.Connection);
             command.Parameters.AddWithValue("@idParticipante", asistencia.idParticipante);
             command.Parameters.AddWithValue("@idReunion", asistencia.idReunion);
-            command.Parameters.AddWithValue("@horasAsistido", asistencia.horasAsistido);
             command.ExecuteNonQuery();
 
         }
@@ -27,7 +26,7 @@ namespace WinFormsApp1.Controladores
             SQLiteCommand command = new SQLiteCommand("UPDATE Asistencias SET horasAsistido = @horasAsistido WHERE idParticipante = @idParticipante AND idReunion = @idReunion", Conexion.Connection);
             command.Parameters.AddWithValue("@idParticipante", asistencia.idParticipante);
             command.Parameters.AddWithValue("@idReunion", asistencia.idReunion);
-            command.Parameters.AddWithValue("@horasAsistido", asistencia.horasAsistido);
+
             command.ExecuteNonQuery();
         }
 
@@ -71,7 +70,6 @@ namespace WinFormsApp1.Controladores
                 {
                     idParticipante = reader.GetInt32(0),
                     idReunion = reader.GetInt32(1),
-                    horasAsistido = reader.GetInt32(2)
                 };
                 asistencias.Add(asistencia);
             }
