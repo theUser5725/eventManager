@@ -122,6 +122,8 @@ namespace WinFormsApp1.Vistas
             iconoAgregarCatEv.Size = new Size(40, 40);
             iconoAgregarCatEv.Location = new Point(320, 5);
             iconoAgregarCatEv.Cursor = Cursors.Hand;
+            iconoAgregarCatEv.Tag = new CategoriaEvento();
+            iconoAgregarCatEv.Click += ToAbm;
 
             filaAgregarEv.Controls.Add(labelAgregarEv);
             filaAgregarEv.Controls.Add(iconoAgregarCatEv);
@@ -152,6 +154,8 @@ namespace WinFormsApp1.Vistas
             iconoAgregarCatDirect.Size = new Size(40, 40);
             iconoAgregarCatDirect.Location = new Point(320, 5);
             iconoAgregarCatDirect.Cursor = Cursors.Hand;
+            iconoAgregarCatDirect.Tag = new CategoriaDirectiva();
+            iconoAgregarCatDirect.Click += ToAbm;
 
             filaAgregarDir.Controls.Add(labelAgregarDir);
             filaAgregarDir.Controls.Add(iconoAgregarCatDirect);
@@ -182,6 +186,8 @@ namespace WinFormsApp1.Vistas
             iconoAgregarLugar.Size = new Size(40, 40);
             iconoAgregarLugar.Location = new Point(520, 5);
             iconoAgregarLugar.Cursor = Cursors.Hand;
+            iconoAgregarLugar.Tag = new Lugar();
+            iconoAgregarLugar.Click += ToAbm;
 
             filaAgregarLugar.Controls.Add(labelAgregarLugar);
             filaAgregarLugar.Controls.Add(iconoAgregarLugar);
@@ -211,6 +217,8 @@ namespace WinFormsApp1.Vistas
                 iconoEditar.Size = new Size(40, 40);
                 iconoEditar.Location = new Point(320, 5);
                 iconoEditar.Cursor = Cursors.Hand;
+                iconoEditar.Tag = Ce;
+                iconoEditar.Click += ToAbm;
 
                 fila.Controls.Add(labelCategoria);
                 fila.Controls.Add(iconoEditar);
@@ -241,6 +249,8 @@ namespace WinFormsApp1.Vistas
                 iconoEditar.Size = new Size(40, 40);
                 iconoEditar.Location = new Point(320, 5);
                 iconoEditar.Cursor = Cursors.Hand;
+                iconoEditar.Tag = Cd;
+                iconoEditar.Click += ToAbm;
 
                 fila.Controls.Add(labelCategoria);
                 fila.Controls.Add(iconoEditar);
@@ -271,11 +281,20 @@ namespace WinFormsApp1.Vistas
                 iconoEditar.Size = new Size(40, 40);
                 iconoEditar.Location = new Point(520, 5);
                 iconoEditar.Cursor = Cursors.Hand;
+                iconoEditar.Tag = Cd;
+                iconoEditar.Click += ToAbm;
 
                 fila.Controls.Add(labelCategoria);
                 fila.Controls.Add(iconoEditar);
                 flowLugares.Controls.Add(fila);
             }
+        }
+
+        private void ToAbm(object sender, EventArgs e)
+        {
+            PictureBox pic = (PictureBox)sender;
+            FormABM form = new FormABM(pic.Tag);
+            form.ShowDialog();
         }
     }
 }

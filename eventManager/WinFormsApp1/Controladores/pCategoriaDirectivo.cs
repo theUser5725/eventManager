@@ -26,10 +26,10 @@ namespace WinFormsApp1.Modelos
             command.ExecuteNonQuery();
         }
 
-        public static void Delete(int idCategoriaDirectivo)
+        public static void Delete(CategoriaDirectiva categoriaDirectivo)
         {
             SQLiteCommand command = new SQLiteCommand("DELETE FROM CategoriasDirectivos WHERE IdCatDirectiva = @IdCategoriaDirectivo", Conexion.Connection);
-            command.Parameters.AddWithValue("@IdCategoriaDirectivo", idCategoriaDirectivo);
+            command.Parameters.AddWithValue("@IdCategoriaDirectivo", categoriaDirectivo.IdCategoriaDirectivo);
             command.ExecuteNonQuery();
         }
 

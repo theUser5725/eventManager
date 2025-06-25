@@ -28,10 +28,10 @@ namespace WinFormsApp1.Controladores
             command.ExecuteNonQuery();
         }
 
-        public static void Delete(int idLugar)
+        public static void Delete(Modelos.Lugar lugar)
         {
             SQLiteCommand command = new SQLiteCommand("DELETE FROM Lugares WHERE idLugar = @IdLugar", Conexion.Connection);
-            command.Parameters.AddWithValue("@IdLugar", idLugar);
+            command.Parameters.AddWithValue("@IdLugar", lugar.idLugar);
             command.ExecuteNonQuery();
         }
         public static Lugar GetById(int idlugar) 

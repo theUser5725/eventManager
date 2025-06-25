@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using WinFormsApp1.Modelos;
 using WinFormsApp1.Resources;
 using WinFormsApp1.Controladores;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WinFormsApp1.Vistas
 {
@@ -28,6 +29,7 @@ namespace WinFormsApp1.Vistas
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterParent;
             this.MinimumSize = new Size(400, 300);
+            this.FormBorderStyle = FormBorderStyle.None;
             IniciarABM(mdl);
         }
         public void IniciarABM(object modelo)
@@ -48,25 +50,40 @@ namespace WinFormsApp1.Vistas
 
                     campos.Add(new CampoEditable { Nombre = "Nombre", Valor = e.Nombre ?? "", Tipo = typeof(string), EsModificable = true });
                     campos.Add(new CampoEditable { Nombre = "TotalHoras", Valor = e.TotalHoras ?? 0, Tipo = typeof(int), EsModificable = true });
-                    campos.Add(new CampoEditable { Nombre = "CantidadParticipantes", Valor = e.CantidadParticipantes ?? 0, Tipo = typeof(int), EsModificable = true });
                     campos.Add(new CampoEditable { Nombre = "FechaInicio", Valor = e.FechaInicio ?? DateTime.Now, Tipo = typeof(DateTime), EsModificable = true });
                     campos.Add(new CampoEditable { Nombre = "FechaFinalizacion", Valor = e.FechaFinalizacion ?? DateTime.Now, Tipo = typeof(DateTime), EsModificable = true });
-                    campos.Add(new CampoEditable { Nombre = "Estado", Valor = e.Estado, Tipo = typeof(int), EsModificable = true });
                     campos.Add(new CampoEditable { Nombre = "Categoria", Valor = e.Categoria ?? new CategoriaEvento(), Tipo = typeof(CategoriaEvento), EsModificable = true });
 
-                    var (camposEditadosEvento, accionEvento) = generarABM(campos, nuevo);
+                    var (camposEditadosEvento, accionEvento) = generarABM(campos, nuevo, "Evento", e.Nombre);
                     ShowDialog();
                     if (DialogResult == DialogResult.Cancel) return;
 
                     e.Nombre = (string)camposEditadosEvento[0].Valor;
                     e.TotalHoras = Convert.ToInt32(camposEditadosEvento[1].Valor);
-                    e.CantidadParticipantes = Convert.ToInt32(camposEditadosEvento[2].Valor);
-                    e.FechaInicio = (DateTime)camposEditadosEvento[3].Valor;
-                    e.FechaFinalizacion = (DateTime)camposEditadosEvento[4].Valor;
-                    e.Estado = Convert.ToInt32(camposEditadosEvento[5].Valor);
-                    e.Categoria = pCategoriaEvento.GetById((int)(camposEditadosEvento[6].Valor));
+                    e.FechaInicio = (DateTime)camposEditadosEvento[2].Valor;
+                    e.FechaFinalizacion = (DateTime)camposEditadosEvento[3].Valor;
+                    e.Categoria = pCategoriaEvento.GetById((int)(camposEditadosEvento[4].Valor));
 
-                    EjecutarPersistencia("pEvento", accionEvento, e);
+
+
+                    switch (accionEvento)
+                    {
+                        case 0: // Save
+                            pEvento.Save(e);
+                            break;
+
+                        case 1: // Update
+                            pEvento.Update(e);
+                            break;
+
+                        case 2: // Delete
+                            pEvento.Delete(e);
+                            break;
+
+                        default:
+                            MessageBox.Show("Acción no soportada.");
+                            break;
+                    }
                     break;
 
                 case Reunion r:
@@ -77,7 +94,7 @@ namespace WinFormsApp1.Vistas
                     campos.Add(new CampoEditable { Nombre = "HorarioFinalizacion", Valor = r.HorarioFinalizacion == default ? DateTime.Now : r.HorarioFinalizacion, Tipo = typeof(DateTime), EsModificable = true });
                     campos.Add(new CampoEditable { Nombre = "Lugar", Valor = r.Lugar ?? new Lugar(), Tipo = typeof(Lugar), EsModificable = true });
 
-                    var (camposEditadosReunion, accionReunion) = generarABM(campos, nuevo);
+                    var (camposEditadosReunion, accionReunion) = generarABM(campos, nuevo, "Reunion", r.Nombre);
                     ShowDialog();
                     if (DialogResult == DialogResult.Cancel) return;
 
@@ -86,7 +103,24 @@ namespace WinFormsApp1.Vistas
                     r.HorarioFinalizacion = (DateTime)camposEditadosReunion[2].Valor;
                     r.Lugar = (Lugar)camposEditadosReunion[3].Valor;
 
-                    EjecutarPersistencia("pReunion", accionReunion, r);
+                    switch (accionReunion)
+                    {
+                        case 0: // Save
+                            pReunion.Save(r);
+                            break;
+
+                        case 1: // Update
+                            pReunion.Update(r);
+                            break;
+
+                        case 2: // Delete
+                            pReunion.Delete(r);
+                            break;
+
+                        default:
+                            MessageBox.Show("Acción no soportada.");
+                            break;
+                    }
                     break;
 
                 case Directivo d:
@@ -95,15 +129,33 @@ namespace WinFormsApp1.Vistas
                     campos.Add(new CampoEditable { Nombre = "Participante", Valor = d.Participante ?? new Participante(), Tipo = typeof(Participante), EsModificable = true });
                     campos.Add(new CampoEditable { Nombre = "Categoria", Valor = d.Categoria ?? new CategoriaDirectiva(), Tipo = typeof(CategoriaDirectiva), EsModificable = true });
 
-                    var (camposEditadosDirectivo, accionDirectivo) = generarABM(campos, nuevo);
+                    var (camposEditadosDirectivo, accionDirectivo) = generarABM(campos, nuevo, "Directivo", $"Directivo {d.Participante.toString()}");
                     ShowDialog();
                     if (DialogResult == DialogResult.Cancel) return;
 
                     d.Participante = (Participante)camposEditadosDirectivo[0].Valor;
                     d.Categoria = pCategoriaDirectivo.GetById((int)((ComboBox)camposEditadosDirectivo[1].Valor).SelectedValue);
 
-                    EjecutarPersistencia("pDirectivo", accionDirectivo, d);
+                    switch (accionDirectivo)
+                    {
+                        case 0: // Save
+                            pDirectivo.Save(d);
+                            break;
+
+                        case 1: // Update
+                            pDirectivo.Update(d);
+                            break;
+
+                        case 2: // Delete
+                            pDirectivo.Delete(d);
+                            break;
+
+                        default:
+                            MessageBox.Show("Acción no soportada.");
+                            break;
+                    }
                     break;
+                    
 
                 case Lugar l:
                     if (nuevo) l = new Lugar();
@@ -111,14 +163,31 @@ namespace WinFormsApp1.Vistas
                     campos.Add(new CampoEditable { Nombre = "Nombre", Valor = l.nombre ?? "", Tipo = typeof(string), EsModificable = true });
                     campos.Add(new CampoEditable { Nombre = "Capacidad", Valor = l.capacidad, Tipo = typeof(int), EsModificable = true });
 
-                    var (camposEditadosLugar, accionLugar) = generarABM(campos, nuevo);
+                    var (camposEditadosLugar, accionLugar) = generarABM(campos, nuevo, "Lugar", l.nombre);
                     ShowDialog();
                     if (DialogResult == DialogResult.Cancel) return;
 
                     l.nombre = (string)camposEditadosLugar[0].Valor;
                     l.capacidad = Convert.ToInt32(camposEditadosLugar[1].Valor);
 
-                    EjecutarPersistencia("pLugar", accionLugar, l);
+                    switch (accionLugar)
+                    {
+                        case 0: // Save
+                            pLugar.Save(l);
+                            break;
+
+                        case 1: // Update
+                            pLugar.Update(l);
+                            break;
+
+                        case 2: // Delete
+                            pLugar.Delete(l);
+                            break;
+
+                        default:
+                            MessageBox.Show("Acción no soportada.");
+                            break;
+                    }
                     break;
 
 
@@ -128,13 +197,30 @@ namespace WinFormsApp1.Vistas
 
                     campos.Add(new CampoEditable { Nombre = "Nombre", Valor = ce.Nombre ?? "", Tipo = typeof(string), EsModificable = true });
 
-                    var (camposEditadosCatEvento, accionCatEvento) = generarABM(campos, nuevo);
+                    var (camposEditadosCatEvento, accionCatEvento) = generarABM(campos, nuevo, "Categoria Evento", ce.Nombre);
                     ShowDialog();
                     if (DialogResult == DialogResult.Cancel) return;
 
                     ce.Nombre = (string)camposEditadosCatEvento[0].Valor;
 
-                    EjecutarPersistencia("pCategoriaEvento", accionCatEvento, ce);
+                    switch (accionCatEvento)
+                    {
+                        case 0: // Save
+                            pCategoriaEvento.Save(ce);
+                            break;
+
+                        case 1: // Update
+                            pCategoriaEvento.Update(ce);
+                            break;
+
+                        case 2: // Delete
+                            pCategoriaEvento.Delete(ce);
+                            break;
+
+                        default:
+                            MessageBox.Show("Acción no soportada.");
+                            break;
+                    }
                     break;
 
                 case CategoriaDirectiva cd:
@@ -142,13 +228,30 @@ namespace WinFormsApp1.Vistas
 
                     campos.Add(new CampoEditable { Nombre = "Nombre", Valor = cd.Nombre ?? "", Tipo = typeof(string), EsModificable = true });
 
-                    var (camposEditadosCatDir, accionCatDir) = generarABM(campos, nuevo);
+                    var (camposEditadosCatDir, accionCatDir) = generarABM(campos, nuevo, "Categoria Directiva", cd.Nombre);
                     ShowDialog();
                     if (DialogResult == DialogResult.Cancel) return;
 
                     cd.Nombre = (string)camposEditadosCatDir[0].Valor;
 
-                    EjecutarPersistencia("pCategoriaDirectivo", accionCatDir, cd);
+                    switch (accionCatDir)
+                    {
+                        case 0: // Save
+                            pCategoriaDirectivo.Save(cd);
+                            break;
+
+                        case 1: // Update
+                            pCategoriaDirectivo.Update(cd);
+                            break;
+
+                        case 2: // Delete
+                            pCategoriaDirectivo.Delete(cd);
+                            break;
+
+                        default:
+                            MessageBox.Show("Acción no soportada.");
+                            break;
+                    }
                     break;
 
                 default:
@@ -158,59 +261,8 @@ namespace WinFormsApp1.Vistas
         }
 
         // Stub para compilar. Debe implementarse correctamente
-        private void EjecutarPersistencia(string nombreControlador, int accion, object objeto)
-        {
-            object controlador = null;
 
-            // Crear instancia del controlador por nombre
-            switch (nombreControlador)
-            {
-                case "pCategoriaDirectivo":
-                    controlador = new pCategoriaDirectivo();
-                    break;
-                case "pEvento":
-                    controlador = new pEvento();
-                    break;
-                case "pReunion":
-                    controlador = new pReunion();
-                    break;
-                case "pDirectivo":
-                    controlador = new pDirectivo();
-                    break;
-                case "pLugar":
-                    controlador = new pLugar();
-                    break;
-                case "pCategoriaEvento":
-                    controlador = new pCategoriaEvento();
-                    break;
-
-                default:
-                    MessageBox.Show($"Controlador '{nombreControlador}' no reconocido.");
-                    return;
-            }
-
-            // Ejecutar la acción correspondiente
-            switch (accion)
-            {
-                case 0: // Save
-                    controlador.GetType().GetMethod("Save")?.Invoke(controlador, new[] { objeto });
-                    break;
-
-                case 1: // Update
-                    controlador.GetType().GetMethod("Update")?.Invoke(controlador, new[] { objeto });
-                    break;
-
-                case 2: // Delete
-                    controlador.GetType().GetMethod("Delete")?.Invoke(controlador, new[] { objeto });
-                    break;
-
-                default:
-                    MessageBox.Show("Acción no soportada.");
-                    break;
-            }
-        }
-
-        private (List<CampoEditable>, int) generarABM(List<CampoEditable> campos, bool nuevo)
+        private (List<CampoEditable>, int) generarABM(List<CampoEditable> campos, bool nuevo, string titulo, string nombre)
         {
             _camposActuales = campos;
             _controlesEntrada = new List<Control>();
@@ -218,8 +270,19 @@ namespace WinFormsApp1.Vistas
             // Limpiar controles existentes
             this.Controls.Clear();
 
+            string subTitulo;
+
             // Configurar formulario
-            this.Text = nuevo ? "Nuevo Registro" : "Editar Registro";
+            if (string.IsNullOrEmpty(nombre))
+            {
+                this.Text = "Crear" + titulo;
+            }
+            
+            else
+            {
+                this.Text = "Editar" + nombre;
+            }
+
             this.BackColor = Disenio.Colores.GrisClaro;
             this.Size = new Size(800, 600);
             this.AutoScroll = true;
@@ -229,7 +292,7 @@ namespace WinFormsApp1.Vistas
             {
                 Dock = DockStyle.Top,
                 Height = 80,
-                BackColor = Disenio.Colores.AzulOscuro,
+                BackColor = Disenio.Colores.GrisAzulado,
                 Padding = new Padding(30, 0, 30, 0)
             };
             this.Controls.Add(_headerPanel);
@@ -237,28 +300,17 @@ namespace WinFormsApp1.Vistas
             // Título en el header
             Label lblTitulo = new Label
             {
-                Text = "ABM",
-                Font = new Font(Disenio.Fuentes.Titulo.FontFamily, 24, FontStyle.Bold),
-                ForeColor = Color.White,
-                Dock = DockStyle.Left,
-                TextAlign = ContentAlignment.MiddleLeft,
-                Height = 80
-            };
-            _headerPanel.Controls.Add(lblTitulo);
-
-            // Subtítulo en el header
-            Label lblSubtitulo = new Label
-            {
                 Text = this.Text,
-                Font = Disenio.Fuentes.Titulo,
+                Font = new Font(Disenio.Fuentes.Titulo.FontFamily, 24, FontStyle.Bold),
+                AutoSize = true,
                 ForeColor = Color.White,
                 Dock = DockStyle.Left,
                 TextAlign = ContentAlignment.MiddleLeft,
-                Height = 80,
-                Padding = new Padding(20, 0, 0, 0)
+                
             };
-            _headerPanel.Controls.Add(lblSubtitulo);
+            
 
+            _headerPanel.Controls.Add(lblTitulo);
             // Panel principal con padding
             _panelPrincipal = new Panel
             {
@@ -413,19 +465,24 @@ namespace WinFormsApp1.Vistas
                 // Configurar display y value según el tipo
                 if (tipo == typeof(CategoriaEvento))
                 {
+                    combo.DataSource = pCategoriaEvento.GetAll(); 
                     combo.DisplayMember = "Nombre";
-                    combo.ValueMember = "IdCategoriaEvento";
+                    combo.ValueMember = "IdCategoriaEvento";  // 
                 }
                 else if (tipo == typeof(CategoriaDirectiva))
                 {
+                    combo.DataSource = pCategoriaDirectivo.GetAll();  
                     combo.DisplayMember = "Nombre";
-                    combo.ValueMember = "IdCategoriaDirectiva";
+                    combo.ValueMember = "IdCategoriaDirectivo";
                 }
                 else
                 {
-                    // Configuración por defecto
-                    combo.DisplayMember = "Nombre";
-                    combo.ValueMember = "Id";
+                    combo.Format += (s, e) =>
+                    {
+                        if (e.ListItem is Lugar lugar)
+                            e.Value = $"{lugar.nombre} ({lugar.capacidad})";
+                    };
+                    combo.ValueMember = "idLugar";
                 }
 
                 // Cargar opciones
