@@ -29,8 +29,8 @@ namespace WinFormsApp1.Vistas
         {
             InitializeComponent();
             this.reunion = reunion;
-   
-            directivos = pDirectivo.getAllByReunionId(reunion.IdReunion);
+
+            directivos = new List<Directivo>();
 
             DisenioFormulario();
 
@@ -56,14 +56,14 @@ namespace WinFormsApp1.Vistas
 
             //label de la cabecera
             labelHead = new Label();
-            string fechaHora = reunion.HorarioInicio.ToString("dd/MM/yyyy HH:mm");
+            string fechaHora = reunion.Horario.ToString("dd/MM/yyyy HH:mm");
 
             // Obtener el evento por ID
             Evento evento = pEvento.GetById(reunion.IdEvento);
 
             // Obtener el nombre de la categoría del evento
-
-            string nombreCategoria = pCategoriaEvento.GetById(evento.IdCatEvento)?.Nombre ?? "Sin categoría";
+            var controladorCatEvento = new pCategoriaEvento.pCategoriaEventoControlador(Conexion.cadena);
+            string nombreCategoria = controladorCatEvento.GetById(evento.IdCatEvento)?.Nombre ?? "Sin categoría";
 
             labelHead.Text = $"Modificar directiva\nReunión: {fechaHora}\n({nombreCategoria}) {evento.Nombre}"; labelHead.Font = Disenio.Fuentes.labelsLetras;
             labelHead.ForeColor = Color.White;
@@ -130,8 +130,14 @@ namespace WinFormsApp1.Vistas
             btnConfirmar.FlatStyle = FlatStyle.Flat;
             btnConfirmar.FlatAppearance.BorderSize = 1;
             btnConfirmar.FlatAppearance.BorderColor = Color.Black;
-            btnConfirmar.Click += (sender, e) => MessageBox.Show("Se agregó correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            btnConfirmar.Click += (sender, e) =>
+            {
+                GuardarDirectivos();
+                MessageBox.Show("Se agregó correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            };
             contenido.Controls.Add(btnConfirmar);
+
         }
 
         private void CargarParticipantes()
@@ -162,7 +168,7 @@ namespace WinFormsApp1.Vistas
 
                 iconoAgregar.Click += (sender, e) =>
                 {
-                    Directivo nuevoDirectivo = new Directivo(reunion.IdReunion, p.IdParticipante, 0, p,pCategoriaDirectivo.GetById(0));
+                    Directivo nuevoDirectivo = new Directivo(reunion.IdReunion, p.IdParticipante, 0, p);
                     directivos.Add(nuevoDirectivo);
                     participantes.Remove(p);
                     RefrescaPaneles();
@@ -179,8 +185,10 @@ namespace WinFormsApp1.Vistas
             FlowLayoutPanelDerDirectivos.Controls.Clear();
             FlowLayoutPanelDerDirectivos.Font = Disenio.Fuentes.General;
 
-
-            List<CategoriaDirectiva> categorias = pCategoriaDirectivo.GetAll();
+            //para no modificar el controlador de categorias de directivos
+            var categoriaControlador = new pCategoriaDirectivaControlador(Conexion.cadena);
+            //para tener la lista de categorias de directivos con el GetAll()
+            List<CategoriaDirectivas> categorias = categoriaControlador.GetAll();
 
             foreach (var d in directivos)
             {
@@ -237,5 +245,20 @@ namespace WinFormsApp1.Vistas
             CargarParticipantes();
             CargarDirectivos();
         }
+
+        private void GuardarDirectivos()
+        {
+            var directivosExistentes = nDirectivo.getAllByReunionId(reunion.IdReunion);
+            foreach (var d in directivosExistentes)
+            {
+                nDirectivo.Delete(d);
+            }
+
+            foreach (var d in directivos)
+            {
+                nDirectivo.Save(d);
+            }
+        }
+
     }
 }
