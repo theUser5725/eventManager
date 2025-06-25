@@ -73,8 +73,8 @@ namespace WinFormsApp1.Vistas
                 
                 btNuevoEvento.Click += (s, e) =>
                 {
-                    // Lógica para crear un nuevo evento
-                    Cursor = Cursors.WaitCursor;
+                    FormABM form = new FormABM(new Evento());
+                    form.ShowDialog();
                 };
 
                 var cbxTipoBusqueda = new System.Windows.Forms.ComboBox
@@ -397,7 +397,7 @@ namespace WinFormsApp1.Vistas
             {
                 var parentForm = ((Control)sender).FindForm() as FormPrincipal;
                 parentForm?.cambiarVista(3, true, evento);
-                MessageBox.Show($"Evento seleccionado: {evento.IdEvento}"); // Mensaje de depuración
+
             }
         }
 
@@ -407,7 +407,7 @@ namespace WinFormsApp1.Vistas
             {
                 var parentForm = ((Control)sender).FindForm() as FormPrincipal;
                 parentForm?.cambiarVista(3, true, evento);
-                MessageBox.Show($"Evento seleccionado: {evento.IdEvento}"); // Mensaje de depuración
+
             }
         }
 

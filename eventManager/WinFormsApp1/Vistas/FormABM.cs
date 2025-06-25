@@ -119,19 +119,7 @@ namespace WinFormsApp1.Vistas
                     EjecutarPersistencia("pLugar", accionLugar, l);
                     break;
 
-                case Asistencia a:
-                    if (nuevo) a = new Asistencia();
 
-                    campos.Add(new CampoEditable { Nombre = "HorasAsistido", Valor = a.horasAsistido, Tipo = typeof(int), EsModificable = true });
-
-                    var (camposEditadosAsistencia, accionAsistencia) = generarABM(campos, nuevo);
-                    ShowDialog();
-                    if (DialogResult == DialogResult.Cancel) return;
-
-                    a.horasAsistido = Convert.ToInt32(camposEditadosAsistencia[0].Valor);
-
-                    EjecutarPersistencia("pAsistencia", accionAsistencia, a);
-                    break;
 
                 case CategoriaEvento ce:
                     if (nuevo) ce = new CategoriaEvento();

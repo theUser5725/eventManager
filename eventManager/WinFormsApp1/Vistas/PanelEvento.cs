@@ -173,7 +173,7 @@ namespace WinFormsApp1.Vistas
                 Location = new Point(btnEditarEvento.Right+ 16, lblSubtitulo.Bottom + 40)
             };
 
-            btnAgregarReunion.Click += (s, e) => OnAgregarReunion();
+            btnAgregarReunion.Click += OnAgregarReunion;
             panelCentral.Controls.Add(btnAgregarReunion);
 
             btnGenerarCertificados = new Button
@@ -524,6 +524,8 @@ namespace WinFormsApp1.Vistas
                 AutoSize = true,
                 Margin = new Padding(8)
             };
+            btnEditar.Click += OnEditarReunion;
+
             var btnAdministrarDir = new Button
             {
                 Text = "Administrar Directivos",
@@ -749,14 +751,23 @@ namespace WinFormsApp1.Vistas
 
 
 
-        // Métodos para eventos de botones (vacíos para que los completes)
         private void OnEditarEvento(object sender, EventArgs e) 
         {
             Button btn = (Button)sender;
             FormABM form = new FormABM(evento);
             form.ShowDialog();
         }
-        private void OnAgregarReunion() { /* lógica a implementar */ }
+        private void OnEditarReunion(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            FormABM form = new FormABM((Reunion)btn.Tag);
+            form.ShowDialog();
+        }
+        private void OnAgregarReunion(object sender, EventArgs e) 
+        {
+            FormABM form = new FormABM(new Reunion());
+            form.ShowDialog();
+        }
 
         private void OnModificarDirectiva(object sender, EventArgs e)
         {
@@ -767,9 +778,8 @@ namespace WinFormsApp1.Vistas
 
         private void OnModificarAsistencai(object sender, EventArgs e)
         {
-            
+
             Button btn = (Button)sender;
-            
             FormAddAsistencia form = new FormAddAsistencia((Reunion)btn.Tag);
             form.ShowDialog();
         }
