@@ -155,7 +155,7 @@ namespace WinFormsApp1.Vistas
                 Padding = new Padding(8, 4, 8, 4),
                 Location = new Point(margenLateralTexto, lblSubtitulo.Bottom + 40)
             };
-            btnEditarEvento.Click += (s, e) => OnEditarEvento();
+            btnEditarEvento.Click += OnEditarEvento;
             panelCentral.Controls.Add(btnEditarEvento);
 
             btnAgregarReunion = new Button
@@ -749,7 +749,12 @@ namespace WinFormsApp1.Vistas
 
 
         // Métodos para eventos de botones (vacíos para que los completes)
-        private void OnEditarEvento() { /* lógica a implementar */}
+        private void OnEditarEvento(object sender, EventArgs e) 
+        {
+            Button btn = (Button)sender;
+            FormABM form = new FormABM(evento);
+            form.ShowDialog();
+        }
         private void OnAgregarReunion() { /* lógica a implementar */ }
 
         private void OnModificarDirectiva(object sender, EventArgs e)

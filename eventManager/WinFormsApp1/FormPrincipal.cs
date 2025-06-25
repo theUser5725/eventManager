@@ -24,6 +24,7 @@ namespace WinFormsApp1
         public FormPrincipal()
         {
             InitializeComponent();
+
             this.WindowState = FormWindowState.Maximized;
             inicializar();
             // Cargar la vista inicial
@@ -43,6 +44,7 @@ namespace WinFormsApp1
             switch (navSeleccionado)
             {
                 case 0:
+
                     nuevaVista = new PanelHome();
                     btnBack.Visible = false;
                     break;
@@ -55,7 +57,7 @@ namespace WinFormsApp1
                      btnBack.Visible=false;
                     break;
                 case 3:
-                    nuevaVista = new PanelEvento(pEvento.GetById(1));
+                    nuevaVista = new PanelEvento(pEvento.GetById(eventoSeleccionado.IdEvento));
                     btnBack.Visible = true; // Muestra atras el botón en Evento
                     break;
 

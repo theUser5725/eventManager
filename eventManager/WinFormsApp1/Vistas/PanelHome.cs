@@ -309,6 +309,8 @@ namespace WinFormsApp1.Vistas
                 {
 
 
+
+
                     var table = new TableLayoutPanel
                     {
                         Dock = DockStyle.Fill,
@@ -418,8 +420,10 @@ namespace WinFormsApp1.Vistas
                     List<Reunion> reunionesDia = pReunion.OrderByEventoAndDate(evento.IdEvento, DateTime.Now); // reuniones del día para ese evento
 
 
+
                     foreach (Reunion reunion in reunionesDia)
                     {
+
 
                         List<Lugar> lugares = pLugar.GetLugarByEventid(evento); // lugares asociados al evento
 
@@ -427,6 +431,7 @@ namespace WinFormsApp1.Vistas
                         {
                             var table = new TableLayoutPanel
                             {
+
                                 
                                 Dock = DockStyle.Fill,
                                 AutoSize = true,
@@ -434,9 +439,11 @@ namespace WinFormsApp1.Vistas
                                 Margin = new Padding(5, 5, 5, 10),
                                 Tag = evento,
                                 
+
                             };
 
                             Font fuente = Disenio.Fuentes.SecundarioBold;
+
 
                             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
                             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45));
@@ -447,6 +454,7 @@ namespace WinFormsApp1.Vistas
                             var lblNombre = new Label()
                             {
                                 Text = $"Evento: {evento.Nombre} ",
+
                                 AutoSize = true,
                                 Font = fuente,
                                 ForeColor = Color.Black,
@@ -455,6 +463,7 @@ namespace WinFormsApp1.Vistas
                             var lblLugar = new Label()
                             {
                                 Text = $"Lugar: {lugar.nombre}",
+
                                 AutoSize = true,
                                 Font = fuente,
                                 ForeColor = Color.Black,
@@ -463,10 +472,12 @@ namespace WinFormsApp1.Vistas
                             var lblFecha = new Label()// este label no recuerdo que querias poner
                             {
                                 Text = $"{evento.FechaInicio:hh:mm}",
+
                                 AutoSize = true,
                                 Font = fuente,
                                 ForeColor = Color.Black,
                             };
+
 
 
                             lblNombre.Click += expandirLabel;
@@ -481,6 +492,7 @@ namespace WinFormsApp1.Vistas
                             table.Controls.Add(lblLugar, 1, 0);
 
                             table.Controls.Add(lblFecha, 2, 0);
+
 
                             table.Click += expandirTable;
                             panelContenedor.Controls.Add(table);
