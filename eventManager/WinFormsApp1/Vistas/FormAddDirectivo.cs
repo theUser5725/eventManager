@@ -130,8 +130,14 @@ namespace WinFormsApp1.Vistas
             btnConfirmar.FlatStyle = FlatStyle.Flat;
             btnConfirmar.FlatAppearance.BorderSize = 1;
             btnConfirmar.FlatAppearance.BorderColor = Color.Black;
-            btnConfirmar.Click += (sender, e) => MessageBox.Show("Se agregó correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            btnConfirmar.Click += (sender, e) =>
+            {
+                GuardarDirectivos();
+                MessageBox.Show("Se agregó correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            };
             contenido.Controls.Add(btnConfirmar);
+
         }
 
         private void CargarParticipantes()
@@ -239,5 +245,20 @@ namespace WinFormsApp1.Vistas
             CargarParticipantes();
             CargarDirectivos();
         }
+
+        private void GuardarDirectivos()
+        {
+            var directivosExistentes = nDirectivo.getAllByReunionId(reunion.IdReunion);
+            foreach (var d in directivosExistentes)
+            {
+                nDirectivo.Delete(d);
+            }
+
+            foreach (var d in directivos)
+            {
+                nDirectivo.Save(d);
+            }
+        }
+
     }
 }
