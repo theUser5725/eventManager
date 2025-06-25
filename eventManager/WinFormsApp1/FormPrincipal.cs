@@ -49,7 +49,7 @@ namespace WinFormsApp1
                     btnBack.Visible = false;
                     break;
                 case 1:
-                    nuevaVista = new PanelManager();
+                    nuevaVista = new PanelManager(); //Subir el panelManager
                     btnBack.Visible = false;
                     break;
                 case 2:

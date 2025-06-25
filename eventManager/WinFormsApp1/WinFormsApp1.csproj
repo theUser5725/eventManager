@@ -28,9 +28,7 @@
     <Compile Update="Vistas\PanelEvento.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Vistas\PanelManager.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Vistas\PanelManager.cs" />
     <Compile Update="Vistas\PanelHome.cs">
       <SubType>UserControl</SubType>
     </Compile>
