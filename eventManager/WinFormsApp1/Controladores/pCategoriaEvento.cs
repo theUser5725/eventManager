@@ -1,3 +1,4 @@
+
 ﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -5,106 +6,67 @@ using System.Text;
 using System.Threading.Tasks;
 using WinFormsApp1.Modelos;
 
+
 namespace WinFormsApp1.Controladores
 {
     internal class pCategoriaEvento
     {
-        internal class pCategoriaEventoControlador
+        public static void Save(Modelos.CategoriaEvento categoriaEvento)
         {
-            private readonly string connectionString;
+            SQLiteCommand command = new SQLiteCommand("INSERT INTO CategoriasEventos (IdCatEvento, Nombre) VALUES (@IdCategoriaEvento, @Nombre)", Conexion.Connection);
+            command.Parameters.AddWithValue("@IdCategoriaEvento", categoriaEvento.IdCategoriaEvento);
+            command.Parameters.AddWithValue("@Nombre", categoriaEvento.Nombre);
+            command.ExecuteNonQuery();
+        }
 
-            public pCategoriaEventoControlador(string connectionString)
+        public static void Update(Modelos.CategoriaEvento categoriaEvento)
+        {
+            SQLiteCommand command = new SQLiteCommand("UPDATE CategoriasEventos SET Nombre = @Nombre WHERE IdCatEvento = @IdCategoriaEvento", Conexion.Connection);
+            command.Parameters.AddWithValue("@IdCategoriaEvento", categoriaEvento.IdCategoriaEvento);
+            command.Parameters.AddWithValue("@Nombre", categoriaEvento.Nombre);
+            command.ExecuteNonQuery();
+        }
+
+        public static void Delete(int idCategoriaEvento)
+        {
+            SQLiteCommand command = new SQLiteCommand("DELETE FROM CategoriasEventos WHERE IdCatEvento = @IdCategoriaEvento", Conexion.Connection);
+            command.Parameters.AddWithValue("@IdCategoriaEvento", idCategoriaEvento);
+            command.ExecuteNonQuery();
+        }
+
+        public static List<CategoriaEvento> GetAll() 
+        {
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriasEventos", Conexion.Connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            List<CategoriaEvento> categorias = new List<CategoriaEvento>();
+
+            while (reader.Read())
             {
-                this.connectionString = connectionString;
-            }
-
-          
-            //Devuelve todas las categorías de evento.
-            public List<CategoriaEvento> GetAll()
-            {
-                var lista = new List<CategoriaEvento>();
-
-                using (var conn = new SQLiteConnection(connectionString))
+                CategoriaEvento categoria = new CategoriaEvento
                 {
-                    conn.Open();
-                    const string sql =
-                      "SELECT idCatEvento, nombre " +
-                      "FROM CategoriasEventos;";
-
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            lista.Add(new CategoriaEvento(
-                                reader.GetInt32(0),   // idCatEvento
-                                reader.GetString(1)   // Nombre
-                            ));
-                        }
-                    }
-                }
-
-                return lista;
+                    IdCategoriaEvento = reader.GetInt32(0),
+                    Nombre = reader.GetString(1)
+                };
+                categorias.Add(categoria);
             }
+            return categorias;
+        }
 
-         
-            // Devuelve una categoría de evento por su ID.
-
-            public CategoriaEvento GetById(int idCatEvento)
+        public static CategoriaEvento GetById(int idCategoriaEvento)
+        {
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM CategoriasEventos WHERE IdCatEvento = @IdCategoriaEvento", Conexion.Connection);
+            command.Parameters.AddWithValue("@IdCategoriaEvento", idCategoriaEvento);
+            SQLiteDataReader reader = command.ExecuteReader();
+            if (reader.Read())
             {
-                CategoriaEvento categoria = null;
-
-                using (var conn = new SQLiteConnection(connectionString))
+                return new CategoriaEvento
                 {
-                    conn.Open();
-                    const string sql =
-                      "SELECT idCatEvento, nombre " +
-                      "FROM CategoriasEventos " +
-                      "WHERE idCatEvento = @id;";
-
-                    using (var cmd = new SQLiteCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@id", idCatEvento);
-
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                categoria = new CategoriaEvento(
-                                    reader.GetInt32(0),
-                                    reader.GetString(1)
-                                );
-                            }
-                        }
-                    }
-                }
-
-                return categoria;
+                    IdCategoriaEvento = reader.GetInt32(0),
+                    Nombre = reader.GetString(1)
+                };
             }
+            return null; // or throw an exception if not found
         }
     }
-
-
 }
-
-
-
-//Probando Modificaciones
-//internal class CategoriaEventoControlador
-//{
-//    private List<CategoriaEvento> categorias = new List<CategoriaEvento>();
-//    public CategoriaEventoControlador()
-//    {
-//        categorias.Add(new CategoriaEvento { IdCatEvento = 1, Nombre = "Conferencia" });
-//        categorias.Add(new CategoriaEvento { IdCatEvento = 2, Nombre = "Taller" });
-//    }
-//    public CategoriaEvento GetById(int id)
-//    {
-//        return categorias.FirstOrDefault(c => c.IdCatEvento == id);
-//    }
-//    public List<CategoriaEvento> GetAll()
-//    {
-//        return categorias;
-//    }
-//}
 

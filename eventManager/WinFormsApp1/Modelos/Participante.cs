@@ -37,5 +37,9 @@ namespace WinFormsApp1.Modelos
             Dni = dni;
             Contraseña = contraseña;
         }
+        public string toString()
+        {
+            return $"{Nombre} {Apellido}";
+        }
     }
 }

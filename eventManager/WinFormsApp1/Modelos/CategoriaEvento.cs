@@ -6,15 +6,20 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1.Modelos
 {
-    internal class CategoriaEvento
+
+
+    public class CategoriaEvento
     {
-        public int IdCatEvento { get; set; }
+        public int IdCategoriaEvento { get; set; }
         public string Nombre { get; set; }
 
-        public CategoriaEvento(int idCatEvento, string nombre)
+        public CategoriaEvento(int idCategoriaEvento, string nombre)
         {
-            IdCatEvento = idCatEvento;
+            IdCategoriaEvento = idCategoriaEvento;
             Nombre = nombre;
         }
+        public CategoriaEvento() { }
+
+
     }
 }

@@ -24,13 +24,14 @@ namespace WinFormsApp1
         public FormPrincipal()
         {
             InitializeComponent();
+
             this.WindowState = FormWindowState.Maximized;
             inicializar();
             // Cargar la vista inicial
-            cambiarVista(3);
+            cambiarVista(0);
         }
 
-        public void cambiarVista(int navSeleccionado, bool desdeAtras = false)
+        public void cambiarVista(int navSeleccionado, bool desdeAtras = false, Evento? eventoSeleccionado= null)
         {
             if (!desdeAtras && panelContenido.Controls.Count > 0)
             {
@@ -39,9 +40,11 @@ namespace WinFormsApp1
             }
 
             UserControl nuevaVista;
+
             switch (navSeleccionado)
             {
                 case 0:
+
                     nuevaVista = new PanelHome();
                     btnBack.Visible = false;
                     break;
@@ -54,7 +57,7 @@ namespace WinFormsApp1
                      btnBack.Visible=false;
                     break;
                 case 3:
-                    nuevaVista = new PanelEvento(pEvento.GetById(1));
+                    nuevaVista = new PanelEvento(pEvento.GetById(eventoSeleccionado.IdEvento));
                     btnBack.Visible = true; // Muestra atras el botón en Evento
                     break;
 
@@ -83,6 +86,7 @@ namespace WinFormsApp1
                 Dock = DockStyle.Fill,
                 RowCount = 2,
                 ColumnCount = 1,
+                BackColor = Color.White,
             };
             layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 70)); // altura fija para header
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // resto para contenido
@@ -102,8 +106,7 @@ namespace WinFormsApp1
             btnBack = new Button
             {
                 FlatStyle = FlatStyle.Flat,
-                ForeColor = Disenio.Colores.GrisClaro,
-                BackColor = Color.Transparent,
+                BackColor = Disenio.Colores.AzulOscuro,
                 Location = new Point(25, 25),
                 Size = new Size(25, 25),
                 TabStop = false,

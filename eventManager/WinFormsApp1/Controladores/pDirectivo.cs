@@ -1,11 +1,12 @@
-﻿using System;
+
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using WinFormsApp1.Modelos;
 
 namespace WinFormsApp1.Controladores
 {
-    internal class nDirectivo
+    public class pDirectivo
     {
         public static Directivo getByPk(int idReunion, int idParticipante)
         {
@@ -24,7 +25,8 @@ namespace WinFormsApp1.Controladores
                     reader.GetInt32(0),
                     reader.GetInt32(1),
                     reader.GetInt32(2),
-                    pParticipante.getById(reader.GetInt32(1))
+                    pParticipante.getById(reader.GetInt32(1)),
+                    pCategoriaDirectivo.GetById(reader.GetInt32(1))
                 );
             }
 
@@ -47,7 +49,8 @@ namespace WinFormsApp1.Controladores
                     reader.GetInt32(0),
                     reader.GetInt32(1),
                     reader.GetInt32(2),
-                    pParticipante.getById(reader.GetInt32(1))
+                    pParticipante.getById(reader.GetInt32(1)),
+                    pCategoriaDirectivo.GetById(reader.GetInt32(1))
                 );
 
                 directivos.Add(directivo);
@@ -55,13 +58,12 @@ namespace WinFormsApp1.Controladores
 
             return directivos;
         }
-
         public static int Save(Directivo directivo)
         {
             SQLiteCommand cmd = new SQLiteCommand("INSERT INTO Directivos (idReunion, idParticipante, idCatDirectiva) VALUES (@idReunion, @idParticipante, @idCatDirectiva)");
             cmd.Parameters.Add(new SQLiteParameter("@idReunion", directivo.IdReunion));
-            cmd.Parameters.Add(new SQLiteParameter("@idParticipante", directivo.IdParticipante));
-            cmd.Parameters.Add(new SQLiteParameter("@idCatDirectiva", directivo.IdCatDirectiva));
+            cmd.Parameters.Add(new SQLiteParameter("@idParticipante", directivo.Participante.IdParticipante));
+            cmd.Parameters.Add(new SQLiteParameter("@idCatDirectiva", directivo.Categoria.IdCategoriaDirectivo));
             cmd.Connection = Conexion.Connection;
             cmd.ExecuteNonQuery();
 
@@ -77,12 +79,13 @@ namespace WinFormsApp1.Controladores
             cmd.Connection = Conexion.Connection;
             cmd.ExecuteNonQuery();
         }
+
         public static void Update(Directivo directivo)
         {
             SQLiteCommand cmd = new SQLiteCommand("UPDATE Directivos SET idCatDirectiva = @idCatDirectiva WHERE idReunion = @idReunion AND idParticipante = @idParticipante");
-            cmd.Parameters.Add(new SQLiteParameter("@idCatDirectiva", directivo.IdCatDirectiva));
+            cmd.Parameters.Add(new SQLiteParameter("@idCatDirectiva", directivo.Categoria.IdCategoriaDirectivo));
             cmd.Parameters.Add(new SQLiteParameter("@idReunion", directivo.IdReunion));
-            cmd.Parameters.Add(new SQLiteParameter("@idParticipante", directivo.IdParticipante));
+            cmd.Parameters.Add(new SQLiteParameter("@idParticipante", directivo.Participante.IdParticipante));
             cmd.Connection = Conexion.Connection;
             cmd.ExecuteNonQuery();
         }

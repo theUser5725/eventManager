@@ -30,13 +30,15 @@ namespace WinFormsApp1.Vistas
             InitializeComponent();
             this.reunion = reunion;
 
-            directivos = new List<Directivo>();
+   
+            directivos = pDirectivo.getAllByReunionId(reunion.IdReunion);
 
             DisenioFormulario();
 
             CargarParticipantes();
             CargarDirectivos();
         }
+
 
         private void DisenioFormulario()
         {
@@ -56,14 +58,18 @@ namespace WinFormsApp1.Vistas
 
             //label de la cabecera
             labelHead = new Label();
-            string fechaHora = reunion.Horario.ToString("dd/MM/yyyy HH:mm");
+
+            string fechaHora = reunion.HorarioInicio.ToString("dd/MM/yyyy HH:mm");
+
 
             // Obtener el evento por ID
             Evento evento = pEvento.GetById(reunion.IdEvento);
 
             // Obtener el nombre de la categoría del evento
-            var controladorCatEvento = new pCategoriaEvento.pCategoriaEventoControlador(Conexion.cadena);
-            string nombreCategoria = controladorCatEvento.GetById(evento.IdCatEvento)?.Nombre ?? "Sin categoría";
+
+
+            string nombreCategoria = pCategoriaEvento.GetById(evento.IdCatEvento)?.Nombre ?? "Sin categoría";
+
 
             labelHead.Text = $"Modificar directiva\nReunión: {fechaHora}\n({nombreCategoria}) {evento.Nombre}"; labelHead.Font = Disenio.Fuentes.labelsLetras;
             labelHead.ForeColor = Color.White;
@@ -130,15 +136,57 @@ namespace WinFormsApp1.Vistas
             btnConfirmar.FlatStyle = FlatStyle.Flat;
             btnConfirmar.FlatAppearance.BorderSize = 1;
             btnConfirmar.FlatAppearance.BorderColor = Color.Black;
+
             btnConfirmar.Click += (sender, e) =>
             {
                 GuardarDirectivos();
                 MessageBox.Show("Se agregó correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             };
-            contenido.Controls.Add(btnConfirmar);
 
+            contenido.Controls.Add(btnConfirmar);
         }
+
+        private void CargarParticipantes()
+        {
+            participantes = pParticipante.getAllByEventoId(reunion.IdEvento);
+            FlowLayoutPanelIzqParticipantes.Controls.Clear();
+            FlowLayoutPanelIzqParticipantes.Font = Disenio.Fuentes.General;
+
+            foreach (var p in participantes.ToList())
+            {
+                Panel fila = new Panel();
+                fila.Size = new Size(250, 30);
+                fila.BackColor = Color.White;
+
+                Label lbl = new Label();
+                lbl.Text = $"{p.Nombre} {p.Apellido}";
+                lbl.Font = Disenio.Fuentes.General;
+                lbl.ForeColor = Color.Black;
+                lbl.Size = new Size(200, 30);
+                lbl.TextAlign = ContentAlignment.MiddleLeft;
+
+                PictureBox iconoAgregar = new PictureBox();
+                iconoAgregar.Image = Disenio.Imagenes.IconoAgregar;
+                iconoAgregar.SizeMode = PictureBoxSizeMode.Zoom;
+                iconoAgregar.Size = new Size(30, 30);
+                iconoAgregar.Location = new Point(200, 0);
+                iconoAgregar.Cursor = Cursors.Hand;
+
+                iconoAgregar.Click += (sender, e) =>
+                {
+                    Directivo nuevoDirectivo = new Directivo(reunion.IdReunion, p.IdParticipante, 0, p,pCategoriaDirectivo.GetById(0));
+                    directivos.Add(nuevoDirectivo);
+                    participantes.Remove(p);
+                    RefrescaPaneles();
+                };
+
+                fila.Controls.Add(lbl);
+                fila.Controls.Add(iconoAgregar);
+                FlowLayoutPanelIzqParticipantes.Controls.Add(fila);
+            }
+        }
+
 
         private void CargarParticipantes()
         {
@@ -180,15 +228,16 @@ namespace WinFormsApp1.Vistas
             }
         }
 
+
         private void CargarDirectivos()
         {
             FlowLayoutPanelDerDirectivos.Controls.Clear();
             FlowLayoutPanelDerDirectivos.Font = Disenio.Fuentes.General;
 
-            //para no modificar el controlador de categorias de directivos
-            var categoriaControlador = new pCategoriaDirectivaControlador(Conexion.cadena);
-            //para tener la lista de categorias de directivos con el GetAll()
-            List<CategoriaDirectivas> categorias = categoriaControlador.GetAll();
+
+
+            List<CategoriaDirectiva> categorias = pCategoriaDirectivo.GetAll();
+
 
             foreach (var d in directivos)
             {
@@ -246,6 +295,7 @@ namespace WinFormsApp1.Vistas
             CargarDirectivos();
         }
 
+
         private void GuardarDirectivos()
         {
             var directivosExistentes = nDirectivo.getAllByReunionId(reunion.IdReunion);
@@ -259,6 +309,7 @@ namespace WinFormsApp1.Vistas
                 nDirectivo.Save(d);
             }
         }
+
 
     }
 }
